@@ -2,6 +2,7 @@
   "name": "Vérification Préventive Immobilière Jean-Louis Raymond",
   "short_name": "Vérification JLR",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
