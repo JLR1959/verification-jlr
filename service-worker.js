@@ -1,23 +1,9 @@
-const CACHE_NAME = "jlr-pwa-v1";
+const CACHE_NAME = "jlr-v2";
 
-const urlsToCache = [
-  "./",
-  "./index.html",
-  "./style.css",
-  "./app.js",
-  "./logo_jlr.png"
-];
-
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
-  );
+self.addEventListener("install", (event) => {
+  self.skipWaiting();
 });
 
-self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => response || fetch(event.request))
-  );
+self.addEventListener("activate", (event) => {
+  event.waitUntil(clients.claim());
 });
