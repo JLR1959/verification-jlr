@@ -1,153 +1,175 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8"/>
-<title>Vérification Préventive Immobilière Jean-Louis Raymond </title>
+<meta charset="utf-8">
+<title>Vérification Préventive Immobilière Jean-Louis Raymond</title>
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#ffffff">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script defer src="app.js"></script>
+<link href="style.css" rel="stylesheet">
 
 <style>
-    body { font-family: Arial, sans-serif; padding: 10px; background: #f7f7f7; }
-    header, section, footer { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    label { display: block; margin: 5px 0; }
-    input, select, textarea { margin: 4px 0 12px 10px; padding: 4px; width: 250px; }
-    canvas { border: 1px solid #000; margin-top: 5px; }
-    button { margin: 10px 5px; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
-    h2 { border-bottom: 1px solid #ddd; padding-bottom: 5px; }
-    .piece-container { border: 1px solid #ccc; margin: 10px 0; padding: 10px; background: #fefefe; border-radius: 6px; }
-    .photo-preview { max-width: 200px; display: none; margin-top: 10px; }
+body { font-family: Arial, sans-serif; padding: 10px; background: #f7f7f7; }
+header, section, footer { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+label { display: block; margin: 5px 0; }
+input, select, textarea { margin: 4px 0 12px 10px; padding: 4px; width: 250px; }
+canvas { border: 1px solid #000; margin-top: 5px; }
+button { margin: 10px 5px; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+h2 { border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+.piece-container { border: 1px solid #ccc; margin: 10px 0; padding: 10px; background: #fefefe; border-radius: 6px; }
+.photo-preview { max-width: 200px; display: none; margin-top: 10px; }
+
+@media print {
+  .no-print { display: none !important; }
+}
 </style>
 
-<link href="style.css" rel="stylesheet"/>
 </head>
 
 <body>
 
+<!-- ================= EN-TÊTE ================= -->
+
 <header style="text-align: center;">
-<img alt="Logo_jlr" src="logo_jlr.png" style="max-height: 60px;"/>
-<h1>Vérification Préventive Immobilière Jean-Louis Raymond</h1>
+<img src="logo_jlr.png" alt="Logo JLR" style="max-height: 80px;">
+<h1>Vérification Préventive Immobilière</h1>
+<h2>Jean-Louis Raymond</h2>
+<p>Consultant en vérification préventive</p>
 <p>📧 jlouisraymond@hotmail.com | 📞 438-220-6511</p>
 <p>NEQ : 2268876952</p>
 <p>TPS : 771362471 RT 0001 | TVQ : 1227894560 TQ 0001</p>
 </header>
 
-<section style="text-align: center;">
-<button onclick="startTimer()">Démarrer le minuteur</button>
-<div id="minuteur" style="font-weight: bold; margin-top: 1em;">
-  Temps écoulé : <span id="timer-global">0:00:00</span>
-</div>
-</section>
+<!-- ================= INFORMATIONS CLIENT ================= -->
 
 <section id="formulaire-client">
+
 <h2>Informations du client</h2>
-<form>
-<label>Nom du locataire: <input type="text" id="locataire"/></label>
-<label>Nom du propriétaire: <input type="text" id="proprietaire"/></label>
-<label>Nom entreprise/personne à facturer: <input type="text" id="entrepriseFacturation"/></label>
-<label>Adresse: <input type="text" id="adresse"/></label>
-<label>Numéro d’appartement: <input type="text" id="numeroAppartement"/></label>
-<label>Ville: <input type="text" id="ville"/></label>
-<label>Code postal: <input type="text" id="codePostal"/></label>
 
-<label>Province:
-<select id="province">
-<option>Sélectionnez</option>
-<option>Québec</option>
-<option>Ontario</option>
-</select>
+<label>Numéro de dossier
+<input type="text" id="numeroDossier" readonly>
 </label>
 
-<label>Pays:
-<select id="pays">
-<option>Sélectionnez</option>
-<option>Canada</option>
-</select>
+<label>Nom du locataire
+<input type="text" id="locataire">
 </label>
 
-<label>Téléphone: <input type="tel" id="telephone"/></label>
-<label>Date vérification: <input id="vérification-date" type="date"/></label>
-
-<label>Vérificateur:
-<select id="verificateur">
-<option>Sélectionnez</option>
-<option>Jean-Louis Raymond</option>
-<option>Manon Leclerc</option>
-<option>Évaluateur 3</option>
-<option>Évaluateur 4</option>
-<option>Évaluateur 5</option>
-</select>
+<label>Téléphone
+<input type="tel" id="telephone">
 </label>
 
-<label>Courriel responsable du compte: <input id="email-responsable" type="email"/></label>
-</form>
+<label>Numéro d’appartement
+<input type="text" id="numeroAppartement">
+</label>
+
+<label>Adresse
+<input type="text" id="adresse">
+</label>
+
+<label>Ville
+<input type="text" id="ville">
+</label>
+
+<label>Date de vérification
+<input type="date" id="verification-date">
+</label>
+
 </section>
 
-<div>
-<button onclick="toggleFacture()">Afficher / Cacher la facture</button>
-</div>
+<!-- ================= AJOUT PIÈCE ================= -->
 
-<section id="section-facturation" style="display: none;">
-<h2>Facturation</h2>
-<p>Temps écoulé : <span id="timer-facture">0:00:00</span></p>
-<p>Montant total : <span id="facture-total">$0.00</span></p>
-</section>
+<section>
 
-<section id="vérification-section">
-<h2>Vérification par pièce</h2>
-<label for="type-piece">Sélectionnez une pièce :</label>
+<h2>Ajouter une pièce à vérifier</h2>
+
+<label>Sélectionnez une pièce</label>
 
 <select id="type-piece">
 <option value="">Sélectionnez</option>
 <option>Chambre</option>
 <option>Salon</option>
+<option>Salon familial</option>
 <option>Cuisine</option>
 <option>Salle de bain</option>
 <option>Salle d'eau</option>
-<option>Sous-sol</option>
-<option>Chambre froide</option>
 <option>Salle de lavage</option>
-<option>Salon familial</option>
-<option>Entrée</option>
-<option>Passage</option>
+<option>Sous-sol</option>
 <option>Garage</option>
+<option>Passage</option>
+<option>Entrée</option>
 <option>Véranda</option>
 <option>Verrière</option>
+<option>Chambre froide</option>
 <option>Chambre de rangement</option>
 </select>
 
-<button onclick="ajouterPiece()">Ajouter cette pièce</button>
-<div id="liste-pieces"></div>
+<button type="button" onclick="ajouterPiece()" class="no-print">
+Ajouter cette pièce
+</button>
+
 </section>
+
+<!-- ================= LISTE PIÈCES ================= -->
 
 <section>
-<h2>Signatures</h2>
 
-<label>Signature du client:</label>
-<canvas height="100" id="signature-client" width="300"></canvas>
-<button type="button" onclick="clearSignature('signature-client')">Effacer</button>
+<h2>Pièces en cours de vérification</h2>
 
-<label>Signature du vérificateur:</label>
-<canvas height="100" id="signature-verificateur" width="300"></canvas>
-<button type="button" onclick="clearSignature('signature-verificateur')">Effacer</button>
+<div id="liste-pieces"></div>
 
-<div style="text-align: center;">
-<button id="btn-stop" onclick="stopTimer()" style="display: none;">Arrêter le minuteur</button>
-</div>
 </section>
 
+<!-- ================= SIGNATURES ================= -->
+
+<section>
+
+<h2>Signatures</h2>
+
+<label>Signature du client</label>
+<canvas id="signature-client" width="300" height="100"></canvas>
+<br>
+<button type="button" onclick="effacerSignatureLocataire()" class="no-print">
+Effacer signature client
+</button>
+<button type="button" onclick="figerSignature('signature-client')" class="no-print">
+Figer
+</button>
+<button type="button" onclick="deverrouillerSignature('signature-client')" class="no-print">
+Réouvrir
+</button>
+
+<br><br>
+
+<label>Signature du consultant</label>
+<canvas id="signature-verificateur" width="300" height="100"></canvas>
+<br>
+<button type="button" onclick="effacerSignatureConsultant()" class="no-print">
+Effacer signature consultant
+</button>
+<button type="button" onclick="figerSignature('signature-verificateur')" class="no-print">
+Figer
+</button>
+<button type="button" onclick="deverrouillerSignature('signature-verificateur')" class="no-print">
+Réouvrir
+</button>
+
+</section>
+
+<!-- ================= ACTIONS ================= -->
+
 <footer>
-<button onclick="window.print()">Imprimer</button>
-<button onclick="envoyerEmail()">Envoyer par courriel</button>
+
+<button type="button" onclick="window.print()" class="no-print">
+Imprimer le rapport
+</button>
+
 </footer>
 
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js');
-}
-</script>
+<!-- ================= ZONE IMPRESSION ================= -->
+
+<div id="zone-impression"></div>
 
 </body>
 </html>

@@ -1,4 +1,7 @@
-/* STYLES GÉNÉRAUX */
+/* ===============================
+   STYLES GÉNÉRAUX
+================================= */
+
 body {
   font-family: 'Arial', sans-serif;
   background-color: #f4f6f7;
@@ -6,17 +9,47 @@ body {
   padding: 20px;
 }
 
-/* EN-TÊTE */
+/* ===============================
+   EN-TÊTE
+================================= */
+
 header {
-  background-color: #2c3e50;
-  color: white;
+  background-color: #ffffff;
+  color: #000000;
   text-align: center;
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 20px;
 }
 
-/* BOUTONS */
+header h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+header p {
+  font-size: 14px;
+  margin: 3px 0;
+}
+
+/* ===============================
+   SECTIONS
+================================= */
+
+section,
+footer {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* ===============================
+   BOUTONS
+================================= */
+
 button {
   background-color: #3498db;
   color: white;
@@ -33,15 +66,20 @@ button:hover {
   background-color: #2980b9;
 }
 
-/* CHAMPS ET FORMULAIRES */
+/* ===============================
+   FORMULAIRES
+================================= */
+
 label {
   display: block;
   margin: 10px 0 5px;
   font-weight: bold;
 }
 
-input, select, textarea {
-  width: 100%;
+input,
+select,
+textarea {
+  width: 25%;
   padding: 8px;
   margin-top: 4px;
   border-radius: 4px;
@@ -49,16 +87,24 @@ input, select, textarea {
   box-sizing: border-box;
 }
 
-/* SECTIONS */
-section, footer {
-  background-color: white;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+/* ===============================
+   NUMÉRO DE DOSSIER
+================================= */
+
+#numeroDossier {
+  width: 25%;
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #eaeaea;
+  letter-spacing: 1px;
 }
 
-/* PIÈCES INSPECTÉES */
+/* ===============================
+   PIÈCES INSPECTÉES
+================================= */
+
 .piece-container {
   background-color: #fff;
   border: 1px solid #ccc;
@@ -68,14 +114,20 @@ section, footer {
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-/* SIGNATURES */
+/* ===============================
+   SIGNATURES
+================================= */
+
 canvas {
   border: 1px solid #000;
   margin-top: 10px;
   border-radius: 5px;
 }
 
-/* IMAGE PRÉVISUALISÉE */
+/* ===============================
+   IMAGE PRÉVISUALISÉE
+================================= */
+
 .photo-preview {
   max-width: 200px;
   display: none;
@@ -84,9 +136,74 @@ canvas {
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
 
-/* TITRES */
+/* ===============================
+   TITRES
+================================= */
+
 h2 {
   border-bottom: 1px solid #ccc;
   padding-bottom: 5px;
   color: #2c3e50;
+}
+
+/* ===============================
+   IMPRESSION
+================================= */
+
+@media print {
+
+  body * {
+    visibility: hidden;
+  }
+
+  #zone-impression,
+  #zone-impression * {
+    visibility: visible;
+  }
+
+  #zone-impression {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px;
+  }
+
+  /* Masquer le bouton Retirer cette pièce */
+  #zone-impression button {
+    display: none !important;
+  }
+
+  /* Empêche coupure d’un bloc au milieu */
+  #zone-impression div {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Évite coupure des titres */
+  #zone-impression h1,
+  #zone-impression h3 {
+    page-break-after: avoid;
+  }
+
+  body {
+    margin: 0;
+  }
+
+}
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+/* =========================================
+   MASQUER TERMINER / RÉOUVRIR À L'IMPRESSION
+========================================= */
+
+@media print {
+
+  .piece-header button {
+    display: none !important;
+  }
+
 }
