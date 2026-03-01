@@ -23,6 +23,50 @@ h2 { border-bottom: 1px solid #ddd; padding-bottom: 5px; }
 
 @media print {
   .no-print { display: none !important; }
+
+  /* Ajout du sceau à chaque page imprimée */
+  #sceau-certification {
+    position: fixed;
+    bottom: 10mm; /* Définissez la position à 10mm du bas de la page */
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 9999;
+  }
+
+  #sceau-certification img {
+    max-height: 80px;  /* Ajustez la taille du sceau */
+  }
+
+  #sceau-certification p {
+    font-size: 14px;
+    margin-top: 5px;
+    font-weight: bold;
+  }
+
+  /* Configuration de la taille de la page d'impression */
+  @page {
+    size: auto;
+    margin: 20mm; /* Ajustez les marges */
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Sécuriser la visibilité du contenu à l'impression */
+  #zone-impression {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px;
+  }
+
+  #zone-impression * {
+    visibility: visible;
+  }
 }
 </style>
 
@@ -157,19 +201,68 @@ Réouvrir
 
 </section>
 
+<!-- ================= ENVOI PAR COURRIEL ================= -->
+
+<section id="envoi-par-courriel">
+  <h2>Envoyer le rapport par courriel</h2>
+
+  <label>Courriel du propriétaire</label>
+  <input type="email" id="emailProprietaire" placeholder="Entrez le courriel du propriétaire">
+
+  <label>
+    <input type="checkbox" id="envoyerAuProprietaire" checked> Envoyer également au propriétaire
+  </label>
+
+  <button type="button" onclick="genererMailto()">Envoyer le rapport</button>
+</section>
+
 <!-- ================= ACTIONS ================= -->
 
 <footer>
 
-<button type="button" onclick="window.print()" class="no-print">
-Imprimer le rapport
-</button>
+  <button type="button" onclick="window.print()" class="no-print">
+    Imprimer le rapport
+  </button>
 
 </footer>
 
 <!-- ================= ZONE IMPRESSION ================= -->
 
 <div id="zone-impression"></div>
+
+<script>
+function genererMailto() {
+  const emailProprietaire = document.getElementById('emailProprietaire').value;
+  const envoyerAuProprietaire = document.getElementById('envoyerAuProprietaire').checked;
+  const monEmail = 'jlouisraymond@hotmail.com'; // Votre email en CC
+  const sujet = 'Rapport de Vérification Préventive';
+  const corps = 'Voici le rapport de vérification préventive.\n\nMerci de bien vouloir le consulter.';
+
+  // Si le propriétaire n'a pas de courriel, décocher l'option d'envoi au propriétaire
+  if (emailProprietaire === '' && envoyerAuProprietaire) {
+    alert("Le courriel du propriétaire est manquant. L'email ne sera pas envoyé à ce dernier.");
+    document.getElementById('envoyerAuProprietaire').checked = false;
+  }
+
+  // Générer l'URL mailto: selon les conditions
+  let mailtoUrl = 'mailto:' + monEmail; // Envoi obligatoire à votre adresse en CC
+
+  if (envoyerAuProprietaire && emailProprietaire !== '') {
+    // Si l'email du propriétaire est renseigné et l'option est cochée, ajouter le propriétaire
+    mailtoUrl += '?cc=' + encodeURIComponent(monEmail) + '&to=' + encodeURIComponent(emailProprietaire);
+  } else {
+    // Si pas de courriel du propriétaire, uniquement en CC à vous
+    mailtoUrl += '?cc=' + encodeURIComponent(monEmail);
+  }
+
+  // Ajouter le sujet et le corps du message
+  mailtoUrl += '&subject=' + encodeURIComponent(sujet);
+  mailtoUrl += '&body=' + encodeURIComponent(corps);
+
+  // Ouvrir le lien mailto: dans le client de messagerie
+  window.location.href = mailtoUrl;
+}
+</script>
 
 </body>
 </html>

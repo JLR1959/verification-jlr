@@ -1193,3 +1193,35 @@ document.addEventListener("DOMContentLoaded", function() {
   activerSignature("signature-verificateur");
 
 });
+// Fonction pour générer l'URL mailto
+function genererMailto() {
+  const emailProprietaire = document.getElementById('emailProprietaire').value;
+  const envoyerAuProprietaire = document.getElementById('envoyerAuProprietaire').checked;
+  const monEmail = 'jlouisraymond@hotmail.com'; // Votre email en CC
+  const sujet = 'Rapport de Vérification Préventive';
+  const corps = 'Voici le rapport de vérification préventive.\n\nMerci de bien vouloir le consulter.';
+
+  // Si le propriétaire n'a pas de courriel, décocher l'option d'envoi au propriétaire
+  if (emailProprietaire === '' && envoyerAuProprietaire) {
+    alert("Le courriel du propriétaire est manquant. L'email ne sera pas envoyé à ce dernier.");
+    document.getElementById('envoyerAuProprietaire').checked = false;
+  }
+
+  // Générer l'URL mailto: selon les conditions
+  let mailtoUrl = 'mailto:' + monEmail; // Envoi obligatoire à votre adresse en CC
+
+  if (envoyerAuProprietaire && emailProprietaire !== '') {
+    // Si l'email du propriétaire est renseigné et l'option est cochée, ajouter le propriétaire
+    mailtoUrl += '?cc=' + encodeURIComponent(monEmail) + '&to=' + encodeURIComponent(emailProprietaire);
+  } else {
+    // Si pas de courriel du propriétaire, uniquement en CC à vous
+    mailtoUrl += '?cc=' + encodeURIComponent(monEmail);
+  }
+
+  // Ajouter le sujet et le corps du message
+  mailtoUrl += '&subject=' + encodeURIComponent(sujet);
+  mailtoUrl += '&body=' + encodeURIComponent(corps);
+
+  // Ouvrir le lien mailto: dans le client de messagerie
+  window.location.href = mailtoUrl;
+}
