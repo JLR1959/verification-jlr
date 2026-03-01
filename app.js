@@ -138,7 +138,7 @@ function ajouterPiece() {
   html += champ("Éclairage - Fonctionnalité", ["Normal","Gradateur"]);
 
   html += champ("Prises - Type", ["Standard","GFCI","USB"]);
-  html += champ("Prises - Quantité", ["1","2","3+"]);
+  html += champ("Prises - Quantité", ["1","2","3","4","5","6","7","8","9","10+"]);
   html += champ("Prises - Fonctionnalité", ["Fonctionnelles","Défectueuses"]);
 
   html += champ("Chauffage - Type", ["Plinthe","Radiateur","Unité murale"]);
@@ -549,6 +549,8 @@ function ajouterPiece() {
 // ============== ÉLÉMENTS TECHNIQUES GÉNÉRAUX =========
 // ======================================================
 
+  html += texte("VÉRIFIER CES ÉLÉMENTS SEULEMENT SI PRÉSENT DANS LA PIÈCE");
+  
   html += champ("Système d'alarme - Présence", ["Présent","Absent"]);
   html += champ("Système d'alarme - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
