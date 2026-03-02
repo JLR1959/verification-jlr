@@ -678,6 +678,21 @@ function previewImage(event, input) {
 
 function genererRapportImpression() {
 
+  const dossier = document.getElementById("numeroDossier")?.value || "";
+  const locataire = document.getElementById("locataire")?.value || "";
+  const telephone = document.getElementById("telephone")?.value || "";
+  const appartement = document.getElementById("numeroAppartement")?.value || "";
+  const adresse = document.getElementById("adresse")?.value || "";
+  const ville = document.getElementById("ville")?.value || "";
+  const dateVerification = document.getElementById("verification-date")?.value || "";
+  const verificateur = document.getElementById("nomVerificateur")?.value || "Jean-Louis Raymond";
+
+  const heures = tempsTotalSecondes / 3600;
+  const sousTotal = heures * tauxHoraire;
+  const tps = sousTotal * 0.05;
+  const tvq = sousTotal * 0.09975;
+  const total = sousTotal + tps + tvq;
+
   const valeursConformes = [
     "Bon","Bonne","Bons","Bonnes",
     "Fonctionnel","Fonctionnelle","Fonctionnels","Fonctionnelles",
@@ -711,11 +726,7 @@ function genererRapportImpression() {
 
       const nomChamp = label.childNodes[0].textContent.trim();
 
-      const ligne =
-        `<div style="margin-bottom:8px;">
-           <strong>${titre}</strong><br>
-           ${nomChamp} : ${valeur}
-         </div>`;
+      const ligne = `<div><strong>${titre}</strong> — ${nomChamp} : ${valeur}</div>`;
 
       if (valeursConformes.includes(valeur)) {
         conformes += ligne;
@@ -731,14 +742,67 @@ function genererRapportImpression() {
   if (!zone) return;
 
   zone.innerHTML = `
-    <div style="page-break-after:always;">
-      <h1>ÉLÉMENTS DÉFECTUEUX</h1>
-      ${defectueux || "<p>Aucun problème détecté.</p>"}
+  <div style="position:relative;">
+
+    <!-- FILIGRANE -->
+    <div style="
+      position:absolute;
+      top:40%;
+      left:50%;
+      transform:translate(-50%,-50%) rotate(-30deg);
+      font-size:80px;
+      color:rgba(0,0,0,0.05);
+      font-weight:bold;
+      pointer-events:none;
+      z-index:0;">
+      JLR
     </div>
-    <div>
-      <h1>ÉLÉMENTS CONFORMES</h1>
-      ${conformes || "<p>Aucun élément conforme détecté.</p>"}
+
+    <div style="position:relative; z-index:1;">
+
+      <div style="text-align:center; margin-bottom:20px;">
+        <img src="logo_jlr.png" style="max-height:80px;"><br>
+        <strong>Vérification Préventive Immobilière</strong><br>
+        Jean-Louis Raymond<br>
+        Consultant en vérification préventive<br><br>
+        📧 jlouisraymond@hotmail.com | 📞 438-220-6511<br>
+        NEQ : 2268876952<br>
+        TPS : 771362471 RT 0001<br>
+        TVQ : 1227894560 TQ 0001
+      </div>
+
+      <hr>
+
+      <h2>Informations du client</h2>
+      <div>Numéro de dossier : ${dossier}</div>
+      <div>Nom du locataire : ${locataire}</div>
+      <div>Téléphone : ${telephone}</div>
+      <div>Adresse : ${adresse}, ${appartement}, ${ville}</div>
+      <div>Date de vérification : ${dateVerification}</div>
+      <div>Nom du vérificateur : ${verificateur}</div>
+
+      <hr>
+
+      <h2>Éléments défectueux</h2>
+      ${defectueux || "<div>Aucun problème détecté.</div>"}
+
+      <hr>
+
+      <h2>Éléments conformes</h2>
+      ${conformes || "<div>Aucun élément conforme détecté.</div>"}
+
+      <hr>
+
+      <h2>Facturation</h2>
+      <div>Temps travaillé : ${heures.toFixed(2)} heures</div>
+      <div>Taux horaire : ${tauxHoraire} $ / heure</div><br>
+      <div>Sous-total : ${sousTotal.toFixed(2)} $</div>
+      <div>TPS (5%) : ${tps.toFixed(2)} $</div>
+      <div>TVQ (9.975%) : ${tvq.toFixed(2)} $</div>
+      <strong>Total à payer : ${total.toFixed(2)} $</strong>
+
     </div>
+  </div>
   `;
 }
 
@@ -1091,3 +1155,92 @@ function genererMailto() {
 document.addEventListener("DOMContentLoaded", function() {
   mettreAJourAffichage();
 });
+// ======================================================
+// ================= RÉINITIALISATION TOTALE ============
+// ======================================================
+
+// ======================================================
+// ================= RÉINITIALISATION TOTALE ============
+// ======================================================
+
+function reinitialiserVerification() {
+
+  if (!confirm("Commencer une nouvelle vérification ?")) {
+    return;
+  }
+
+  // Champs client
+  document.querySelectorAll("#formulaire-client input").forEach(el => {
+    if (!el.readOnly) el.value = "";
+  });
+
+  const selectVerif = document.getElementById("verificateur");
+  if (selectVerif) selectVerif.selectedIndex = 0;
+
+  // Numéro dossier
+  const dossier = document.getElementById("numeroDossier");
+  if (dossier) dossier.value = "";
+
+  // Supprimer pièces
+  const liste = document.getElementById("liste-pieces");
+  if (liste) liste.innerHTML = "";
+
+  // Effacer signatures
+  const canvas1 = document.getElementById("signature-client");
+  const canvas2 = document.getElementById("signature-verificateur");
+
+  if (canvas1) canvas1.getContext("2d").clearRect(0, 0, canvas1.width, canvas1.height);
+  if (canvas2) canvas2.getContext("2d").clearRect(0, 0, canvas2.width, canvas2.height);
+
+  // Minuteur
+  pauseMinuteur();
+  tempsTotalSecondes = 0;
+  mettreAJourAffichage();
+
+  // Zone impression
+  const zone = document.getElementById("zone-impression");
+  if (zone) zone.innerHTML = "";
+
+  genererNumeroDossier();
+}
+// ======================================================
+// ========= SAUVEGARDE PDF SUPPORT AMOVIBLE (VERSION FIXE)
+// ======================================================
+
+function sauvegarderSurSupport() {
+
+  genererRapportImpression();
+
+  const zone = document.getElementById("zone-impression");
+  if (!zone || zone.innerHTML.trim() === "") {
+    alert("Le rapport est vide.");
+    return;
+  }
+
+  const dossier = document.getElementById("numeroDossier")?.value || "rapport";
+
+  const options = {
+    margin: 10,
+    filename: dossier + ".pdf",
+    image: { type: "jpeg", quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+  };
+
+  html2pdf()
+    .set(options)
+    .from(zone)
+    .outputPdf("blob")
+    .then(function (pdfBlob) {
+
+      const lien = document.createElement("a");
+      lien.href = URL.createObjectURL(pdfBlob);
+      lien.download = dossier + ".pdf";
+
+      document.body.appendChild(lien);
+      lien.click();
+      document.body.removeChild(lien);
+
+    });
+
+}
