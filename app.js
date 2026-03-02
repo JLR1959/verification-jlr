@@ -907,49 +907,52 @@ function activerSignature(canvasId) {
 
   canvas.dataset.locked = "false";
 
-  canvas.addEventListener("mousedown", function(e) {
+  function position(e) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    };
+  }
 
+  function start(e) {
     if (canvas.dataset.locked === "true") return;
-
     dessin = true;
-
-    const rect = canvas.getBoundingClientRect();
+    const pos = position(e);
     ctx.beginPath();
-    ctx.moveTo(
-      e.clientX - rect.left,
-      e.clientY - rect.top
-    );
-  });
+    ctx.moveTo(pos.x, pos.y);
+  }
 
-  canvas.addEventListener("mouseup", function() {
-    dessin = false;
-    ctx.beginPath();
-  });
-
-  canvas.addEventListener("mousemove", function(e) {
-
+  function move(e) {
     if (!dessin || canvas.dataset.locked === "true") return;
-
-    const rect = canvas.getBoundingClientRect();
+    const pos = position(e);
 
     ctx.lineWidth = 2;
     ctx.lineCap = "round";
     ctx.strokeStyle = "#000";
 
-    ctx.lineTo(
-      e.clientX - rect.left,
-      e.clientY - rect.top
-    );
-
+    ctx.lineTo(pos.x, pos.y);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(
-      e.clientX - rect.left,
-      e.clientY - rect.top
-    );
+    ctx.moveTo(pos.x, pos.y);
+  }
 
-  });
+  function stop() {
+    dessin = false;
+    ctx.beginPath();
+  }
 
+  // ===== SOURIS =====
+  canvas.addEventListener("mousedown", start);
+  canvas.addEventListener("mousemove", move);
+  canvas.addEventListener("mouseup", stop);
+  canvas.addEventListener("mouseleave", stop);
+
+  // ===== TACTILE / ANDROID / TABLETTE =====
+  canvas.addEventListener("pointerdown", start);
+  canvas.addEventListener("pointermove", move);
+  canvas.addEventListener("pointerup", stop);
+  canvas.addEventListener("pointercancel", stop);
 }
 
 function effacerSignatureLocataire() {
