@@ -117,31 +117,33 @@ function ajouterPiece() {
 
   html += champ("Plafond - Type", ["Gypsum","Bois","Suspendu","Béton"]);
   html += champ("Plafond - État", ["Bon","Fissuré","Taché","Endommagé"]);
-  html += champ("Plafond - Matériau", ["Plâtre","PVC","Bois","Métal"]);
+  html += champ("Plafond - Recouvrement", ["Plâtre","PVC","Bois","Métal"]);
 
   html += champ("Mur - Type", ["Cloison sèche","Brique","Bois","Béton"]);
   html += champ("Mur - État", ["Bon","Fissuré","Taché","Humidité"]);
-  html += champ("Mur - Matériau", ["Peinture","Papier peint","Carrelage","Bois"]);
+  html += champ("Mur - Recouvrement", ["Peinture","Papier peint","Carrelage","Bois"]);
 
   html += champ("Plancher - Type", ["Bois","Céramique","Vinyle","Béton","Tapis"]);
   html += champ("Plancher - État", ["Bon","Usé","Fissuré","Endommagé"]);
-  html += champ("Plancher - Matériau", ["Bois franc","Flottant","Stratifié","Béton"]);
+  html += champ("Plancher - Recouvrement", ["Bois franc","Flottant","Stratifié","Béton"]);
 
   html += champ("Fenêtre - Type", ["Coulissante","À battant","Fixe"]);
   html += champ("Fenêtre - État", ["Bonne","À réparer","Brisée"]);
-  html += champ("Fenêtre - Matériau", ["PVC","Aluminium","Bois"]);
+  html += champ("Fenêtre - Recouvrement", ["PVC","Aluminium","Bois"]);
 
   html += champ("Porte - Type", ["Bois","Métal","Vitrée"]);
   html += champ("Porte - État", ["Bonne","À réparer","Endommagée"]);
 
   html += champ("Éclairage - Type", ["Encastré","Plafonnier","Rail","Murale"]);
   html += champ("Éclairage - État", ["Fonctionnel","Défectueux"]);
-  html += champ("Éclairage - Fonctionnalité", ["Normal","Gradateur"]);
+  html += champ("Éclairage - Interrupteur", ["Normal","Gradateur"]);
 
   html += champ("Prises - Type", ["Standard"]);
   html += champ("Prises - Quantité", ["1","2","3","4","5", "6","7", "8","9","10+"]);
+  
   html += champ("Prises - Type", ["GFCI"]);
   html += champ("Prises - Quantité", ["1","2","3","4","5", "6","7", "8","9","10+"]);
+  
   html += champ("Prises - Type", ["USB"]);
   html += champ("Prises - Quantité", ["1","2","3","4","5", "6","7", "8","9","10+"]);
   html += champ("Prises - Fonctionnalité", ["Fonctionnelles","Défectueuses"]);
@@ -155,7 +157,7 @@ function ajouterPiece() {
   html += champ("Thermostat - Type", ["Numérique","Mécanique"]);
   html += champ("Thermostat - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
-  html += champ("Interrupteurs - État", ["Fonctionnels","Défectueux"]);
+  html += champ("Interrupteurs - ", ["Fonctionnels","Défectueux"]);
     // ======================================================
   // ====================== CUISINE =======================
   // ======================================================
@@ -164,19 +166,19 @@ function ajouterPiece() {
 
     html += champ("Hotte - Type", ["Standard","Micro-ondes intégrée","Commerciale","Suspendu"]);
     html += champ("Hotte - État", ["Fonctionnelle","Défectueuse","Bruyante"]);
-    html += champ("Hotte - Matériau", ["Inox","Plastique","Aluminium"]);
+    html += champ("Hotte - Matériaux", ["Inox","Plastique","Aluminium"]);
 
     html += champ("Armoires supérieures - Type", ["Standard","Modulaire","Sur mesure"]);
     html += champ("Armoires supérieures - État", ["Bonnes","Endommagées","Gondolées"]);
-    html += champ("Armoires supérieures - Matériau", ["Bois","Mélamine","PVC"]);
+    html += champ("Armoires supérieures - Matériaux", ["Bois","Mélamine","PVC"]);
 
     html += champ("Armoires inférieures - Type", ["Standard","Modulaire","Sur mesure"]);
     html += champ("Armoires inférieures - État", ["Bonnes","Endommagées","Humidité"]);
-    html += champ("Armoires inférieures - Matériau", ["Bois","Mélamine","PVC"]);
+    html += champ("Armoires inférieures - Matériaux", ["Bois","Mélamine","PVC"]);
 
     html += champ("Comptoir - Type", ["Standard","Îlot","Linéaire"]);
     html += champ("Comptoir - État", ["Bon","Endommagé","Fissuré"]);
-    html += champ("Comptoir - Matériau", ["Stratifié","Quartz","Granite","Bois"]);
+    html += champ("Comptoir - Matériaux", ["Stratifié","Quartz","Granite","Bois"]);
 
     html += champ("Îlot - Présence", ["Présent","Absent"]);
     html += champ("Îlot - État", ["Bon","Endommagé","Instable"]);
@@ -184,11 +186,11 @@ function ajouterPiece() {
     html += champ("Évier - Type", ["Simple","Double","Commercial"]);
     html += champ("Évier - État", ["Bon","Fissuré","Rouille"]);
     html += champ("Évier - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-    html += champ("Évier - Matériau", ["Inox","Composite","Céramique"]);
+    html += champ("Évier - Matériaux", ["Inox","Composite","Céramique"]);
 
     html += champ("Robinetterie - Type", ["Standard","À détecteur","Combinée"]);
     html += champ("Robinetterie - État", ["Bonne","Fuite","Défectueuse"]);
-    html += champ("Robinetterie - Matériau", ["Chrome","Noir mat","Inox"]);
+    html += champ("Robinetterie - Matériaux", ["Chrome","Noir mat","Inox"]);
 
     html += champ("Plomberie - Type", ["Cuivre","PEX","ABS","PVC"]);
     html += champ("Plomberie - État", ["Bon","Fuite","Bouchée","Corrosion"]);
@@ -198,10 +200,10 @@ function ajouterPiece() {
     html += champ("Sortie gaz - Conformité", ["Conforme","Non conforme"]);
 
     html += champ("Détecteur fumée - Présence", ["Présent","Absent"]);
-    html += champ("Détecteur fumée - Fonctionnalité", ["Fonctionnel","Défectueux"]);
+    html += champ("Détecteur fumée - État", ["Fonctionnel","Défectueux"]);
 
     html += champ("Ventilation cuisine - Type", ["Naturelle","Mécanique"]);
-    html += champ("Ventilation cuisine - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
+    html += champ("Ventilation cuisine - État", ["Fonctionnelle","Défectueuse"]);
 
     html += texte("Commentaires spécifiques cuisine");
   }
@@ -215,11 +217,11 @@ function ajouterPiece() {
     html += champ("Lavabo - Type", ["Simple","Double","Suspendu"]);
     html += champ("Lavabo - État", ["Bon","Fissuré","Endommagé"]);
     html += champ("Lavabo - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-    html += champ("Lavabo - Matériau", ["Porcelaine","Céramique","Composite"]);
+    html += champ("Lavabo - Matériaux", ["Porcelaine","Céramique","Composite"]);
 
     html += champ("Vanité - Type", ["Suspendue","Sur pied","Modulaire"]);
     html += champ("Vanité - État", ["Bonne","Endommagée","Humidité"]);
-    html += champ("Vanité - Matériau", ["Bois","Mélamine","PVC"]);
+    html += champ("Vanité - Matériaux", ["Bois","Mélamine","PVC"]);
 
     html += champ("Toilette - Type", ["Standard","Ultra-flux","Suspendue"]);
     html += champ("Toilette - État", ["Bonne","Fuite","Instable"]);
@@ -227,17 +229,17 @@ function ajouterPiece() {
 
     html += champ("Douche - Type", ["Coin","Murale","Walk-in"]);
     html += champ("Douche - État", ["Bon","Fuite","Moisissure"]);
-    html += champ("Douche - Matériau", ["Fibre de verre","Céramique","Acrylique"]);
+    html += champ("Douche - Matériaux", ["Fibre de verre","Céramique","Acrylique"]);
 
     html += champ("Baignoire - Type", ["Encastrée","Autoportante"]);
     html += champ("Baignoire - État", ["Bonne","Fissurée","Endommagée"]);
-    html += champ("Baignoire - Matériau", ["Acrylique","Fonte","Composite"]);
+    html += champ("Baignoire - Matériaux", ["Acrylique","Fonte","Composite"]);
 
     html += champ("Robinetterie bain - État", ["Bonne","Fuite","Défectueuse"]);
     html += champ("Robinetterie douche - État", ["Bonne","Fuite","Défectueuse"]);
 
     html += champ("Ventilation - Type", ["Mécanique","Naturelle"]);
-    html += champ("Ventilation - État", ["Fonctionnelle","Bruyante","Défectueuse"]);
+    html += champ("Ventilation - Fonctionnalité", ["Fonctionnelle","Bruyante","Défectueuse"]);
 
     html += champ("Prise GFCI - Présence", ["Présente","Absente"]);
     html += champ("Prise GFCI - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
@@ -358,11 +360,11 @@ function ajouterPiece() {
 
     html += champ("Garde-corps - Présence", ["Présent","Absent"]);
     html += champ("Garde-corps - État", ["Bon","Instable","Endommagé"]);
-    html += champ("Garde-corps - Matériau", ["Bois","Métal","Verre"]);
+    html += champ("Garde-corps - Matériaux", ["Bois","Métal","Verre"]);
 
     html += champ("Escalier - Présence", ["Présent","Absent"]);
     html += champ("Escalier - État", ["Bon","Craque","Instable"]);
-    html += champ("Escalier - Matériau", ["Bois","Béton","Métal"]);
+    html += champ("Escalier - Matériaux", ["Bois","Béton","Métal"]);
 
     html += champ("Main courante - Présence", ["Présente","Absente"]);
     html += champ("Main courante - État", ["Bonne","Instable"]);
