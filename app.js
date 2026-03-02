@@ -138,7 +138,7 @@ function ajouterPiece() {
   html += champ("Éclairage - Fonctionnalité", ["Normal","Gradateur"]);
 
   html += champ("Prises - Type", ["Standard","GFCI","USB"]);
-  html += champ("Prises - Quantité", ["1","2","3","4","5","6","7","8","9","10+"]);
+  html += champ("Prises - Quantité", ["1","2","3+"]);
   html += champ("Prises - Fonctionnalité", ["Fonctionnelles","Défectueuses"]);
 
   html += champ("Chauffage - Type", ["Plinthe","Radiateur","Unité murale"]);
@@ -151,11 +151,9 @@ function ajouterPiece() {
   html += champ("Thermostat - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
   html += champ("Interrupteurs - État", ["Fonctionnels","Défectueux"]);
-
-  // ===== SPÉCIFIQUE SERA DANS PARTIE 2 → 7 =====
   // ======================================================
-// ====================== CUISINE =======================
-// ======================================================
+  // ====================== CUISINE =======================
+  // ======================================================
 
   if (type === "Cuisine") {
 
@@ -203,9 +201,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques cuisine");
   }
 
-// ======================================================
-// ================= SALLE DE BAIN ======================
-// ======================================================
+  // ======================================================
+  // ================= SALLE DE BAIN ======================
+  // ======================================================
 
   if (type === "Salle de bain") {
 
@@ -245,9 +243,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques salle de bain");
   }
 
-// ======================================================
-// ==================== SALLE D’EAU =====================
-// ======================================================
+  // ======================================================
+  // ==================== SALLE D’EAU =====================
+  // ======================================================
 
   if (type === "Salle d'eau") {
 
@@ -266,9 +264,9 @@ function ajouterPiece() {
 
     html += texte("Commentaires spécifiques salle d'eau");
   }
+    // ======================================================
+  // ======================== SALON =======================
   // ======================================================
-// ======================== SALON =======================
-// ======================================================
 
   if (type === "Salon") {
 
@@ -297,9 +295,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques salon");
   }
 
-// ======================================================
-// ======================= CHAMBRE ======================
-// ======================================================
+  // ======================================================
+  // ======================= CHAMBRE ======================
+  // ======================================================
 
   if (type === "Chambre") {
 
@@ -322,9 +320,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques chambre");
   }
 
-// ======================================================
-// ======================== ENTRÉE ======================
-// ======================================================
+  // ======================================================
+  // ======================== ENTRÉE ======================
+  // ======================================================
 
   if (type === "Entrée") {
 
@@ -347,9 +345,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques entrée");
   }
 
-// ======================================================
-// ======================== PASSAGE =====================
-// ======================================================
+  // ======================================================
+  // ======================== PASSAGE =====================
+  // ======================================================
 
   if (type === "Passage") {
 
@@ -369,9 +367,10 @@ function ajouterPiece() {
 
     html += texte("Commentaires spécifiques passage");
   }
+
   // ======================================================
-// ================== SALLE DE LAVAGE ===================
-// ======================================================
+  // ================== SALLE DE LAVAGE ===================
+  // ======================================================
 
   if (type === "Salle de lavage") {
 
@@ -399,10 +398,9 @@ function ajouterPiece() {
 
     html += texte("Commentaires spécifiques salle de lavage");
   }
-
-// ======================================================
-// ======================== SOUS-SOL ====================
-// ======================================================
+    // ======================================================
+  // ======================== SOUS-SOL ====================
+  // ======================================================
 
   if (type === "Sous-sol") {
 
@@ -426,9 +424,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques sous-sol");
   }
 
-// ======================================================
-// ================== CHAMBRE FROIDE ====================
-// ======================================================
+  // ======================================================
+  // ================== CHAMBRE FROIDE ====================
+  // ======================================================
 
   if (type === "Chambre froide") {
 
@@ -447,9 +445,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques chambre froide");
   }
 
-// ======================================================
-// ========================= GARAGE =====================
-// ======================================================
+  // ======================================================
+  // ========================= GARAGE =====================
+  // ======================================================
 
   if (type === "Garage") {
 
@@ -474,9 +472,10 @@ function ajouterPiece() {
 
     html += texte("Commentaires spécifiques garage");
   }
+
   // ======================================================
-// ======================= VÉRANDA ======================
-// ======================================================
+  // ======================= VÉRANDA ======================
+  // ======================================================
 
   if (type === "Véranda") {
 
@@ -501,9 +500,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques véranda");
   }
 
-// ======================================================
-// ======================= VERRIÈRE =====================
-// ======================================================
+  // ======================================================
+  // ======================= VERRIÈRE =====================
+  // ======================================================
 
   if (type === "Verrière") {
 
@@ -522,10 +521,9 @@ function ajouterPiece() {
 
     html += texte("Commentaires spécifiques verrière");
   }
-
-// ======================================================
-// ================= CHAMBRE DE RANGEMENT ===============
-// ======================================================
+  // ======================================================
+  // ================= CHAMBRE DE RANGEMENT ===============
+  // ======================================================
 
   if (type === "Chambre de rangement") {
 
@@ -545,11 +543,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques chambre de rangement");
   }
 
-// ======================================================
-// ============== ÉLÉMENTS TECHNIQUES GÉNÉRAUX =========
-// ======================================================
-
-  html += texte("VÉRIFIER CES ÉLÉMENTS SEULEMENT SI PRÉSENT DANS LA PIÈCE");
+  // ======================================================
+  // ============== ÉLÉMENTS TECHNIQUES GÉNÉRAUX =========
+  // ======================================================
   
   html += champ("Système d'alarme - Présence", ["Présent","Absent"]);
   html += champ("Système d'alarme - Fonctionnalité", ["Fonctionnel","Défectueux"]);
@@ -571,9 +567,10 @@ function ajouterPiece() {
   html += champ("Conformité générale structure", ["Conforme","Non conforme"]);
 
   html += texte("Commentaires techniques globaux");
+
   // ======================================================
-// ================= ÉQUIPEMENTS AVANCÉS ================
-// ======================================================
+  // ================= ÉQUIPEMENTS AVANCÉS ================
+  // ======================================================
 
   html += champ("Thermopompe - Présence", ["Présente","Absente"]);
   html += champ("Thermopompe - Type", ["Murale","Centrale"]);
@@ -602,9 +599,9 @@ function ajouterPiece() {
 
   html += champ("Garde-corps balcon - État", ["Bon","Instable","Non conforme"]);
 
-// ======================================================
-// ===================== PHOTOS =========================
-// ======================================================
+  // ======================================================
+  // ===================== PHOTOS =========================
+  // ======================================================
 
   html += `
   <label>Photo générale 1
@@ -624,9 +621,9 @@ function ajouterPiece() {
     <img style="max-width:200px; display:none; margin-top:5px;">
   </label>`;
 
-// ======================================================
-// ================= SIGNATURE PIÈCE ====================
-// ======================================================
+  // ======================================================
+  // ================= SIGNATURE PIÈCE ====================
+  // ======================================================
 
   html += `
   <label>Validation visuelle pièce
@@ -637,9 +634,9 @@ function ajouterPiece() {
     </select>
   </label>`;
 
-// ======================================================
-// ================= COMMENTAIRES FINAUX =================
-// ======================================================
+  // ======================================================
+  // ================= COMMENTAIRES FINAUX =================
+  // ======================================================
 
   html += texte("Résumé technique final de la pièce");
 
@@ -693,16 +690,14 @@ function genererRapportImpression() {
 
   pieces.forEach(piece => {
 
- const titreElement = piece.querySelector("h3");
- let titre = "Pièce";
+    const titreElement = piece.querySelector("h3");
+    let titre = "Pièce";
 
- if (titreElement) {
- const clone = titreElement.cloneNode(true);
-
-  clone.querySelectorAll("button").forEach(btn => btn.remove());
-
-  titre = clone.textContent.trim();
-}
+    if (titreElement) {
+      const clone = titreElement.cloneNode(true);
+      clone.querySelectorAll("button").forEach(btn => btn.remove());
+      titre = clone.textContent.trim();
+    }
 
     piece.querySelectorAll("label").forEach(label => {
 
@@ -756,6 +751,7 @@ document.addEventListener("DOMContentLoaded", function() {
   genererNumeroDossier();
 
 });
+
 // ======================================================
 // ================= TERMINER PIÈCE =====================
 // ======================================================
@@ -765,12 +761,10 @@ function terminerPiece(id) {
   const piece = document.getElementById(id);
   if (!piece) return;
 
-  // Désactiver tous les champs
   piece.querySelectorAll("select, textarea, input").forEach(el => {
     el.disabled = true;
   });
 
-  // Créer résumé compact
   let resume = "";
   piece.querySelectorAll("label").forEach(label => {
 
@@ -783,7 +777,6 @@ function terminerPiece(id) {
     resume += `<div>${nomChamp} : ${select.value}</div>`;
   });
 
-  // Créer bloc résumé
   const blocResume = document.createElement("div");
   blocResume.className = "resume-piece";
   blocResume.innerHTML = `
@@ -795,7 +788,6 @@ function terminerPiece(id) {
 
   piece.appendChild(blocResume);
 
-  // Remplacer boutons
   const header = piece.querySelector(".piece-header");
   if (header) {
     header.innerHTML = `
@@ -804,7 +796,6 @@ function terminerPiece(id) {
     `;
   }
 
-  // Mode compact visuel
   piece.style.opacity = "0.85";
   piece.style.border = "2px solid #4CAF50";
 }
@@ -818,16 +809,13 @@ function rouvrirPiece(id) {
   const piece = document.getElementById(id);
   if (!piece) return;
 
-  // Réactiver champs
   piece.querySelectorAll("select, textarea, input").forEach(el => {
     el.disabled = false;
   });
 
-  // Supprimer résumé
   const resume = piece.querySelector(".resume-piece");
   if (resume) resume.remove();
 
-  // Restaurer boutons
   const header = piece.querySelector(".piece-header");
   if (header) {
     const titre = header.textContent.replace("Réouvrir","").trim();
@@ -838,10 +826,10 @@ function rouvrirPiece(id) {
     `;
   }
 
-  // Retirer style compact
   piece.style.opacity = "1";
   piece.style.border = "1px solid #ccc";
 }
+
 // ======================================================
 // CONFIGURATION MÉTIER
 // ======================================================
@@ -1087,6 +1075,7 @@ document.addEventListener("change", function(e) {
   analyserPiece(piece);
 
 });
+
 // ======================================================
 // ================= SIGNATURES GLOBALES =================
 // ======================================================
@@ -1195,6 +1184,7 @@ document.addEventListener("DOMContentLoaded", function() {
   activerSignature("signature-verificateur");
 
 });
+
 // Fonction pour générer l'URL mailto
 function genererMailto() {
   const emailProprietaire = document.getElementById('emailProprietaire').value;
@@ -1203,27 +1193,21 @@ function genererMailto() {
   const sujet = 'Rapport de Vérification Préventive';
   const corps = 'Voici le rapport de vérification préventive.\n\nMerci de bien vouloir le consulter.';
 
-  // Si le propriétaire n'a pas de courriel, décocher l'option d'envoi au propriétaire
   if (emailProprietaire === '' && envoyerAuProprietaire) {
     alert("Le courriel du propriétaire est manquant. L'email ne sera pas envoyé à ce dernier.");
     document.getElementById('envoyerAuProprietaire').checked = false;
   }
 
-  // Générer l'URL mailto: selon les conditions
-  let mailtoUrl = 'mailto:' + monEmail; // Envoi obligatoire à votre adresse en CC
+  let mailtoUrl = 'mailto:' + monEmail;
 
   if (envoyerAuProprietaire && emailProprietaire !== '') {
-    // Si l'email du propriétaire est renseigné et l'option est cochée, ajouter le propriétaire
     mailtoUrl += '?cc=' + encodeURIComponent(monEmail) + '&to=' + encodeURIComponent(emailProprietaire);
   } else {
-    // Si pas de courriel du propriétaire, uniquement en CC à vous
     mailtoUrl += '?cc=' + encodeURIComponent(monEmail);
   }
 
-  // Ajouter le sujet et le corps du message
   mailtoUrl += '&subject=' + encodeURIComponent(sujet);
   mailtoUrl += '&body=' + encodeURIComponent(corps);
 
-  // Ouvrir le lien mailto: dans le client de messagerie
   window.location.href = mailtoUrl;
 }

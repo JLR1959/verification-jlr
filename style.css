@@ -152,10 +152,17 @@ h2 {
 
 @media print {
 
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Cacher tout */
   body * {
     visibility: hidden;
   }
 
+  /* Afficher uniquement le rapport généré */
   #zone-impression,
   #zone-impression * {
     visibility: visible;
@@ -169,40 +176,23 @@ h2 {
     padding: 30px;
   }
 
-  /* Masquer le bouton Retirer cette pièce */
-  #zone-impression button {
+  /* Masquer tous les boutons */
+  button {
     display: none !important;
   }
 
-  /* Empêche coupure d’un bloc au milieu */
+  /* Empêche coupure au milieu */
   #zone-impression div {
     page-break-inside: avoid;
     break-inside: avoid;
   }
 
-  /* Évite coupure des titres */
   #zone-impression h1,
   #zone-impression h3 {
     page-break-after: avoid;
   }
 
-  body {
-    margin: 0;
-  }
-
-}
-@media print {
   .no-print {
-    display: none !important;
-  }
-}
-/* =========================================
-   MASQUER TERMINER / RÉOUVRIR À L'IMPRESSION
-========================================= */
-
-@media print {
-
-  .piece-header button {
     display: none !important;
   }
 
