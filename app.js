@@ -896,7 +896,6 @@ function rouvrirPiece(id) {
 // ======================================================
 // ================= SIGNATURES ==========================
 // ======================================================
-
 function activerSignature(canvasId) {
 
   const canvas = document.getElementById(canvasId);
@@ -906,8 +905,9 @@ function activerSignature(canvasId) {
   let dessin = false;
 
   canvas.dataset.locked = "false";
+  canvas.style.touchAction = "none";
 
-  function position(e) {
+  function getPosition(e) {
     const rect = canvas.getBoundingClientRect();
     return {
       x: e.clientX - rect.left,
@@ -915,17 +915,24 @@ function activerSignature(canvasId) {
     };
   }
 
-  function start(e) {
+  canvas.addEventListener("pointerdown", function(e) {
+
     if (canvas.dataset.locked === "true") return;
+
     dessin = true;
-    const pos = position(e);
+    canvas.setPointerCapture(e.pointerId);
+
+    const pos = getPosition(e);
+
     ctx.beginPath();
     ctx.moveTo(pos.x, pos.y);
-  }
+  });
 
-  function move(e) {
+  canvas.addEventListener("pointermove", function(e) {
+
     if (!dessin || canvas.dataset.locked === "true") return;
-    const pos = position(e);
+
+    const pos = getPosition(e);
 
     ctx.lineWidth = 2;
     ctx.lineCap = "round";
@@ -933,26 +940,21 @@ function activerSignature(canvasId) {
 
     ctx.lineTo(pos.x, pos.y);
     ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
-  }
+  });
 
-  function stop() {
+  canvas.addEventListener("pointerup", function(e) {
+
+    dessin = false;
+    canvas.releasePointerCapture(e.pointerId);
+    ctx.beginPath();
+  });
+
+  canvas.addEventListener("pointercancel", function() {
+
     dessin = false;
     ctx.beginPath();
-  }
+  });
 
-  // ===== SOURIS =====
-  canvas.addEventListener("mousedown", start);
-  canvas.addEventListener("mousemove", move);
-  canvas.addEventListener("mouseup", stop);
-  canvas.addEventListener("mouseleave", stop);
-
-  // ===== TACTILE / ANDROID / TABLETTE =====
-  canvas.addEventListener("pointerdown", start);
-  canvas.addEventListener("pointermove", move);
-  canvas.addEventListener("pointerup", stop);
-  canvas.addEventListener("pointercancel", stop);
 }
 
 function effacerSignatureLocataire() {
