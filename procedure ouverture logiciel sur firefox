@@ -1,0 +1,32 @@
+Chaque fois que tu veux utiliser ton logiciel  dans linux:
+
+Ouvre le terminal dans le dossier
+
+Lance :
+
+python3 -m http.server 8000
+
+Va sur :
+
+http://localhost:8000
+
+Pour arrêter le serveur :
+
+Ctrl + C
+
+
+SUR WINDOWS (Chrome)
+
+Ouvre l’invite de commande dans le dossier du projet
+
+Tape :
+
+python -m http.server 8000
+
+Ouvre Chrome et va à :
+
+http://localhost:8000
+
+
+
+
