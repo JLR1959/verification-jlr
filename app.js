@@ -16,14 +16,12 @@ function genererNumeroDossier() {
     return;
   }
 
-  // Date active du jour (YYYYMMDD)
   const aujourdHui = new Date();
   const dateActive =
     aujourdHui.getFullYear().toString() +
     String(aujourdHui.getMonth() + 1).padStart(2, "0") +
     String(aujourdHui.getDate()).padStart(2, "0");
 
-  // Nettoyage nom
   const nomFormate = nom
     .toLowerCase()
     .normalize("NFD")
@@ -40,7 +38,6 @@ function genererNumeroDossier() {
     telephoneFormate + "-" +
     appartementFormate;
 }
-
 
 // ======================================================
 // MISE À JOUR EN TEMPS RÉEL
@@ -64,11 +61,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   });
 
-  // Génération initiale
   genererNumeroDossier();
 
 });
-
 // ======================================================
 // OUTILS GÉNÉRIQUES
 // ======================================================
@@ -139,13 +134,13 @@ function ajouterPiece() {
   html += champ("Éclairage - Interrupteur", ["Normal","Gradateur"]);
 
   html += champ("Prises - Type", ["Standard"]);
-  html += champ("Prises - Quantité", ["1","2","3","4","5", "6","7", "8","9","10+"]);
-  
+  html += champ("Prises - Quantité", ["1","2","3","4","5","6","7","8","9","10+"]);
+
   html += champ("Prises - Type", ["GFCI"]);
-  html += champ("Prises - Quantité", ["1","2","3","4","5", "6","7", "8","9","10+"]);
-  
+  html += champ("Prises - Quantité", ["1","2","3","4","5","6","7","8","9","10+"]);
+
   html += champ("Prises - Type", ["USB"]);
-  html += champ("Prises - Quantité", ["1","2","3","4","5", "6","7", "8","9","10+"]);
+  html += champ("Prises - Quantité", ["1","2","3","4","5","6","7","8","9","10+"]);
   html += champ("Prises - Fonctionnalité", ["Fonctionnelles","Défectueuses"]);
 
   html += champ("Chauffage - Type", ["Plinthe","Radiateur","Unité murale"]);
@@ -158,101 +153,9 @@ function ajouterPiece() {
   html += champ("Thermostat - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
   html += champ("Interrupteurs - ", ["Fonctionnels","Défectueux"]);
-    // ======================================================
-  // ====================== CUISINE =======================
   // ======================================================
-
-  if (type === "Cuisine") {
-
-    html += champ("Hotte - Type", ["Standard","Micro-ondes intégrée","Commerciale","Suspendu"]);
-    html += champ("Hotte - État", ["Fonctionnelle","Défectueuse","Bruyante"]);
-    html += champ("Hotte - Matériaux", ["Inox","Plastique","Aluminium"]);
-
-    html += champ("Armoires supérieures - Type", ["Standard","Modulaire","Sur mesure"]);
-    html += champ("Armoires supérieures - État", ["Bonnes","Endommagées","Gondolées"]);
-    html += champ("Armoires supérieures - Matériaux", ["Bois","Mélamine","PVC"]);
-
-    html += champ("Armoires inférieures - Type", ["Standard","Modulaire","Sur mesure"]);
-    html += champ("Armoires inférieures - État", ["Bonnes","Endommagées","Humidité"]);
-    html += champ("Armoires inférieures - Matériaux", ["Bois","Mélamine","PVC"]);
-
-    html += champ("Comptoir - Type", ["Standard","Îlot","Linéaire"]);
-    html += champ("Comptoir - État", ["Bon","Endommagé","Fissuré"]);
-    html += champ("Comptoir - Matériaux", ["Stratifié","Quartz","Granite","Bois"]);
-
-    html += champ("Îlot - Présence", ["Présent","Absent"]);
-    html += champ("Îlot - État", ["Bon","Endommagé","Instable"]);
-
-    html += champ("Évier - Type", ["Simple","Double","Commercial"]);
-    html += champ("Évier - État", ["Bon","Fissuré","Rouille"]);
-    html += champ("Évier - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-    html += champ("Évier - Matériaux", ["Inox","Composite","Céramique"]);
-
-    html += champ("Robinetterie - Type", ["Standard","À détecteur","Combinée"]);
-    html += champ("Robinetterie - État", ["Bonne","Fuite","Défectueuse"]);
-    html += champ("Robinetterie - Matériaux", ["Chrome","Noir mat","Inox"]);
-
-    html += champ("Plomberie - Type", ["Cuivre","PEX","ABS","PVC"]);
-    html += champ("Plomberie - État", ["Bon","Fuite","Bouchée","Corrosion"]);
-    html += champ("Plomberie - Fonctionnalité", ["Fonctionnelle","Non fonctionnelle"]);
-
-    html += champ("Sortie gaz - Présence", ["Présente","Absente"]);
-    html += champ("Sortie gaz - Conformité", ["Conforme","Non conforme"]);
-
-    html += champ("Détecteur fumée - Présence", ["Présent","Absent"]);
-    html += champ("Détecteur fumée - État", ["Fonctionnel","Défectueux"]);
-
-    html += champ("Ventilation cuisine - Type", ["Naturelle","Mécanique"]);
-    html += champ("Ventilation cuisine - État", ["Fonctionnelle","Défectueuse"]);
-
-    html += texte("Commentaires spécifiques cuisine");
-  }
-
-  // ======================================================
-  // ================= SALLE DE BAIN ======================
-  // ======================================================
-
-  if (type === "Salle de bain") {
-
-    html += champ("Lavabo - Type", ["Simple","Double","Suspendu"]);
-    html += champ("Lavabo - État", ["Bon","Fissuré","Endommagé"]);
-    html += champ("Lavabo - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-    html += champ("Lavabo - Matériaux", ["Porcelaine","Céramique","Composite"]);
-
-    html += champ("Vanité - Type", ["Suspendue","Sur pied","Modulaire"]);
-    html += champ("Vanité - État", ["Bonne","Endommagée","Humidité"]);
-    html += champ("Vanité - Matériaux", ["Bois","Mélamine","PVC"]);
-
-    html += champ("Toilette - Type", ["Standard","Ultra-flux","Suspendue"]);
-    html += champ("Toilette - État", ["Bonne","Fuite","Instable"]);
-    html += champ("Toilette - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-    html += champ("Douche - Type", ["Coin","Murale","Walk-in"]);
-    html += champ("Douche - État", ["Bon","Fuite","Moisissure"]);
-    html += champ("Douche - Matériaux", ["Fibre de verre","Céramique","Acrylique"]);
-
-    html += champ("Baignoire - Type", ["Encastrée","Autoportante"]);
-    html += champ("Baignoire - État", ["Bonne","Fissurée","Endommagée"]);
-    html += champ("Baignoire - Matériaux", ["Acrylique","Fonte","Composite"]);
-
-    html += champ("Robinetterie bain - État", ["Bonne","Fuite","Défectueuse"]);
-    html += champ("Robinetterie douche - État", ["Bonne","Fuite","Défectueuse"]);
-
-    html += champ("Ventilation - Type", ["Mécanique","Naturelle"]);
-    html += champ("Ventilation - Fonctionnalité", ["Fonctionnelle","Bruyante","Défectueuse"]);
-
-    html += champ("Prise GFCI - Présence", ["Présente","Absente"]);
-    html += champ("Prise GFCI - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-    html += champ("Chauffage salle bain - Type", ["Plinthe","Radiateur"]);
-    html += champ("Chauffage salle bain - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-    html += texte("Commentaires spécifiques salle de bain");
-  }
-
-  // ======================================================
-  // ==================== SALLE D’EAU =====================
-  // ======================================================
+// ==================== SALLE D’EAU =====================
+// ======================================================
 
   if (type === "Salle d'eau") {
 
@@ -271,9 +174,10 @@ function ajouterPiece() {
    
     html += texte("Commentaires spécifiques salle d'eau");
   }
-    // ======================================================
-  // ======================== SALON =======================
-  // ======================================================
+
+// ======================================================
+// ======================== SALON =======================
+// ======================================================
 
   if (type === "Salon") {
 
@@ -302,9 +206,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques salon");
   }
 
-  // ======================================================
-  // ======================= CHAMBRE ======================
-  // ======================================================
+// ======================================================
+// ======================= CHAMBRE ======================
+// ======================================================
 
   if (type === "Chambre") {
 
@@ -326,10 +230,9 @@ function ajouterPiece() {
 
     html += texte("Commentaires spécifiques chambre");
   }
-
   // ======================================================
-  // ======================== ENTRÉE ======================
-  // ======================================================
+// ======================== ENTRÉE ======================
+// ======================================================
 
   if (type === "Entrée") {
 
@@ -352,9 +255,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques entrée");
   }
 
-  // ======================================================
-  // ======================== PASSAGE =====================
-  // ======================================================
+// ======================================================
+// ======================== PASSAGE =====================
+// ======================================================
 
   if (type === "Passage") {
 
@@ -375,9 +278,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques passage");
   }
 
-  // ======================================================
-  // ================== SALLE DE LAVAGE ===================
-  // ======================================================
+// ======================================================
+// ================== SALLE DE LAVAGE ===================
+// ======================================================
 
   if (type === "Salle de lavage") {
 
@@ -406,8 +309,8 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques salle de lavage");
   }
   // ======================================================
-  // ======================== SOUS-SOL ====================
-  // ======================================================
+// ======================== SOUS-SOL ====================
+// ======================================================
 
   if (type === "Sous-sol") {
 
@@ -431,9 +334,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques sous-sol");
   }
 
-  // ======================================================
-  // ================== CHAMBRE FROIDE ====================
-  // ======================================================
+// ======================================================
+// ================== CHAMBRE FROIDE ====================
+// ======================================================
 
   if (type === "Chambre froide") {
 
@@ -452,9 +355,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques chambre froide");
   }
 
-  // ======================================================
-  // ========================= GARAGE =====================
-  // ======================================================
+// ======================================================
+// ========================= GARAGE =====================
+// ======================================================
 
   if (type === "Garage") {
 
@@ -479,10 +382,9 @@ function ajouterPiece() {
 
     html += texte("Commentaires spécifiques garage");
   }
-
   // ======================================================
-  // ======================= VÉRANDA ======================
-  // ======================================================
+// ======================= VÉRANDA ======================
+// ======================================================
 
   if (type === "Véranda") {
 
@@ -507,9 +409,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques véranda");
   }
 
-  // ======================================================
-  // ======================= VERRIÈRE =====================
-  // ======================================================
+// ======================================================
+// ======================= VERRIÈRE =====================
+// ======================================================
 
   if (type === "Verrière") {
 
@@ -528,9 +430,10 @@ function ajouterPiece() {
 
     html += texte("Commentaires spécifiques verrière");
   }
-  // ======================================================
-  // ================= CHAMBRE DE RANGEMENT ===============
-  // ======================================================
+
+// ======================================================
+// ================= CHAMBRE DE RANGEMENT ===============
+// ======================================================
 
   if (type === "Chambre de rangement") {
 
@@ -550,12 +453,12 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques chambre de rangement");
   }
 
-  // ======================================================
-  // ============== ÉLÉMENTS TECHNIQUES GÉNÉRAUX =========
-  // ======================================================
-  
+// ======================================================
+// ============== ÉLÉMENTS TECHNIQUES GÉNÉRAUX =========
+// ======================================================
+
   html += texte("À ajouter dans la pièce seulement si présent");
-  
+
   html += champ("Système d'alarme - Présence", ["Présent","Absent"]);
   html += champ("Système d'alarme - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
@@ -576,10 +479,9 @@ function ajouterPiece() {
   html += champ("Conformité générale structure", ["Conforme","Non conforme"]);
 
   html += texte("Commentaires techniques globaux");
-
   // ======================================================
-  // ================= ÉQUIPEMENTS AVANCÉS ================
-  // ======================================================
+// ================= ÉQUIPEMENTS AVANCÉS ================
+// ======================================================
 
   html += champ("Thermopompe - Présence", ["Présente","Absente"]);
   html += champ("Thermopompe - Type", ["Murale","Centrale"]);
@@ -644,7 +546,7 @@ function ajouterPiece() {
   </label>`;
 
   // ======================================================
-  // ================= COMMENTAIRES FINAUX =================
+  // ================= COMMENTAIRES FINAUX ===============
   // ======================================================
 
   html += texte("Résumé technique final de la pièce");
@@ -654,7 +556,6 @@ function ajouterPiece() {
   document.getElementById("type-piece").value = "";
 
 }
-
 // ======================================================
 // ================== PRÉVISUALISATION IMAGE ============
 // ======================================================
@@ -674,6 +575,7 @@ function previewImage(event, input) {
 
   reader.readAsDataURL(file);
 }
+
 // ======================================================
 // ===================== IMPRESSION ======================
 // ======================================================
@@ -687,7 +589,7 @@ function genererRapportImpression() {
   const adresse = document.getElementById("adresse")?.value || "";
   const ville = document.getElementById("ville")?.value || "";
   const dateVerification = document.getElementById("verification-date")?.value || "";
-  const verificateur = document.getElementById("nomVerificateur")?.value || "Jean-Louis Raymond";
+  const verificateur = document.getElementById("verificateur")?.value || "Jean-Louis Raymond";
 
   const heures = tempsTotalSecondes / 3600;
   const sousTotal = heures * tauxHoraire;
@@ -727,7 +629,6 @@ function genererRapportImpression() {
       if (!valeur || valeur === "Sélectionnez") return;
 
       const nomChamp = label.childNodes[0].textContent.trim();
-
       const ligne = `<div><strong>${titre}</strong> — ${nomChamp} : ${valeur}</div>`;
 
       if (valeursConformes.includes(valeur)) {
@@ -746,7 +647,6 @@ function genererRapportImpression() {
   zone.innerHTML = `
   <div style="position:relative;">
 
-    <!-- FILIGRANE -->
     <div style="
       position:absolute;
       top:40%;
@@ -767,7 +667,7 @@ function genererRapportImpression() {
         <strong>Vérification Préventive Immobilière</strong><br>
         Jean-Louis Raymond<br>
         Consultant en vérification préventive<br><br>
-        📧 jlouisraymond@hotmail.com | 📞 438-220-6511<br>
+        jlouisraymond@hotmail.com | 438-220-6511<br>
         NEQ : 2268876952<br>
         TPS : 771362471 RT 0001<br>
         TVQ : 1227894560 TQ 0001
@@ -809,16 +709,15 @@ function genererRapportImpression() {
 }
 
 window.addEventListener("beforeprint", genererRapportImpression);
-
 // ======================================================
 // ================= TERMINER PIÈCE =====================
 // ======================================================
+
 function terminerPiece(id) {
 
   const piece = document.getElementById(id);
   if (!piece) return;
 
-  // Désactiver tous les champs
   piece.querySelectorAll("select, textarea, input").forEach(el => {
     el.disabled = true;
   });
@@ -845,7 +744,6 @@ function terminerPiece(id) {
 
   piece.appendChild(blocResume);
 
-  // 🔽 Masquer tout sauf le header et le résumé
   piece.querySelectorAll("label").forEach(el => {
     el.style.display = "none";
   });
@@ -874,7 +772,6 @@ function rouvrirPiece(id) {
     el.disabled = false;
   });
 
-  // 🔼 Réafficher les champs
   piece.querySelectorAll("label").forEach(el => {
     el.style.display = "";
   });
@@ -894,10 +791,10 @@ function rouvrirPiece(id) {
 
   piece.style.border = "1px solid #ccc";
 }
-
 // ======================================================
 // ================= SIGNATURES ==========================
 // ======================================================
+
 function activerSignature(canvasId) {
 
   const canvas = document.getElementById(canvasId);
@@ -1000,7 +897,6 @@ document.addEventListener("DOMContentLoaded", function() {
   activerSignature("signature-client");
   activerSignature("signature-verificateur");
 });
-
 // ======================================================
 // ===================== MINUTEUR ========================
 // ======================================================
@@ -1078,9 +974,133 @@ function basculerVisibiliteMinuteur() {
     montant.style.display = "none";
   }
 }
+// ======================================================
+// ================= BASE CLIENT INDEXEDDB ==============
+// ======================================================
+
+let dbClients = null;
+
+function initialiserBaseClients() {
+
+  const request = indexedDB.open("VPIJLR_DB", 1);
+
+  request.onupgradeneeded = function(event) {
+
+    const db = event.target.result;
+
+    if (!db.objectStoreNames.contains("clients")) {
+
+      const store = db.createObjectStore("clients", {
+        keyPath: "id",
+        autoIncrement: true
+      });
+
+      store.createIndex("nom", "nom", { unique: false });
+      store.createIndex("telephone", "telephone", { unique: false });
+      store.createIndex("email", "email", { unique: false });
+      store.createIndex("numeroClient", "numeroClient", { unique: true });
+
+    }
+  };
+
+  request.onsuccess = function(event) {
+    dbClients = event.target.result;
+  };
+
+  request.onerror = function() {
+    alert("Erreur ouverture base clients.");
+  };
+}
 
 // ======================================================
-// ================= ENVOI COURRIEL TEXTE =================
+// ================= FONCTIONS CLIENT ===================
+// ======================================================
+
+function ajouterClient() {
+
+  if (!dbClients) return;
+
+  const client = {
+    numeroClient: "CL-" + Date.now(),
+    nom: document.getElementById("locataire")?.value || "",
+    telephone: document.getElementById("telephone")?.value || "",
+    email: document.getElementById("emailProprietaire")?.value || "",
+    adresse: document.getElementById("adresse")?.value || "",
+    appartement: document.getElementById("numeroAppartement")?.value || "",
+    ville: document.getElementById("ville")?.value || "",
+    dateCreation: new Date().toISOString()
+  };
+
+  const transaction = dbClients.transaction(["clients"], "readwrite");
+  const store = transaction.objectStore("clients");
+  store.add(client);
+
+  transaction.oncomplete = function() {
+    alert("Client enregistré.");
+  };
+}
+
+function rechercherClientParNom(nomRecherche) {
+
+  if (!dbClients) return;
+
+  const transaction = dbClients.transaction(["clients"], "readonly");
+  const store = transaction.objectStore("clients");
+  const index = store.index("nom");
+
+  const request = index.getAll();
+
+  request.onsuccess = function() {
+
+    const resultats = request.result.filter(c =>
+      c.nom.toLowerCase().includes(nomRecherche.toLowerCase())
+    );
+
+    afficherResultatsClients(resultats);
+  };
+}
+
+function afficherResultatsClients(liste) {
+
+  const zone = document.getElementById("resultats-clients");
+  if (!zone) return;
+
+  zone.innerHTML = "";
+
+  liste.forEach(client => {
+
+    const div = document.createElement("div");
+    div.style.border = "1px solid #ccc";
+    div.style.padding = "8px";
+    div.style.marginBottom = "5px";
+    div.style.cursor = "pointer";
+
+    div.innerHTML =
+      "<strong>" + client.nom + "</strong><br>" +
+      "Téléphone : " + client.telephone + "<br>" +
+      "Ville : " + client.ville;
+
+    div.onclick = function() {
+      chargerClientDansFormulaire(client);
+    };
+
+    zone.appendChild(div);
+  });
+}
+
+function chargerClientDansFormulaire(client) {
+
+  document.getElementById("locataire").value = client.nom || "";
+  document.getElementById("telephone").value = client.telephone || "";
+  document.getElementById("emailProprietaire").value = client.email || "";
+  document.getElementById("adresse").value = client.adresse || "";
+  document.getElementById("numeroAppartement").value = client.appartement || "";
+  document.getElementById("ville").value = client.ville || "";
+
+  genererNumeroDossier();
+}
+// ======================================================
+// ================= ENVOI COURRIEL TEXTE ===============
 // ======================================================
 
 function genererMailto() {
@@ -1161,11 +1181,8 @@ function genererMailto() {
 
 document.addEventListener("DOMContentLoaded", function() {
   mettreAJourAffichage();
+  initialiserBaseClients();
 });
-// ======================================================
-// ================= RÉINITIALISATION TOTALE ============
-// ======================================================
-
 // ======================================================
 // ================= RÉINITIALISATION TOTALE ============
 // ======================================================
@@ -1176,7 +1193,6 @@ function reinitialiserVerification() {
     return;
   }
 
-  // Champs client
   document.querySelectorAll("#formulaire-client input").forEach(el => {
     if (!el.readOnly) el.value = "";
   });
@@ -1184,34 +1200,30 @@ function reinitialiserVerification() {
   const selectVerif = document.getElementById("verificateur");
   if (selectVerif) selectVerif.selectedIndex = 0;
 
-  // Numéro dossier
   const dossier = document.getElementById("numeroDossier");
   if (dossier) dossier.value = "";
 
-  // Supprimer pièces
   const liste = document.getElementById("liste-pieces");
   if (liste) liste.innerHTML = "";
 
-  // Effacer signatures
   const canvas1 = document.getElementById("signature-client");
   const canvas2 = document.getElementById("signature-verificateur");
 
   if (canvas1) canvas1.getContext("2d").clearRect(0, 0, canvas1.width, canvas1.height);
   if (canvas2) canvas2.getContext("2d").clearRect(0, 0, canvas2.width, canvas2.height);
 
-  // Minuteur
   pauseMinuteur();
   tempsTotalSecondes = 0;
   mettreAJourAffichage();
 
-  // Zone impression
   const zone = document.getElementById("zone-impression");
   if (zone) zone.innerHTML = "";
 
   genererNumeroDossier();
 }
+
 // ======================================================
-// ========= SAUVEGARDE PDF SUPPORT AMOVIBLE (VERSION FIXE)
+// ========= SAUVEGARDE PDF SUPPORT AMOVIBLE ============
 // ======================================================
 
 function sauvegarderSurSupport() {

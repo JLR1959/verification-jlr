@@ -61,7 +61,6 @@ h2 { border-bottom: 1px solid #ddd; padding-bottom: 5px; }
 <p>NEQ : 2268876952</p>
 <p>TPS : 771362471 RT 0001 | TVQ : 1227894560 TQ 0001</p>
 </header>
-
 <section id="formulaire-client">
 
 <h2>Informations du client</h2>
@@ -78,6 +77,10 @@ h2 { border-bottom: 1px solid #ddd; padding-bottom: 5px; }
 <input type="tel" id="telephone">
 </label>
 
+<label>Courriel propriétaire
+<input type="email" id="emailProprietaire">
+</label>
+
 <label>Numéro d’appartement
 <input type="text" id="numeroAppartement">
 </label>
@@ -90,18 +93,36 @@ h2 { border-bottom: 1px solid #ddd; padding-bottom: 5px; }
 <input type="text" id="ville">
 </label>
 
+<hr>
+
+<button type="button" onclick="ajouterClient()">
+Enregistrer le client
+</button>
+
+<br><br>
+
+<input type="text"
+placeholder="Rechercher un client"
+oninput="rechercherClientParNom(this.value)"
+style="width:100%; padding:6px;">
+
+<div id="resultats-clients"
+style="margin-top:10px;"></div>
+
+<hr>
+
 <label>Date de vérification
 <input type="date" id="verification-date">
 </label>
+
 <label>Nom du vérificateur</label>
 <select id="verificateur">
 <option>Sélectionner</option>
 <option>Jean-Louis Raymond</option>
 <option>Manon Leclerc</option>
 </select>
-</section>
 
-<section>
+</section>
 
 <h2>Ajouter une pièce à vérifier</h2>
 
