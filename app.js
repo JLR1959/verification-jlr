@@ -68,6 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
   genererNumeroDossier();
 
 });
+
 // ======================================================
 // OUTILS GÉNÉRIQUES
 // ======================================================
@@ -137,8 +138,12 @@ function ajouterPiece() {
   html += champ("Éclairage - État", ["Fonctionnel","Défectueux"]);
   html += champ("Éclairage - Fonctionnalité", ["Normal","Gradateur"]);
 
-  html += champ("Prises - Type", ["Standard","GFCI","USB"]);
-  html += champ("Prises - Quantité", ["1","2","3+"]);
+  html += champ("Prises - Type", ["Standard"]);
+  html += champ("Prises - Quantité", ["1","2","3","4","5", "6","7", "8","9","10+"]);
+  html += champ("Prises - Type", ["GFCI"]);
+  html += champ("Prises - Quantité", ["1","2","3","4","5", "6","7", "8","9","10+"]);
+  html += champ("Prises - Type", ["USB"]);
+  html += champ("Prises - Quantité", ["1","2","3","4","5", "6","7", "8","9","10+"]);
   html += champ("Prises - Fonctionnalité", ["Fonctionnelles","Défectueuses"]);
 
   html += champ("Chauffage - Type", ["Plinthe","Radiateur","Unité murale"]);
@@ -151,13 +156,13 @@ function ajouterPiece() {
   html += champ("Thermostat - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
   html += champ("Interrupteurs - État", ["Fonctionnels","Défectueux"]);
-  // ======================================================
+    // ======================================================
   // ====================== CUISINE =======================
   // ======================================================
 
   if (type === "Cuisine") {
 
-    html += champ("Hotte - Type", ["Standard","Micro-ondes intégrée","Commerciale"]);
+    html += champ("Hotte - Type", ["Standard","Micro-ondes intégrée","Commerciale","Suspendu"]);
     html += champ("Hotte - État", ["Fonctionnelle","Défectueuse","Bruyante"]);
     html += champ("Hotte - Matériau", ["Inox","Plastique","Aluminium"]);
 
@@ -261,7 +266,7 @@ function ajouterPiece() {
     html += champ("Ventilation - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
 
     html += champ("Prise GFCI - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
+   
     html += texte("Commentaires spécifiques salle d'eau");
   }
     // ======================================================
@@ -398,7 +403,7 @@ function ajouterPiece() {
 
     html += texte("Commentaires spécifiques salle de lavage");
   }
-    // ======================================================
+  // ======================================================
   // ======================== SOUS-SOL ====================
   // ======================================================
 
@@ -547,6 +552,8 @@ function ajouterPiece() {
   // ============== ÉLÉMENTS TECHNIQUES GÉNÉRAUX =========
   // ======================================================
   
+  html += texte("À ajouter dans la pièce seulement si présent");
+  
   html += champ("Système d'alarme - Présence", ["Présent","Absent"]);
   html += champ("Système d'alarme - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
@@ -645,6 +652,7 @@ function ajouterPiece() {
   document.getElementById("type-piece").value = "";
 
 }
+
 // ======================================================
 // ================== PRÉVISUALISATION IMAGE ============
 // ======================================================
@@ -652,11 +660,6 @@ function ajouterPiece() {
 function previewImage(event, input) {
 
   const file = event.target.files[0];
-
-
-
-
-
   if (!file) return;
 
   const reader = new FileReader();
@@ -669,7 +672,6 @@ function previewImage(event, input) {
 
   reader.readAsDataURL(file);
 }
-
 // ======================================================
 // ===================== IMPRESSION ======================
 // ======================================================
@@ -743,24 +745,14 @@ function genererRapportImpression() {
 window.addEventListener("beforeprint", genererRapportImpression);
 
 // ======================================================
-// ================= INITIALISATION ======================
-// ======================================================
-
-document.addEventListener("DOMContentLoaded", function() {
-
-  genererNumeroDossier();
-
-});
-
-// ======================================================
 // ================= TERMINER PIÈCE =====================
 // ======================================================
-
 function terminerPiece(id) {
 
   const piece = document.getElementById(id);
   if (!piece) return;
 
+  // Désactiver tous les champs
   piece.querySelectorAll("select, textarea, input").forEach(el => {
     el.disabled = true;
   });
@@ -770,7 +762,6 @@ function terminerPiece(id) {
 
     const select = label.querySelector("select");
     if (!select) return;
-
     if (!select.value || select.value === "Sélectionnez") return;
 
     const nomChamp = label.childNodes[0].textContent.trim();
@@ -788,6 +779,11 @@ function terminerPiece(id) {
 
   piece.appendChild(blocResume);
 
+  // 🔽 Masquer tout sauf le header et le résumé
+  piece.querySelectorAll("label").forEach(el => {
+    el.style.display = "none";
+  });
+
   const header = piece.querySelector(".piece-header");
   if (header) {
     header.innerHTML = `
@@ -796,7 +792,6 @@ function terminerPiece(id) {
     `;
   }
 
-  piece.style.opacity = "0.85";
   piece.style.border = "2px solid #4CAF50";
 }
 
@@ -813,6 +808,11 @@ function rouvrirPiece(id) {
     el.disabled = false;
   });
 
+  // 🔼 Réafficher les champs
+  piece.querySelectorAll("label").forEach(el => {
+    el.style.display = "";
+  });
+
   const resume = piece.querySelector(".resume-piece");
   if (resume) resume.remove();
 
@@ -826,258 +826,11 @@ function rouvrirPiece(id) {
     `;
   }
 
-  piece.style.opacity = "1";
   piece.style.border = "1px solid #ccc";
 }
 
 // ======================================================
-// CONFIGURATION MÉTIER
-// ======================================================
-
-const REGLES_METIER = {
-
-  conformes: [
-    "Bon","Bonne","Bons","Bonnes",
-    "Fonctionnel","Fonctionnelle","Fonctionnels","Fonctionnelles",
-    "Présent","Présente","Présents","Présentes",
-    "Oui","Conforme","Normale"
-  ],
-
-  mineurs: [
-    "Taché","Usé","Craque","Gondolé","Bruyant",
-    "Condensation","Instable léger","Insuffisante"
-  ],
-
-  fonctionnels: [
-    "Défectueux","Défectueuse","Bloqué",
-    "Bouché","Obstrué","À réparer",
-    "Fuite légère"
-  ],
-
-  majeurs: [
-    "Non conforme","Fuite","Brisée",
-    "Fissure majeure","Corrosion","Rouille",
-    "Instable","Affaissé","Moisissure",
-    "Humidité élevée"
-  ],
-
-  penalites: {
-    mineur: 5,
-    fonctionnel: 10,
-    majeur: 20,
-    critique: 30
-  }
-
-};
-
-// ======================================================
-// ANALYSE D’UNE PIÈCE
-// ======================================================
-
-function analyserPiece(piece) {
-
-  let score = 100;
-  let mineurs = 0;
-  let fonctionnels = 0;
-  let majeurs = 0;
-  let critique = false;
-
-  const selects = piece.querySelectorAll("select");
-
-  selects.forEach(select => {
-
-    const valeur = select.value;
-    if (!valeur || valeur === "Sélectionnez") return;
-
-    if (REGLES_METIER.conformes.includes(valeur)) return;
-
-    if (REGLES_METIER.mineurs.includes(valeur)) {
-      score -= REGLES_METIER.penalites.mineur;
-      mineurs++;
-      return;
-    }
-
-    if (REGLES_METIER.fonctionnels.includes(valeur)) {
-      score -= REGLES_METIER.penalites.fonctionnel;
-      fonctionnels++;
-      return;
-    }
-
-    if (REGLES_METIER.majeurs.includes(valeur)) {
-      score -= REGLES_METIER.penalites.majeur;
-      majeurs++;
-      critique = true;
-      return;
-    }
-
-  });
-
-  if (score < 0) score = 0;
-
-  const statut = determinerStatut(score, critique);
-
-  piece.dataset.score = score;
-  piece.dataset.statut = statut;
-
-  appliquerCouleur(piece, statut);
-
-  genererResumePiece(piece, score, mineurs, fonctionnels, majeurs, statut);
-
-  analyserBatimentGlobal();
-
-}
-
-// ======================================================
-// DÉTERMINATION DU STATUT
-// ======================================================
-
-function determinerStatut(score, critique) {
-
-  if (critique) return "Non conforme majeur";
-  if (score >= 90) return "Conforme";
-  if (score >= 75) return "Conforme avec recommandations";
-  if (score >= 50) return "Non conforme mineur";
-  return "Non conforme majeur";
-
-}
-
-// ======================================================
-// COULEUR VISUELLE AUTOMATIQUE
-// ======================================================
-
-function appliquerCouleur(piece, statut) {
-
-  piece.style.borderWidth = "3px";
-
-  switch (statut) {
-
-    case "Conforme":
-      piece.style.borderColor = "#2ecc71";
-      break;
-
-    case "Conforme avec recommandations":
-      piece.style.borderColor = "#f39c12";
-      break;
-
-    case "Non conforme mineur":
-      piece.style.borderColor = "#e67e22";
-      break;
-
-    case "Non conforme majeur":
-      piece.style.borderColor = "#e74c3c";
-      break;
-
-  }
-
-}
-
-// ======================================================
-// RÉSUMÉ INTELLIGENT PAR PIÈCE
-// ======================================================
-
-function genererResumePiece(piece, score, mineurs, fonctionnels, majeurs, statut) {
-
-  let resumeBloc = piece.querySelector(".resume-intelligent");
-  if (resumeBloc) resumeBloc.remove();
-
-  resumeBloc = document.createElement("div");
-  resumeBloc.className = "resume-intelligent";
-
-  resumeBloc.innerHTML = `
-    <div style="margin-top:15px; padding:10px; background:#f9f9f9; border-radius:6px;">
-      <strong>Analyse automatique :</strong><br>
-      Score : ${score}/100<br>
-      Défauts mineurs : ${mineurs}<br>
-      Défauts fonctionnels : ${fonctionnels}<br>
-      Défauts majeurs : ${majeurs}<br>
-      <strong>Statut : ${statut}</strong>
-    </div>
-  `;
-
-  piece.appendChild(resumeBloc);
-
-}
-
-// ======================================================
-// ANALYSE GLOBALE DU BÂTIMENT
-// ======================================================
-
-function analyserBatimentGlobal() {
-
-  const pieces = document.querySelectorAll(".piece-container");
-  if (pieces.length === 0) return;
-
-  let total = 0;
-  let majeurDetecte = false;
-
-  pieces.forEach(piece => {
-
-    const score = parseInt(piece.dataset.score || 100);
-    total += score;
-
-    if (piece.dataset.statut === "Non conforme majeur") {
-      majeurDetecte = true;
-    }
-
-  });
-
-  const moyenne = Math.round(total / pieces.length);
-
-  let statutGlobal;
-
-  if (majeurDetecte) {
-    statutGlobal = "Inspection corrective requise";
-  } else if (moyenne >= 90) {
-    statutGlobal = "Bâtiment conforme";
-  } else if (moyenne >= 75) {
-    statutGlobal = "Recommandations générales";
-  } else {
-    statutGlobal = "Correction nécessaire";
-  }
-
-  afficherResumeGlobal(moyenne, statutGlobal);
-
-}
-
-// ======================================================
-// RÉSUMÉ GLOBAL BÂTIMENT
-// ======================================================
-
-function afficherResumeGlobal(score, statut) {
-
-  let zone = document.getElementById("resume-global");
-
-  if (!zone) {
-    zone = document.createElement("div");
-    zone.id = "resume-global";
-    document.body.appendChild(zone);
-  }
-
-  zone.innerHTML = `
-    <div style="padding:15px; margin-top:20px; background:#ffffff; border-radius:8px; border:2px solid #333;">
-      <h3>Résumé global du bâtiment</h3>
-      Score moyen : ${score}/100<br>
-      <strong>Statut général : ${statut}</strong>
-    </div>
-  `;
-
-}
-
-// ======================================================
-// DÉCLENCHEMENT AUTOMATIQUE
-// ======================================================
-
-document.addEventListener("change", function(e) {
-
-  const piece = e.target.closest(".piece-container");
-  if (!piece) return;
-
-  analyserPiece(piece);
-
-});
-
-// ======================================================
-// ================= SIGNATURES GLOBALES =================
+// ================= SIGNATURES ==========================
 // ======================================================
 
 function activerSignature(canvasId) {
@@ -1088,14 +841,28 @@ function activerSignature(canvasId) {
   const ctx = canvas.getContext("2d");
   let dessin = false;
 
-  canvas.addEventListener("mousedown", () => dessin = true);
+  canvas.dataset.locked = "false";
 
-  canvas.addEventListener("mouseup", () => {
+  canvas.addEventListener("mousedown", function(e) {
+
+    if (canvas.dataset.locked === "true") return;
+
+    dessin = true;
+
+    const rect = canvas.getBoundingClientRect();
+    ctx.beginPath();
+    ctx.moveTo(
+      e.clientX - rect.left,
+      e.clientY - rect.top
+    );
+  });
+
+  canvas.addEventListener("mouseup", function() {
     dessin = false;
     ctx.beginPath();
   });
 
-  canvas.addEventListener("mousemove", e => {
+  canvas.addEventListener("mousemove", function(e) {
 
     if (!dessin || canvas.dataset.locked === "true") return;
 
@@ -1112,7 +879,6 @@ function activerSignature(canvasId) {
 
     ctx.stroke();
     ctx.beginPath();
-
     ctx.moveTo(
       e.clientX - rect.left,
       e.clientY - rect.top
@@ -1122,10 +888,6 @@ function activerSignature(canvasId) {
 
 }
 
-// ======================================================
-// ================= EFFACER =============================
-// ======================================================
-
 function effacerSignatureLocataire() {
 
   const canvas = document.getElementById("signature-client");
@@ -1133,7 +895,6 @@ function effacerSignatureLocataire() {
 
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
 }
 
 function effacerSignatureConsultant() {
@@ -1143,12 +904,7 @@ function effacerSignatureConsultant() {
 
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
 }
-
-// ======================================================
-// ================= FIGER ===============================
-// ======================================================
 
 function figerSignature(canvasId) {
 
@@ -1157,12 +913,7 @@ function figerSignature(canvasId) {
 
   canvas.dataset.locked = "true";
   canvas.style.opacity = "0.6";
-
 }
-
-// ======================================================
-// ================= RÉOUVRIR ============================
-// ======================================================
 
 function deverrouillerSignature(canvasId) {
 
@@ -1171,43 +922,172 @@ function deverrouillerSignature(canvasId) {
 
   canvas.dataset.locked = "false";
   canvas.style.opacity = "1";
-
 }
-
-// ======================================================
-// ================= INITIALISATION ======================
-// ======================================================
 
 document.addEventListener("DOMContentLoaded", function() {
 
   activerSignature("signature-client");
   activerSignature("signature-verificateur");
-
 });
 
-// Fonction pour générer l'URL mailto
-function genererMailto() {
-  const emailProprietaire = document.getElementById('emailProprietaire').value;
-  const envoyerAuProprietaire = document.getElementById('envoyerAuProprietaire').checked;
-  const monEmail = 'jlouisraymond@hotmail.com'; // Votre email en CC
-  const sujet = 'Rapport de Vérification Préventive';
-  const corps = 'Voici le rapport de vérification préventive.\n\nMerci de bien vouloir le consulter.';
+// ======================================================
+// ===================== MINUTEUR ========================
+// ======================================================
 
-  if (emailProprietaire === '' && envoyerAuProprietaire) {
-    alert("Le courriel du propriétaire est manquant. L'email ne sera pas envoyé à ce dernier.");
-    document.getElementById('envoyerAuProprietaire').checked = false;
-  }
+let tempsTotalSecondes = 0;
+let intervalMinuteur = null;
+let minuteurEnCours = false;
+const tauxHoraire = 125;
 
-  let mailtoUrl = 'mailto:' + monEmail;
+function formaterTemps(secondes) {
 
-  if (envoyerAuProprietaire && emailProprietaire !== '') {
-    mailtoUrl += '?cc=' + encodeURIComponent(monEmail) + '&to=' + encodeURIComponent(emailProprietaire);
+  const h = Math.floor(secondes / 3600);
+  const m = Math.floor((secondes % 3600) / 60);
+  const s = secondes % 60;
+
+  return (
+    String(h).padStart(2, '0') + ':' +
+    String(m).padStart(2, '0') + ':' +
+    String(s).padStart(2, '0')
+  );
+}
+
+function mettreAJourAffichage() {
+
+  const tempsElement = document.getElementById("temps-affiche");
+  const montantElement = document.getElementById("montant-affiche");
+
+  if (!tempsElement || !montantElement) return;
+
+  tempsElement.textContent = formaterTemps(tempsTotalSecondes);
+
+  const heures = tempsTotalSecondes / 3600;
+  const montant = heures * tauxHoraire;
+
+  montantElement.textContent = montant.toFixed(2) + " $";
+}
+
+function demarrerMinuteur() {
+
+  if (minuteurEnCours) return;
+
+  minuteurEnCours = true;
+
+  intervalMinuteur = setInterval(function() {
+    tempsTotalSecondes++;
+    mettreAJourAffichage();
+  }, 1000);
+}
+
+function pauseMinuteur() {
+
+  minuteurEnCours = false;
+  clearInterval(intervalMinuteur);
+}
+
+function reinitialiserMinuteur() {
+
+  pauseMinuteur();
+  tempsTotalSecondes = 0;
+  mettreAJourAffichage();
+}
+
+function basculerVisibiliteMinuteur() {
+
+  const affichage = document.getElementById("affichage-minuteur");
+  const montant = document.getElementById("affichage-montant");
+
+  if (!affichage || !montant) return;
+
+  if (affichage.style.display === "none") {
+    affichage.style.display = "block";
+    montant.style.display = "block";
   } else {
-    mailtoUrl += '?cc=' + encodeURIComponent(monEmail);
+    affichage.style.display = "none";
+    montant.style.display = "none";
   }
+}
 
-  mailtoUrl += '&subject=' + encodeURIComponent(sujet);
-  mailtoUrl += '&body=' + encodeURIComponent(corps);
+// ======================================================
+// ================= ENVOI COURRIEL TEXTE =================
+// ======================================================
+
+function genererMailto() {
+
+  const emailProprietaire = document.getElementById("emailProprietaire")?.value || "";
+  const dossier = document.getElementById("numeroDossier")?.value || "";
+  const locataire = document.getElementById("locataire")?.value || "";
+  const telephone = document.getElementById("telephone")?.value || "";
+  const appartement = document.getElementById("numeroAppartement")?.value || "";
+  const adresse = document.getElementById("adresse")?.value || "";
+  const ville = document.getElementById("ville")?.value || "";
+
+  const heures = tempsTotalSecondes / 3600;
+  const sousTotal = heures * tauxHoraire;
+  const tps = sousTotal * 0.05;
+  const tvq = sousTotal * 0.09975;
+  const total = sousTotal + tps + tvq;
+
+  let contenu = "";
+
+  contenu += "VÉRIFICATION PRÉVENTIVE IMMOBILIÈRE\n";
+  contenu += "Jean-Louis Raymond\n";
+  contenu += "Consultant en vérification préventive\n\n";
+  contenu += "Courriel : jlouisraymond@hotmail.com\n";
+  contenu += "Téléphone : 438-220-6511\n";
+  contenu += "NEQ : 2268876952\n";
+  contenu += "TPS : 771362471 RT 0001\n";
+  contenu += "TVQ : 1227894560 TQ 0001\n";
+  contenu += "====================================================\n\n";
+
+  contenu += "Numéro de dossier : " + dossier + "\n";
+  contenu += "Locataire : " + locataire + "\n";
+  contenu += "Téléphone : " + telephone + "\n";
+  contenu += "Adresse : " + adresse + ", " + appartement + ", " + ville + "\n\n";
+
+  const pieces = document.querySelectorAll(".piece-container");
+
+  pieces.forEach(piece => {
+
+    const titre = piece.querySelector("h3")?.textContent
+      .replace("Terminer","")
+      .replace("Retirer","")
+      .trim() || "Pièce";
+
+    contenu += ">>> " + titre + "\n";
+
+    piece.querySelectorAll("label").forEach(label => {
+
+      const select = label.querySelector("select");
+      if (!select) return;
+      if (!select.value || select.value === "Sélectionnez") return;
+
+      const nomChamp = label.childNodes[0].textContent.trim();
+      contenu += nomChamp + " : " + select.value + "\n";
+    });
+
+    contenu += "\n";
+  });
+
+  contenu += "FACTURATION\n";
+  contenu += "----------------------------------------\n";
+  contenu += "Temps travaillé : " + heures.toFixed(2) + " heures\n";
+  contenu += "Taux horaire : " + tauxHoraire + " $ / heure\n\n";
+  contenu += "Sous-total : " + sousTotal.toFixed(2) + " $\n";
+  contenu += "TPS (5%) : " + tps.toFixed(2) + " $\n";
+  contenu += "TVQ (9.975%) : " + tvq.toFixed(2) + " $\n";
+  contenu += "TOTAL À PAYER : " + total.toFixed(2) + " $\n\n";
+
+  const sujet = "Rapport et facture - " + dossier;
+
+  const mailtoUrl =
+    "mailto:" + emailProprietaire +
+    "?subject=" + encodeURIComponent(sujet) +
+    "&body=" + encodeURIComponent(contenu);
 
   window.location.href = mailtoUrl;
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+  mettreAJourAffichage();
+});

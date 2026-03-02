@@ -24,35 +24,6 @@ h2 { border-bottom: 1px solid #ddd; padding-bottom: 5px; }
 @media print {
   .no-print { display: none !important; }
 
-  #sceau-certification {
-    position: fixed;
-    bottom: 10mm;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    z-index: 9999;
-  }
-
-  #sceau-certification img {
-    max-height: 80px;
-  }
-
-  #sceau-certification p {
-    font-size: 14px;
-    margin-top: 5px;
-    font-weight: bold;
-  }
-
-  @page {
-    size: auto;
-    margin: 20mm;
-  }
-
-  body {
-    margin: 0;
-    padding: 0;
-  }
-
   #zone-impression {
     position: absolute;
     top: 0;
@@ -63,6 +34,16 @@ h2 { border-bottom: 1px solid #ddd; padding-bottom: 5px; }
 
   #zone-impression * {
     visibility: visible;
+  }
+
+  @page {
+    size: auto;
+    margin: 20mm;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
   }
 }
 </style>
@@ -112,7 +93,12 @@ h2 { border-bottom: 1px solid #ddd; padding-bottom: 5px; }
 <label>Date de vérification
 <input type="date" id="verification-date">
 </label>
-
+<label>Nom du vérificateur</label>
+<select id="verificateur">
+<option>Sélectionner</option>
+<option>Jean-Louis Raymond</option>
+<option>Manon Leclerc</option>
+</select>
 </section>
 
 <section>
@@ -189,16 +175,21 @@ Réouvrir
 </section>
 
 <section id="envoi-par-courriel">
-  <h2>Envoyer le rapport par courriel</h2>
 
-  <label>Courriel du propriétaire</label>
-  <input type="email" id="emailProprietaire" placeholder="Entrez le courriel du propriétaire">
+<h2>Envoyer le rapport par courriel</h2>
 
-  <label>
-    <input type="checkbox" id="envoyerAuProprietaire" checked> Envoyer également au propriétaire
-  </label>
+<label>Courriel du propriétaire</label>
+<input type="email" id="emailProprietaire" placeholder="Entrez le courriel du propriétaire">
 
-  <button type="button" onclick="genererMailto()">Envoyer le rapport</button>
+<label>
+<input type="checkbox" id="envoyerAuProprietaire" checked>
+Envoyer également au propriétaire
+</label>
+
+<button type="button" onclick="genererMailto()">
+Envoyer le rapport
+</button>
+
 </section>
 
 <section id="section-minuteur" class="no-print">
@@ -207,18 +198,18 @@ Réouvrir
 
 <div id="minuteur-container">
 
-  <div id="affichage-minuteur">
-    <span id="temps-affiche">00:00:00</span>
-  </div>
+<div id="affichage-minuteur">
+<span id="temps-affiche">00:00:00</span>
+</div>
 
-  <div id="affichage-montant">
-    Total : <span id="montant-affiche">0.00 $</span>
-  </div>
+<div id="affichage-montant">
+Total : <span id="montant-affiche">0.00 $</span>
+</div>
 
-  <button type="button" onclick="demarrerMinuteur()">Démarrer</button>
-  <button type="button" onclick="pauseMinuteur()">Pause</button>
-  <button type="button" onclick="reinitialiserMinuteur()">Réinitialiser</button>
-  <button type="button" onclick="basculerVisibiliteMinuteur()">Voir / Cacher</button>
+<button type="button" onclick="demarrerMinuteur()">Démarrer</button>
+<button type="button" onclick="pauseMinuteur()">Pause</button>
+<button type="button" onclick="reinitialiserMinuteur()">Réinitialiser</button>
+<button type="button" onclick="basculerVisibiliteMinuteur()">Voir / Cacher</button>
 
 </div>
 
@@ -233,98 +224,6 @@ Imprimer le rapport
 </footer>
 
 <div id="zone-impression"></div>
-
-<script>
-function genererMailto() {
-  const emailProprietaire = document.getElementById('emailProprietaire').value;
-  const envoyerAuProprietaire = document.getElementById('envoyerAuProprietaire').checked;
-  const monEmail = 'jlouisraymond@hotmail.com';
-  const sujet = 'Rapport de Vérification Préventive';
-  const corps = 'Voici le rapport de vérification préventive.\n\nMerci de bien vouloir le consulter.';
-
-  if (emailProprietaire === '' && envoyerAuProprietaire) {
-    alert("Le courriel du propriétaire est manquant. L'email ne sera pas envoyé à ce dernier.");
-    document.getElementById('envoyerAuProprietaire').checked = false;
-  }
-
-  let mailtoUrl = 'mailto:' + monEmail;
-
-  if (envoyerAuProprietaire && emailProprietaire !== '') {
-    mailtoUrl += '?cc=' + encodeURIComponent(monEmail) + '&to=' + encodeURIComponent(emailProprietaire);
-  } else {
-    mailtoUrl += '?cc=' + encodeURIComponent(monEmail);
-  }
-
-  mailtoUrl += '&subject=' + encodeURIComponent(sujet);
-  mailtoUrl += '&body=' + encodeURIComponent(corps);
-
-  window.location.href = mailtoUrl;
-}
-
-/* ===============================
-   MINUTEUR AVEC CALCUL HORAIRE
-================================= */
-
-let tempsTotalSecondes = 0;
-let intervalMinuteur = null;
-let minuteurEnCours = false;
-const tauxHoraire = 125;
-
-function formaterTemps(secondes) {
-  const h = Math.floor(secondes / 3600);
-  const m = Math.floor((secondes % 3600) / 60);
-  const s = secondes % 60;
-
-  return (
-    String(h).padStart(2, '0') + ':' +
-    String(m).padStart(2, '0') + ':' +
-    String(s).padStart(2, '0')
-  );
-}
-
-function mettreAJourAffichage() {
-  document.getElementById('temps-affiche').textContent = formaterTemps(tempsTotalSecondes);
-  const heures = tempsTotalSecondes / 3600;
-  const montant = heures * tauxHoraire;
-  document.getElementById('montant-affiche').textContent = montant.toFixed(2) + ' $';
-}
-
-function demarrerMinuteur() {
-  if (minuteurEnCours) return;
-  minuteurEnCours = true;
-  intervalMinuteur = setInterval(() => {
-    tempsTotalSecondes++;
-    mettreAJourAffichage();
-  }, 1000);
-}
-
-function pauseMinuteur() {
-  minuteurEnCours = false;
-  clearInterval(intervalMinuteur);
-}
-
-function reinitialiserMinuteur() {
-  pauseMinuteur();
-  tempsTotalSecondes = 0;
-  mettreAJourAffichage();
-}
-
-function basculerVisibiliteMinuteur() {
-  const affichage = document.getElementById('affichage-minuteur');
-  const montant = document.getElementById('affichage-montant');
-
-  if (affichage.style.display === 'none') {
-    affichage.style.display = 'block';
-    montant.style.display = 'block';
-  } else {
-    affichage.style.display = 'none';
-    montant.style.display = 'none';
-  }
-}
-
-mettreAJourAffichage();
-
-</script>
 
 </body>
 </html>

@@ -197,3 +197,30 @@ h2 {
   }
 
 }
+/* =====================================================
+   FILIGRANE RAPPORT
+===================================================== */
+
+#zone-impression {
+  position: relative;
+}
+
+#zone-impression::before {
+  content: "VÉRIFICATION PRÉVENTIVE IMMOBILIÈRE\nJean-Louis Raymond";
+  white-space: pre;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 48px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.08);
+  text-align: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#zone-impression * {
+  position: relative;
+  z-index: 1;
+}
