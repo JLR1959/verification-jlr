@@ -1,5 +1,6 @@
 // ======================================================
-// NUMÉRO DOSSIER AUTOMATIQUE
+// MODULE 1 — NUMÉRO DOSSIER AUTOMATIQUE
+// DÉBUT MODULE
 // ======================================================
 
 function genererNumeroDossier() {
@@ -64,8 +65,16 @@ document.addEventListener("DOMContentLoaded", function () {
   genererNumeroDossier();
 
 });
+
 // ======================================================
-// OUTILS GÉNÉRIQUES
+// FIN MODULE 1
+// ======================================================
+
+
+
+// ======================================================
+// MODULE 2 — OUTILS GÉNÉRIQUES
+// DÉBUT MODULE
 // ======================================================
 
 function champ(label, options) {
@@ -86,7 +95,14 @@ function texte(label) {
 }
 
 // ======================================================
-// AJOUT PIÈCE — MOTEUR GLOBAL
+// FIN MODULE 2
+// ======================================================
+
+
+
+// ======================================================
+// MODULE 3 — AJOUT PIÈCE (MOTEUR GLOBAL)
+// DÉBUT MODULE
 // ======================================================
 
 function ajouterPiece() {
@@ -153,9 +169,9 @@ function ajouterPiece() {
   html += champ("Thermostat - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
   html += champ("Interrupteurs - ", ["Fonctionnels","Défectueux"]);
+    // ======================================================
+  // ==================== SALLE D’EAU =====================
   // ======================================================
-// ==================== SALLE D’EAU =====================
-// ======================================================
 
   if (type === "Salle d'eau") {
 
@@ -175,9 +191,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques salle d'eau");
   }
 
-// ======================================================
-// ======================== SALON =======================
-// ======================================================
+  // ======================================================
+  // ======================== SALON =======================
+  // ======================================================
 
   if (type === "Salon") {
 
@@ -206,9 +222,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques salon");
   }
 
-// ======================================================
-// ======================= CHAMBRE ======================
-// ======================================================
+  // ======================================================
+  // ======================= CHAMBRE ======================
+  // ======================================================
 
   if (type === "Chambre") {
 
@@ -230,9 +246,10 @@ function ajouterPiece() {
 
     html += texte("Commentaires spécifiques chambre");
   }
+
   // ======================================================
-// ======================== ENTRÉE ======================
-// ======================================================
+  // ======================== ENTRÉE ======================
+  // ======================================================
 
   if (type === "Entrée") {
 
@@ -255,9 +272,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques entrée");
   }
 
-// ======================================================
-// ======================== PASSAGE =====================
-// ======================================================
+  // ======================================================
+  // ======================== PASSAGE =====================
+  // ======================================================
 
   if (type === "Passage") {
 
@@ -278,9 +295,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques passage");
   }
 
-// ======================================================
-// ================== SALLE DE LAVAGE ===================
-// ======================================================
+  // ======================================================
+  // ================== SALLE DE LAVAGE ===================
+  // ======================================================
 
   if (type === "Salle de lavage") {
 
@@ -308,9 +325,9 @@ function ajouterPiece() {
 
     html += texte("Commentaires spécifiques salle de lavage");
   }
+    // ======================================================
+  // ======================== SOUS-SOL ====================
   // ======================================================
-// ======================== SOUS-SOL ====================
-// ======================================================
 
   if (type === "Sous-sol") {
 
@@ -334,9 +351,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques sous-sol");
   }
 
-// ======================================================
-// ================== CHAMBRE FROIDE ====================
-// ======================================================
+  // ======================================================
+  // ================== CHAMBRE FROIDE ====================
+  // ======================================================
 
   if (type === "Chambre froide") {
 
@@ -355,9 +372,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques chambre froide");
   }
 
-// ======================================================
-// ========================= GARAGE =====================
-// ======================================================
+  // ======================================================
+  // ========================= GARAGE =====================
+  // ======================================================
 
   if (type === "Garage") {
 
@@ -382,9 +399,10 @@ function ajouterPiece() {
 
     html += texte("Commentaires spécifiques garage");
   }
+
   // ======================================================
-// ======================= VÉRANDA ======================
-// ======================================================
+  // ======================= VÉRANDA ======================
+  // ======================================================
 
   if (type === "Véranda") {
 
@@ -408,10 +426,9 @@ function ajouterPiece() {
 
     html += texte("Commentaires spécifiques véranda");
   }
-
-// ======================================================
-// ======================= VERRIÈRE =====================
-// ======================================================
+    // ======================================================
+  // ======================= VERRIÈRE =====================
+  // ======================================================
 
   if (type === "Verrière") {
 
@@ -431,9 +448,9 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques verrière");
   }
 
-// ======================================================
-// ================= CHAMBRE DE RANGEMENT ===============
-// ======================================================
+  // ======================================================
+  // ================= CHAMBRE DE RANGEMENT ===============
+  // ======================================================
 
   if (type === "Chambre de rangement") {
 
@@ -453,64 +470,80 @@ function ajouterPiece() {
     html += texte("Commentaires spécifiques chambre de rangement");
   }
 
-// ======================================================
-// ============== ÉLÉMENTS TECHNIQUES GÉNÉRAUX =========
-// ======================================================
-
-  html += texte("À ajouter dans la pièce seulement si présent");
-
-  html += champ("Système d'alarme - Présence", ["Présent","Absent"]);
-  html += champ("Système d'alarme - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-  html += champ("Détecteur CO2 - Présence", ["Présent","Absent"]);
-  html += champ("Détecteur CO2 - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-  html += champ("Caméra surveillance - Présence", ["Présente","Absente"]);
-  html += champ("Caméra surveillance - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-  html += champ("Interphone - Présence", ["Présent","Absent"]);
-  html += champ("Interphone - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-  html += champ("Accès handicapé - Présence", ["Présent","Absent"]);
-  html += champ("Accès handicapé - Conformité", ["Conforme","Non conforme"]);
-
-  html += champ("Conformité générale électrique", ["Conforme","Non conforme"]);
-  html += champ("Conformité générale plomberie", ["Conforme","Non conforme"]);
-  html += champ("Conformité générale structure", ["Conforme","Non conforme"]);
-
-  html += texte("Commentaires techniques globaux");
   // ======================================================
-// ================= ÉQUIPEMENTS AVANCÉS ================
+// ============ ÉQUIPEMENTS TECHNIQUES OPTIONNELS =======
 // ======================================================
 
-  html += champ("Thermopompe - Présence", ["Présente","Absente"]);
-  html += champ("Thermopompe - Type", ["Murale","Centrale"]);
-  html += champ("Thermopompe - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
+html += `
+<div style="
+border:2px solid #4CAF50;
+background:#f5fff5;
+padding:12px;
+margin-top:15px;
+border-radius:8px;
+">
 
-  html += champ("Échangeur d'air - Présence", ["Présent","Absent"]);
-  html += champ("Échangeur d'air - Fonctionnalité", ["Fonctionnel","Défectueux"]);
+<div style="
+font-weight:bold;
+font-size:16px;
+margin-bottom:6px;
+color:#2e7d32;
+">
+Ajouter équipement technique
+</div>
 
-  html += champ("Panneau secondaire - Présence", ["Présent","Absent"]);
-  html += champ("Panneau secondaire - État", ["Bon","Non conforme"]);
+<select onchange="ajouterEquipementTechnique(this)" style="
+width:100%;
+padding:6px;
+font-size:15px;
+">
 
-  html += champ("Compteur électrique - Présence", ["Présent","Absent"]);
-  html += champ("Compteur électrique - État", ["Bon","Endommagé"]);
+<option value="">Sélectionnez un équipement</option>
 
-  html += champ("Valve principale eau - Présence", ["Présente","Absente"]);
-  html += champ("Valve principale eau - État", ["Bonne","Fuite"]);
+<option>Réservoir eau chaude</option>
 
-  html += champ("Compteur eau - Présence", ["Présent","Absent"]);
-  html += champ("Compteur eau - État", ["Bon","Défectueux"]);
+<option>Système d'alarme</option>
+<option>Détecteur CO2</option>
+<option>Caméra surveillance</option>
+<option>Interphone</option>
+<option>Accès handicapé</option>
 
-  html += champ("Sortie extérieure - Présence", ["Présente","Absente"]);
-  html += champ("Sortie extérieure - État", ["Bonne","Endommagée"]);
+<option>Thermopompe</option>
+<option>Échangeur d'air</option>
+<option>Panneau secondaire</option>
+<option>Compteur électrique</option>
+<option>Valve principale eau</option>
+<option>Compteur eau</option>
 
-  html += champ("Balcon - Présence", ["Présent","Absent"]);
-  html += champ("Balcon - État", ["Bon","Instable","Endommagé"]);
+<option>Sortie extérieure</option>
+<option>Balcon</option>
+<option>Garde-corps balcon</option>
 
-  html += champ("Garde-corps balcon - État", ["Bon","Instable","Non conforme"]);
+<option>Détecteur de mouvement</option>
 
-  // ======================================================
+<option>Tablette</option>
+
+<option>Laveuse</option>
+<option>Sécheuse</option>
+
+<option>Broyeur aliment évier de cuisine</option>
+
+<option>Barre de soutien mur salle de bain</option>
+<option>Barre de soutien amovible sur le bain</option>
+
+<option>Porte savon</option>
+<option>Porte serviette</option>
+
+<option>Rampe d'escalier</option>
+<option>Escalier</option>
+
+</select>
+
+<div class="equipements-ajoutes"></div>
+
+</div>
+`;
+    // ======================================================
   // ===================== PHOTOS =========================
   // ======================================================
 
@@ -546,7 +579,7 @@ function ajouterPiece() {
   </label>`;
 
   // ======================================================
-  // ================= COMMENTAIRES FINAUX ===============
+  // ================= COMMENTAIRES FINAUX ================
   // ======================================================
 
   html += texte("Résumé technique final de la pièce");
@@ -554,7 +587,82 @@ function ajouterPiece() {
   div.innerHTML = html;
   document.getElementById("liste-pieces").appendChild(div);
   document.getElementById("type-piece").value = "";
+}
+// ======================================================
+// ======== AJOUT D'ÉQUIPEMENT TECHNIQUE DYNAMIQUE ======
+// ======================================================
 
+// ======================================================
+// ======== AJOUT D'ÉQUIPEMENT TECHNIQUE DYNAMIQUE ======
+// ======================================================
+
+function ajouterEquipementTechnique(select) {
+
+  const nom = select.value;
+  if (!nom) return;
+
+  const zone = select.parentElement.nextElementSibling;
+
+  const bloc = document.createElement("div");
+  bloc.style.border = "1px solid #ccc";
+  bloc.style.padding = "8px";
+  bloc.style.marginTop = "8px";
+
+  let html = `<strong>${nom}</strong>`;
+
+  html += champ(nom + " - Présence", ["Présent","Absent"]);
+  html += champ(nom + " - État", ["Bon","Corrosion","Fuite","Défectueux"]);
+
+  // ================= CAS SPÉCIAL : RÉSERVOIR EAU CHAUDE =================
+
+  if (nom === "Réservoir eau chaude") {
+
+    html += champ("Réservoir eau chaude - Type", ["Électrique","Gaz","Instantané"]);
+
+    html += champ("Réservoir eau chaude - Capacité", [
+      "20 gallons",
+      "40 gallons",
+      "60 gallons",
+      "80 gallons",
+      "100 gallons",
+      "120 gallons et +"
+    ]);
+
+    html += `
+    <label>Réservoir eau chaude - Année fabrication
+      <input type="number" min="1980" max="2100">
+    </label>`;
+
+    html += `
+    <label>Réservoir eau chaude - Date installation
+      <input type="date">
+    </label>`;
+
+    html += champ("Réservoir eau chaude - Fonctionnalité", [
+      "Fonctionnel",
+      "Défectueux"
+    ]);
+
+  }
+
+  // ================= AUTRES ÉQUIPEMENTS =================
+
+  else {
+
+    html += champ(nom + " - Type", ["Standard","Spécialisé"]);
+    html += champ(nom + " - Fonctionnalité", ["Fonctionnel","Défectueux"]);
+
+  }
+
+  html += texte(nom + " - Commentaires");
+
+  html += `<button type="button" onclick="this.parentElement.remove()">Retirer</button>`;
+
+  bloc.innerHTML = html;
+
+  zone.appendChild(bloc);
+
+  select.value = "";
 }
 // ======================================================
 // ================== PRÉVISUALISATION IMAGE ============
@@ -575,7 +683,6 @@ function previewImage(event, input) {
 
   reader.readAsDataURL(file);
 }
-
 // ======================================================
 // ===================== IMPRESSION ======================
 // ======================================================

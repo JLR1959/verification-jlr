@@ -1,168 +1,16 @@
-/* ===============================
-   STYLES GÉNÉRAUX
-================================= */
-
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f6f7;
-  margin: 0;
-  padding: 20px;
-}
-
-/* ===============================
-   EN-TÊTE
-================================= */
-
-header {
-  background-color: #ffffff;
-  color: #000000;
-  text-align: center;
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-header h1 {
-  font-size: 28px;
-  font-weight: bold;
-  margin: 10px 0;
-}
-
-header p {
-  font-size: 14px;
-  margin: 3px 0;
-}
-
-/* ===============================
-   SECTIONS
-================================= */
-
-section,
-footer {
-  background-color: white;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-
-/* ===============================
-   BOUTONS
-================================= */
-
-button {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 14px;
-  margin: 5px;
-}
-
-button:hover {
-  background-color: #2980b9;
-}
-
-/* ===============================
-   FORMULAIRES
-================================= */
-
-label {
-  display: block;
-  margin: 10px 0 5px;
-  font-weight: bold;
-}
-
-input,
-select,
-textarea {
-  width: 25%;
-  padding: 8px;
-  margin-top: 4px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
-
-/* ===============================
-   NUMÉRO DE DOSSIER
-================================= */
-
-#numeroDossier {
-  width: 50%;
-  box-sizing: border-box;
-  padding: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  background-color: #eaeaea;
-  letter-spacing: 1px;
-}
-
-/* ===============================
-   PIÈCES INSPECTÉES
-================================= */
-
-.piece-container {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin-top: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-/* ===============================
-   SIGNATURES
-================================= */
-
-canvas {
-  border: 1px solid #000;
-  margin-top: 10px;
-  border-radius: 5px;
-}
-
-/* ===============================
-   IMAGE PRÉVISUALISÉE
-================================= */
-
-.photo-preview {
-  max-width: 200px;
+#zone-impression {
   display: none;
-  margin-top: 10px;
-  border-radius: 5px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
-
-/* ===============================
-   TITRES
-================================= */
-
-h2 {
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 5px;
-  color: #2c3e50;
-}
-
-/* ===============================
-   IMPRESSION
-================================= */
 
 @media print {
-
-  body {
-    margin: 0;
-    padding: 0;
+  #zone-impression {
+    display: block;
   }
 
-  /* Cacher tout */
   body * {
     visibility: hidden;
   }
 
-  /* Afficher uniquement le rapport généré */
   #zone-impression,
   #zone-impression * {
     visibility: visible;
@@ -170,60 +18,12 @@ h2 {
 
   #zone-impression {
     position: absolute;
-    top: 0;
     left: 0;
+    top: 0;
     width: 100%;
-    padding: 30px;
   }
-
-  /* Masquer tous les boutons */
-  button {
-    display: none !important;
-  }
-
-  /* Empêche coupure au milieu */
-  #zone-impression div {
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }
-
-  #zone-impression h1,
-  #zone-impression h3 {
-    page-break-after: avoid;
-  }
-
-  .no-print {
-    display: none !important;
-  }
-
 }
-/* =====================================================
-   FILIGRANE RAPPORT
-===================================================== */
-
-#zone-impression {
-  position: relative;
-}
-
-#zone-impression::before {
-  content: "VÉRIFICATION PRÉVENTIVE IMMOBILIÈRE\nJean-Louis Raymond";
-  white-space: pre;
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-30deg);
-  font-size: 48px;
-  font-weight: bold;
-  color: rgba(0, 0, 0, 0.08);
-  text-align: center;
-  pointer-events: none;
-  z-index: 0;
-}
-
-#zone-impression * {
-  position: relative;
-  z-index: 1;
-}
-canvas {
-  touch-action: none;
+#affichage-minuteur,
+#affichage-montant {
+  display: none;
 }
