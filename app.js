@@ -190,148 +190,236 @@ function ajouterEquipement(pieceId) {
 
 // ======================================================
 // MODULE 5.1
-// MODÈLES DE PIÈCES
+// MODÈLES DE PIÈCES – COMPLÉTÉES ET DÉTAILLÉES
 // ======================================================
 
 const modelesPieces = {
 
   "Cuisine": function() {
-
     let html = "";
 
     html += champ("Plafond - Type", ["Gypsum","Bois","Suspendu","Béton"]);
     html += champ("Plafond - État", ["Bon","Fissuré","Taché","Endommagé"]);
+    html += champ("Plafond - Matériau", ["Plâtre","PVC","Bois","Métal"]);
 
     html += champ("Mur - Type", ["Cloison sèche","Brique","Bois","Béton"]);
     html += champ("Mur - État", ["Bon","Fissuré","Humidité"]);
+    html += champ("Mur - Matériau", ["Peinture","Papier peint","Carrelage","Bois"]);
 
     html += champ("Plancher - Type", ["Céramique","Vinyle","Bois"]);
     html += champ("Plancher - État", ["Bon","Usé","Endommagé"]);
+    html += champ("Plancher - Matériau", ["Bois franc","Stratifié","Vinyle","Céramique"]);
 
     html += champ("Fenêtre - Présence", ["Présente","Absente"]);
+    html += champ("Fenêtre - Type", ["Coulissante","À battant","Fixe"]);
+    html += champ("Fenêtre - État", ["Bonne","À réparer","Brisée"]);
+    html += champ("Fenêtre - Matériau", ["PVC","Aluminium","Bois"]);
     html += champ("Fenêtre - Étanchéité", ["Bonne","Air","Infiltration"]);
+    html += champ("Fenêtre - Mécanisme", ["Coulissant","Oscillo-battant","Fixe"]);
+    html += champ("Fenêtre - Quantité", ["1","2","3+"]);
+    html += champ("Fenêtre - Moustiquaire", ["Présente","Absente"]);
 
     html += champ("Porte patio - Présence", ["Présente","Absente"]);
+    html += champ("Porte patio - Type", ["Coulissante","Vitrée"]);
+    html += champ("Porte patio - État", ["Bonne","À réparer","Endommagée"]);
+    html += champ("Porte patio - Matériau", ["Bois","PVC","Aluminium"]);
+    html += champ("Porte patio - Vitrage", ["Simple","Double"]);
+    html += champ("Porte patio - Mécanisme", ["Coulissant","Oscillo-battant"]);
+    html += champ("Porte patio - Poignée", ["Fonctionnelle","Défectueuse"]);
+    html += champ("Porte patio - Serrure", ["Fonctionnelle","Défectueuse"]);
+    html += champ("Porte patio - Étanchéité", ["Bonne","Air","Fuite"]);
 
-    html += champ("Armoires supérieures - État", ["Bon","Endommagé"]);
-    html += champ("Armoires inférieures - État", ["Bon","Endommagé"]);
+    html += champ("Armoires supérieures - Type", ["Standard","Modulaire","Sur mesure"]);
+    html += champ("Armoires supérieures - État", ["Bonnes","Endommagées","Gondolées"]);
+    html += champ("Armoires supérieures - Matériau", ["Bois","Mélamine","PVC"]);
 
+    html += champ("Armoires inférieures - Type", ["Standard","Modulaire","Sur mesure"]);
+    html += champ("Armoires inférieures - État", ["Bonnes","Endommagées","Humidité"]);
+    html += champ("Armoires inférieures - Matériau", ["Bois","Mélamine","PVC"]);
+
+    html += champ("Comptoir - Type", ["Standard","Îlot","Linéaire"]);
+    html += champ("Comptoir - État", ["Bon","Endommagé","Fissuré"]);
     html += champ("Comptoir - Matériau", ["Stratifié","Quartz","Granite","Bois"]);
-    html += champ("Comptoir - État", ["Bon","Fissuré","Endommagé"]);
 
-    html += champ("Évier - Type", ["Simple","Double"]);
+    html += champ("Îlot - Présence", ["Présent","Absent"]);
+    html += champ("Îlot - État", ["Bon","Endommagé","Instable"]);
+
+    html += champ("Évier - Type", ["Simple","Double","Commercial"]);
+    html += champ("Évier - État", ["Bon","Fissuré","Rouille"]);
+    html += champ("Évier - Matériau", ["Inox","Composite","Céramique"]);
     html += champ("Évier - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
-    html += champ("Robinetterie - État", ["Bonne","Fuite"]);
+    html += champ("Robinetterie - Type", ["Standard","À détecteur","Combinée"]);
+    html += champ("Robinetterie - État", ["Bonne","Fuite","Défectueuse"]);
+    html += champ("Robinetterie - Matériau", ["Chrome","Noir mat","Inox"]);
 
     html += champ("Hotte - Présence", ["Présente","Absente"]);
+    html += champ("Hotte - Type", ["Standard","Micro-ondes intégrée","Commerciale"]);
+    html += champ("Hotte - État", ["Fonctionnelle","Défectueuse","Bruyante"]);
+    html += champ("Hotte - Matériau", ["Inox","Plastique","Aluminium"]);
     html += champ("Hotte - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
 
-    html += champ("Prises GFCI - Présence", ["Présentes","Absentes"]);
+    html += champ("Lave-vaisselle - Présence", ["Présent","Absent"]);
+    html += champ("Lave-vaisselle - Fonctionnalité", ["Fonctionnel","Défectueux"]);
+
+    html += champ("Entrée eau chaude - Présence", ["Oui","Non"]);
+    html += champ("Entrée eau froide - Présence", ["Oui","Non"]);
+    html += champ("Drain - Présence", ["Oui","Non"]);
+    html += champ("Prise 110V - Présence", ["Oui","Non"]);
+    html += champ("Sortie sécheuse - Présence", ["Oui","Non"]);
+    html += champ("Prise 220V - Présence", ["Oui","Non"]);
 
     html += texte("Commentaires cuisine");
 
     return html;
-
   },
 
   "Salle de bain": function() {
-
     let html = "";
-
+    html += champ("Plafond - Type", ["Gypsum","Bois","Béton"]);
     html += champ("Plafond - État", ["Bon","Taché","Moisissure"]);
-    html += champ("Mur - État", ["Bon","Humidité","Moisissure"]);
-    html += champ("Plancher - État", ["Bon","Usé","Endommagé"]);
+    html += champ("Plafond - Matériau", ["Plâtre","Bois","PVC"]);
 
-    html += champ("Lavabo - Type", ["Simple","Double"]);
+    html += champ("Mur - Type", ["Cloison sèche","Brique","Carrelage"]);
+    html += champ("Mur - État", ["Bon","Humidité","Moisissure"]);
+    html += champ("Mur - Matériau", ["Peinture","Carrelage","Bois"]);
+
+    html += champ("Plancher - Type", ["Céramique","Vinyle","Bois"]);
+    html += champ("Plancher - État", ["Bon","Usé","Endommagé"]);
+    html += champ("Plancher - Matériau", ["Céramique","Vinyle","Bois"]);
+
+    html += champ("Lavabo - Type", ["Simple","Double","Suspendu"]);
+    html += champ("Lavabo - État", ["Bon","Fissuré","Endommagé"]);
     html += champ("Lavabo - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
-    html += champ("Vanité - État", ["Bon","Humidité"]);
+    html += champ("Vanité - Type", ["Sur pied","Suspendue","Modulaire"]);
+    html += champ("Vanité - État", ["Bonne","Endommagée","Humidité"]);
+    html += champ("Vanité - Matériau", ["Bois","Mélamine","PVC"]);
 
-    html += champ("Toilette - Fonctionnalité", ["Fonctionnelle","Fuite","Instable"]);
+    html += champ("Toilette - Type", ["Standard","Suspendue","Ultra-flux"]);
+    html += champ("Toilette - État", ["Bonne","Fuite","Instable"]);
+    html += champ("Toilette - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
 
+    html += champ("Douche - Type", ["Coin","Murale","Walk-in"]);
     html += champ("Douche - État", ["Bon","Fuite","Moisissure"]);
-    html += champ("Baignoire - État", ["Bonne","Fissurée"]);
+    html += champ("Douche - Matériau", ["Fibre de verre","Céramique","Acrylique"]);
 
+    html += champ("Baignoire - Type", ["Encastrée","Autoportante"]);
+    html += champ("Baignoire - État", ["Bonne","Fissurée","Endommagée"]);
+    html += champ("Baignoire - Matériau", ["Acrylique","Fonte","Composite"]);
+
+    html += champ("Robinetterie bain - Type", ["Standard","Combinée"]);
+    html += champ("Robinetterie bain - État", ["Bonne","Fuite","Défectueuse"]);
+
+    html += champ("Ventilation - Type", ["Mécanique","Naturelle"]);
     html += champ("Ventilation - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
 
+    html += champ("Prise GFCI - Présence", ["Présente","Absente"]);
     html += champ("Prise GFCI - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
+
+    html += champ("Chauffage - Type", ["Plinthe","Radiateur"]);
+    html += champ("Chauffage - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
     html += texte("Commentaires salle de bain");
 
     return html;
-
   },
 
   "Salon": function() {
-
     let html = "";
-
+    html += champ("Plafond - Type", ["Gypsum","Bois","Béton"]);
     html += champ("Plafond - État", ["Bon","Fissuré"]);
-    html += champ("Mur - État", ["Bon","Taché"]);
-    html += champ("Plancher - État", ["Bon","Usé"]);
+    html += champ("Plafond - Matériau", ["Plâtre","Bois","PVC"]);
 
+    html += champ("Mur - Type", ["Cloison sèche","Brique","Bois"]);
+    html += champ("Mur - État", ["Bon","Taché"]);
+    html += champ("Mur - Matériau", ["Peinture","Bois","Carrelage"]);
+
+    html += champ("Plancher - Type", ["Bois","Céramique","Vinyle"]);
+    html += champ("Plancher - État", ["Bon","Usé"]);
+    html += champ("Plancher - Matériau", ["Bois","Céramique","Vinyle"]);
+
+    html += champ("Fenêtres - Type", ["Coulissante","À battant","Fixe"]);
     html += champ("Fenêtres - État", ["Bon","Air","Condensation"]);
+    html += champ("Fenêtres - Matériau", ["PVC","Aluminium","Bois"]);
+    html += champ("Fenêtres - Mécanisme", ["Coulissant","Oscillo-battant","Fixe"]);
+    html += champ("Fenêtres - Quantité", ["1","2","3+"]);
 
     html += champ("Porte patio - Présence", ["Présente","Absente"]);
+    html += champ("Porte patio - Type", ["Coulissante","Vitrée"]);
+    html += champ("Porte patio - État", ["Bonne","À réparer","Endommagée"]);
 
     html += champ("Foyer - Présence", ["Présent","Absent"]);
+    html += champ("Foyer - Type", ["Bois","Gaz","Électrique"]);
+    html += champ("Foyer - État", ["Bon","Endommagé","Non fonctionnel"]);
 
     html += champ("Sortie câble / internet - Présence", ["Présente","Absente"]);
+    html += champ("Sortie câble / internet - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
 
+    html += champ("Prises - Type", ["Standard","GFCI","USB"]);
+    html += champ("Prises - Quantité", ["1","2","3+"]);
     html += champ("Prises - Fonctionnalité", ["Fonctionnelles","Défectueuses"]);
 
     html += texte("Commentaires salon");
 
     return html;
-
   },
 
   "Chambre": function() {
-
     let html = "";
-
+    html += champ("Plafond - Type", ["Gypsum","Bois","Béton"]);
     html += champ("Plafond - État", ["Bon","Fissuré"]);
-    html += champ("Mur - État", ["Bon","Taché"]);
-    html += champ("Plancher - État", ["Bon","Usé"]);
+    html += champ("Plafond - Matériau", ["Plâtre","Bois","PVC"]);
 
+    html += champ("Mur - Type", ["Cloison sèche","Brique","Bois"]);
+    html += champ("Mur - État", ["Bon","Taché"]);
+    html += champ("Mur - Matériau", ["Peinture","Bois","Carrelage"]);
+
+    html += champ("Plancher - Type", ["Bois","Céramique","Vinyle"]);
+    html += champ("Plancher - État", ["Bon","Usé"]);
+    html += champ("Plancher - Matériau", ["Bois","Céramique","Vinyle"]);
+
+    html += champ("Fenêtre - Type", ["Coulissante","À battant","Fixe"]);
     html += champ("Fenêtre - État", ["Bonne","Air","Condensation"]);
+    html += champ("Fenêtre - Matériau", ["PVC","Aluminium","Bois"]);
+    html += champ("Fenêtre - Mécanisme", ["Coulissant","Oscillo-battant","Fixe"]);
+    html += champ("Fenêtre - Quantité", ["1","2","3+"]);
 
     html += champ("Garde-robe - Présence", ["Présent","Absent"]);
-    html += champ("Garde-robe - État", ["Bon","Endommagé"]);
+    html += champ("Garde-robe - Type", ["Standard","Walk-in","Porte coulissante"]);
+    html += champ("Garde-robe - État", ["Bon","Endommagé","Portes défectueuses"]);
 
     html += champ("Sortie TV - Présence", ["Présente","Absente"]);
+    html += champ("Sortie TV - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
 
+    html += champ("Sortie téléphone - Présence", ["Présente","Absente"]);
+    html += champ("Sortie téléphone - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
+
+    html += champ("Détecteur fumée - Présence", ["Présent","Absent"]);
     html += champ("Détecteur fumée - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
     html += texte("Commentaires chambre");
 
     return html;
-
   },
 
   "Garage": function() {
-
     let html = "";
-
-    html += champ("Plancher garage - État", ["Bon","Fissuré","Taché huile"]);
-
+    html += champ("Plancher - Type", ["Béton brut","Époxy"]);
+    html += champ("Plancher - État", ["Bon","Fissuré","Taché huile"]);
+    html += champ("Porte de garage - Type", ["Manuelle","Motorisée"]);
+    html += champ("Porte de garage - État", ["Bonne","Défectueuse","Mal alignée"]);
     html += champ("Porte de garage - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
+    html += champ("Moteur porte garage - Présence", ["Présent","Absent"]);
     html += champ("Moteur porte garage - État", ["Bon","Défectueux"]);
-
     html += champ("Panneau électrique - Présence", ["Présent","Absent"]);
-
+    html += champ("Panneau électrique - État", ["Bon","Non conforme"]);
     html += champ("Prise 240V - Présence", ["Présente","Absente"]);
-
-    html += champ("Drain garage - État", ["Bon","Obstrué"]);
-
+    html += champ("Prise 240V - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
     html += texte("Commentaires garage");
 
     return html;
-
   }
-
 };
 
 // ======================================================
