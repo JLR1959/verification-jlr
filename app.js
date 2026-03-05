@@ -1,6 +1,5 @@
 // ======================================================
-// MODULE 1 — NUMÉRO DOSSIER AUTOMATIQUE
-// DÉBUT MODULE
+// NUMÉRO DOSSIER AUTOMATIQUE
 // ======================================================
 
 function genererNumeroDossier() {
@@ -17,12 +16,14 @@ function genererNumeroDossier() {
     return;
   }
 
+  // Date active du jour (YYYYMMDD)
   const aujourdHui = new Date();
   const dateActive =
     aujourdHui.getFullYear().toString() +
     String(aujourdHui.getMonth() + 1).padStart(2, "0") +
     String(aujourdHui.getDate()).padStart(2, "0");
 
+  // Nettoyage nom
   const nomFormate = nom
     .toLowerCase()
     .normalize("NFD")
@@ -39,6 +40,7 @@ function genererNumeroDossier() {
     telephoneFormate + "-" +
     appartementFormate;
 }
+
 
 // ======================================================
 // MISE À JOUR EN TEMPS RÉEL
@@ -62,19 +64,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   });
 
+  // Génération initiale
   genererNumeroDossier();
 
 });
 
 // ======================================================
-// FIN MODULE 1
-// ======================================================
-
-
-
-// ======================================================
-// MODULE 2 — OUTILS GÉNÉRIQUES
-// DÉBUT MODULE
+// OUTILS GÉNÉRIQUES
 // ======================================================
 
 function champ(label, options) {
@@ -95,14 +91,7 @@ function texte(label) {
 }
 
 // ======================================================
-// FIN MODULE 2
-// ======================================================
-
-
-
-// ======================================================
-// MODULE 3 — AJOUT PIÈCE (MOTEUR GLOBAL)
-// DÉBUT MODULE
+// AJOUT PIÈCE — MOTEUR GLOBAL
 // ======================================================
 
 function ajouterPiece() {
@@ -128,35 +117,29 @@ function ajouterPiece() {
 
   html += champ("Plafond - Type", ["Gypsum","Bois","Suspendu","Béton"]);
   html += champ("Plafond - État", ["Bon","Fissuré","Taché","Endommagé"]);
-  html += champ("Plafond - Recouvrement", ["Plâtre","PVC","Bois","Métal"]);
+  html += champ("Plafond - Matériau", ["Plâtre","PVC","Bois","Métal"]);
 
   html += champ("Mur - Type", ["Cloison sèche","Brique","Bois","Béton"]);
   html += champ("Mur - État", ["Bon","Fissuré","Taché","Humidité"]);
-  html += champ("Mur - Recouvrement", ["Peinture","Papier peint","Carrelage","Bois"]);
+  html += champ("Mur - Matériau", ["Peinture","Papier peint","Carrelage","Bois"]);
 
   html += champ("Plancher - Type", ["Bois","Céramique","Vinyle","Béton","Tapis"]);
   html += champ("Plancher - État", ["Bon","Usé","Fissuré","Endommagé"]);
-  html += champ("Plancher - Recouvrement", ["Bois franc","Flottant","Stratifié","Béton"]);
+  html += champ("Plancher - Matériau", ["Bois franc","Flottant","Stratifié","Béton"]);
 
   html += champ("Fenêtre - Type", ["Coulissante","À battant","Fixe"]);
   html += champ("Fenêtre - État", ["Bonne","À réparer","Brisée"]);
-  html += champ("Fenêtre - Recouvrement", ["PVC","Aluminium","Bois"]);
+  html += champ("Fenêtre - Matériau", ["PVC","Aluminium","Bois"]);
 
   html += champ("Porte - Type", ["Bois","Métal","Vitrée"]);
   html += champ("Porte - État", ["Bonne","À réparer","Endommagée"]);
 
   html += champ("Éclairage - Type", ["Encastré","Plafonnier","Rail","Murale"]);
   html += champ("Éclairage - État", ["Fonctionnel","Défectueux"]);
-  html += champ("Éclairage - Interrupteur", ["Normal","Gradateur"]);
+  html += champ("Éclairage - Fonctionnalité", ["Normal","Gradateur"]);
 
-  html += champ("Prises - Type", ["Standard"]);
-  html += champ("Prises - Quantité", ["1","2","3","4","5","6","7","8","9","10+"]);
-
-  html += champ("Prises - Type", ["GFCI"]);
-  html += champ("Prises - Quantité", ["1","2","3","4","5","6","7","8","9","10+"]);
-
-  html += champ("Prises - Type", ["USB"]);
-  html += champ("Prises - Quantité", ["1","2","3","4","5","6","7","8","9","10+"]);
+  html += champ("Prises - Type", ["Standard","GFCI","USB"]);
+  html += champ("Prises - Quantité", ["1","2","3+"]);
   html += champ("Prises - Fonctionnalité", ["Fonctionnelles","Défectueuses"]);
 
   html += champ("Chauffage - Type", ["Plinthe","Radiateur","Unité murale"]);
@@ -168,8 +151,100 @@ function ajouterPiece() {
   html += champ("Thermostat - Type", ["Numérique","Mécanique"]);
   html += champ("Thermostat - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
-  html += champ("Interrupteurs - ", ["Fonctionnels","Défectueux"]);
+  html += champ("Interrupteurs - État", ["Fonctionnels","Défectueux"]);
     // ======================================================
+  // ====================== CUISINE =======================
+  // ======================================================
+
+  if (type === "Cuisine") {
+
+    html += champ("Hotte - Type", ["Standard","Micro-ondes intégrée","Commerciale"]);
+    html += champ("Hotte - État", ["Fonctionnelle","Défectueuse","Bruyante"]);
+    html += champ("Hotte - Matériau", ["Inox","Plastique","Aluminium"]);
+
+    html += champ("Armoires supérieures - Type", ["Standard","Modulaire","Sur mesure"]);
+    html += champ("Armoires supérieures - État", ["Bonnes","Endommagées","Gondolées"]);
+    html += champ("Armoires supérieures - Matériau", ["Bois","Mélamine","PVC"]);
+
+    html += champ("Armoires inférieures - Type", ["Standard","Modulaire","Sur mesure"]);
+    html += champ("Armoires inférieures - État", ["Bonnes","Endommagées","Humidité"]);
+    html += champ("Armoires inférieures - Matériau", ["Bois","Mélamine","PVC"]);
+
+    html += champ("Comptoir - Type", ["Standard","Îlot","Linéaire"]);
+    html += champ("Comptoir - État", ["Bon","Endommagé","Fissuré"]);
+    html += champ("Comptoir - Matériau", ["Stratifié","Quartz","Granite","Bois"]);
+
+    html += champ("Îlot - Présence", ["Présent","Absent"]);
+    html += champ("Îlot - État", ["Bon","Endommagé","Instable"]);
+
+    html += champ("Évier - Type", ["Simple","Double","Commercial"]);
+    html += champ("Évier - État", ["Bon","Fissuré","Rouille"]);
+    html += champ("Évier - Fonctionnalité", ["Fonctionnel","Défectueux"]);
+    html += champ("Évier - Matériau", ["Inox","Composite","Céramique"]);
+
+    html += champ("Robinetterie - Type", ["Standard","À détecteur","Combinée"]);
+    html += champ("Robinetterie - État", ["Bonne","Fuite","Défectueuse"]);
+    html += champ("Robinetterie - Matériau", ["Chrome","Noir mat","Inox"]);
+
+    html += champ("Plomberie - Type", ["Cuivre","PEX","ABS","PVC"]);
+    html += champ("Plomberie - État", ["Bon","Fuite","Bouchée","Corrosion"]);
+    html += champ("Plomberie - Fonctionnalité", ["Fonctionnelle","Non fonctionnelle"]);
+
+    html += champ("Sortie gaz - Présence", ["Présente","Absente"]);
+    html += champ("Sortie gaz - Conformité", ["Conforme","Non conforme"]);
+
+    html += champ("Détecteur fumée - Présence", ["Présent","Absent"]);
+    html += champ("Détecteur fumée - Fonctionnalité", ["Fonctionnel","Défectueux"]);
+
+    html += champ("Ventilation cuisine - Type", ["Naturelle","Mécanique"]);
+    html += champ("Ventilation cuisine - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
+
+    html += texte("Commentaires spécifiques cuisine");
+  }
+
+  // ======================================================
+  // ================= SALLE DE BAIN ======================
+  // ======================================================
+
+  if (type === "Salle de bain") {
+
+    html += champ("Lavabo - Type", ["Simple","Double","Suspendu"]);
+    html += champ("Lavabo - État", ["Bon","Fissuré","Endommagé"]);
+    html += champ("Lavabo - Fonctionnalité", ["Fonctionnel","Défectueux"]);
+    html += champ("Lavabo - Matériau", ["Porcelaine","Céramique","Composite"]);
+
+    html += champ("Vanité - Type", ["Suspendue","Sur pied","Modulaire"]);
+    html += champ("Vanité - État", ["Bonne","Endommagée","Humidité"]);
+    html += champ("Vanité - Matériau", ["Bois","Mélamine","PVC"]);
+
+    html += champ("Toilette - Type", ["Standard","Ultra-flux","Suspendue"]);
+    html += champ("Toilette - État", ["Bonne","Fuite","Instable"]);
+    html += champ("Toilette - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
+
+    html += champ("Douche - Type", ["Coin","Murale","Walk-in"]);
+    html += champ("Douche - État", ["Bon","Fuite","Moisissure"]);
+    html += champ("Douche - Matériau", ["Fibre de verre","Céramique","Acrylique"]);
+
+    html += champ("Baignoire - Type", ["Encastrée","Autoportante"]);
+    html += champ("Baignoire - État", ["Bonne","Fissurée","Endommagée"]);
+    html += champ("Baignoire - Matériau", ["Acrylique","Fonte","Composite"]);
+
+    html += champ("Robinetterie bain - État", ["Bonne","Fuite","Défectueuse"]);
+    html += champ("Robinetterie douche - État", ["Bonne","Fuite","Défectueuse"]);
+
+    html += champ("Ventilation - Type", ["Mécanique","Naturelle"]);
+    html += champ("Ventilation - État", ["Fonctionnelle","Bruyante","Défectueuse"]);
+
+    html += champ("Prise GFCI - Présence", ["Présente","Absente"]);
+    html += champ("Prise GFCI - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
+
+    html += champ("Chauffage salle bain - Type", ["Plinthe","Radiateur"]);
+    html += champ("Chauffage salle bain - Fonctionnalité", ["Fonctionnel","Défectueux"]);
+
+    html += texte("Commentaires spécifiques salle de bain");
+  }
+
+  // ======================================================
   // ==================== SALLE D’EAU =====================
   // ======================================================
 
@@ -187,11 +262,10 @@ function ajouterPiece() {
     html += champ("Ventilation - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
 
     html += champ("Prise GFCI - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-   
+
     html += texte("Commentaires spécifiques salle d'eau");
   }
-
-  // ======================================================
+    // ======================================================
   // ======================== SALON =======================
   // ======================================================
 
@@ -280,11 +354,11 @@ function ajouterPiece() {
 
     html += champ("Garde-corps - Présence", ["Présent","Absent"]);
     html += champ("Garde-corps - État", ["Bon","Instable","Endommagé"]);
-    html += champ("Garde-corps - Matériaux", ["Bois","Métal","Verre"]);
+    html += champ("Garde-corps - Matériau", ["Bois","Métal","Verre"]);
 
     html += champ("Escalier - Présence", ["Présent","Absent"]);
     html += champ("Escalier - État", ["Bon","Craque","Instable"]);
-    html += champ("Escalier - Matériaux", ["Bois","Béton","Métal"]);
+    html += champ("Escalier - Matériau", ["Bois","Béton","Métal"]);
 
     html += champ("Main courante - Présence", ["Présente","Absente"]);
     html += champ("Main courante - État", ["Bonne","Instable"]);
@@ -325,7 +399,7 @@ function ajouterPiece() {
 
     html += texte("Commentaires spécifiques salle de lavage");
   }
-    // ======================================================
+  // ======================================================
   // ======================== SOUS-SOL ====================
   // ======================================================
 
@@ -426,7 +500,8 @@ function ajouterPiece() {
 
     html += texte("Commentaires spécifiques véranda");
   }
-    // ======================================================
+
+  // ======================================================
   // ======================= VERRIÈRE =====================
   // ======================================================
 
@@ -447,7 +522,6 @@ function ajouterPiece() {
 
     html += texte("Commentaires spécifiques verrière");
   }
-
   // ======================================================
   // ================= CHAMBRE DE RANGEMENT ===============
   // ======================================================
@@ -471,79 +545,62 @@ function ajouterPiece() {
   }
 
   // ======================================================
-// ============ ÉQUIPEMENTS TECHNIQUES OPTIONNELS =======
-// ======================================================
+  // ============== ÉLÉMENTS TECHNIQUES GÉNÉRAUX =========
+  // ======================================================
 
-html += `
-<div style="
-border:2px solid #4CAF50;
-background:#f5fff5;
-padding:12px;
-margin-top:15px;
-border-radius:8px;
-">
+  html += champ("Système d'alarme - Présence", ["Présent","Absent"]);
+  html += champ("Système d'alarme - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
-<div style="
-font-weight:bold;
-font-size:16px;
-margin-bottom:6px;
-color:#2e7d32;
-">
-Ajouter équipement technique
-</div>
+  html += champ("Détecteur CO2 - Présence", ["Présent","Absent"]);
+  html += champ("Détecteur CO2 - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
-<select onchange="ajouterEquipementTechnique(this)" style="
-width:100%;
-padding:6px;
-font-size:15px;
-">
+  html += champ("Caméra surveillance - Présence", ["Présente","Absente"]);
+  html += champ("Caméra surveillance - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
 
-<option value="">Sélectionnez un équipement</option>
+  html += champ("Interphone - Présence", ["Présent","Absent"]);
+  html += champ("Interphone - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
-<option>Réservoir eau chaude</option>
+  html += champ("Accès handicapé - Présence", ["Présent","Absent"]);
+  html += champ("Accès handicapé - Conformité", ["Conforme","Non conforme"]);
 
-<option>Système d'alarme</option>
-<option>Détecteur CO2</option>
-<option>Caméra surveillance</option>
-<option>Interphone</option>
-<option>Accès handicapé</option>
+  html += champ("Conformité générale électrique", ["Conforme","Non conforme"]);
+  html += champ("Conformité générale plomberie", ["Conforme","Non conforme"]);
+  html += champ("Conformité générale structure", ["Conforme","Non conforme"]);
 
-<option>Thermopompe</option>
-<option>Échangeur d'air</option>
-<option>Panneau secondaire</option>
-<option>Compteur électrique</option>
-<option>Valve principale eau</option>
-<option>Compteur eau</option>
+  html += texte("Commentaires techniques globaux");
 
-<option>Sortie extérieure</option>
-<option>Balcon</option>
-<option>Garde-corps balcon</option>
+  // ======================================================
+  // ================= ÉQUIPEMENTS AVANCÉS ================
+  // ======================================================
 
-<option>Détecteur de mouvement</option>
+  html += champ("Thermopompe - Présence", ["Présente","Absente"]);
+  html += champ("Thermopompe - Type", ["Murale","Centrale"]);
+  html += champ("Thermopompe - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
 
-<option>Tablette</option>
+  html += champ("Échangeur d'air - Présence", ["Présent","Absent"]);
+  html += champ("Échangeur d'air - Fonctionnalité", ["Fonctionnel","Défectueux"]);
 
-<option>Laveuse</option>
-<option>Sécheuse</option>
+  html += champ("Panneau secondaire - Présence", ["Présent","Absent"]);
+  html += champ("Panneau secondaire - État", ["Bon","Non conforme"]);
 
-<option>Broyeur aliment évier de cuisine</option>
+  html += champ("Compteur électrique - Présence", ["Présent","Absent"]);
+  html += champ("Compteur électrique - État", ["Bon","Endommagé"]);
 
-<option>Barre de soutien mur salle de bain</option>
-<option>Barre de soutien amovible sur le bain</option>
+  html += champ("Valve principale eau - Présence", ["Présente","Absente"]);
+  html += champ("Valve principale eau - État", ["Bonne","Fuite"]);
 
-<option>Porte savon</option>
-<option>Porte serviette</option>
+  html += champ("Compteur eau - Présence", ["Présent","Absent"]);
+  html += champ("Compteur eau - État", ["Bon","Défectueux"]);
 
-<option>Rampe d'escalier</option>
-<option>Escalier</option>
+  html += champ("Sortie extérieure - Présence", ["Présente","Absente"]);
+  html += champ("Sortie extérieure - État", ["Bonne","Endommagée"]);
 
-</select>
+  html += champ("Balcon - Présence", ["Présent","Absent"]);
+  html += champ("Balcon - État", ["Bon","Instable","Endommagé"]);
 
-<div class="equipements-ajoutes"></div>
+  html += champ("Garde-corps balcon - État", ["Bon","Instable","Non conforme"]);
 
-</div>
-`;
-    // ======================================================
+  // ======================================================
   // ===================== PHOTOS =========================
   // ======================================================
 
@@ -579,7 +636,7 @@ font-size:15px;
   </label>`;
 
   // ======================================================
-  // ================= COMMENTAIRES FINAUX ================
+  // ================= COMMENTAIRES FINAUX =================
   // ======================================================
 
   html += texte("Résumé technique final de la pièce");
@@ -587,83 +644,9 @@ font-size:15px;
   div.innerHTML = html;
   document.getElementById("liste-pieces").appendChild(div);
   document.getElementById("type-piece").value = "";
+
 }
-// ======================================================
-// ======== AJOUT D'ÉQUIPEMENT TECHNIQUE DYNAMIQUE ======
-// ======================================================
 
-// ======================================================
-// ======== AJOUT D'ÉQUIPEMENT TECHNIQUE DYNAMIQUE ======
-// ======================================================
-
-function ajouterEquipementTechnique(select) {
-
-  const nom = select.value;
-  if (!nom) return;
-
-  const zone = select.parentElement.nextElementSibling;
-
-  const bloc = document.createElement("div");
-  bloc.style.border = "1px solid #ccc";
-  bloc.style.padding = "8px";
-  bloc.style.marginTop = "8px";
-
-  let html = `<strong>${nom}</strong>`;
-
-  html += champ(nom + " - Présence", ["Présent","Absent"]);
-  html += champ(nom + " - État", ["Bon","Corrosion","Fuite","Défectueux"]);
-
-  // ================= CAS SPÉCIAL : RÉSERVOIR EAU CHAUDE =================
-
-  if (nom === "Réservoir eau chaude") {
-
-    html += champ("Réservoir eau chaude - Type", ["Électrique","Gaz","Instantané"]);
-
-    html += champ("Réservoir eau chaude - Capacité", [
-      "20 gallons",
-      "40 gallons",
-      "60 gallons",
-      "80 gallons",
-      "100 gallons",
-      "120 gallons et +"
-    ]);
-
-    html += `
-    <label>Réservoir eau chaude - Année fabrication
-      <input type="number" min="1980" max="2100">
-    </label>`;
-
-    html += `
-    <label>Réservoir eau chaude - Date installation
-      <input type="date">
-    </label>`;
-
-    html += champ("Réservoir eau chaude - Fonctionnalité", [
-      "Fonctionnel",
-      "Défectueux"
-    ]);
-
-  }
-
-  // ================= AUTRES ÉQUIPEMENTS =================
-
-  else {
-
-    html += champ(nom + " - Type", ["Standard","Spécialisé"]);
-    html += champ(nom + " - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-  }
-
-  html += texte(nom + " - Commentaires");
-
-  html += `<button type="button" onclick="this.parentElement.remove()">Retirer</button>`;
-
-  bloc.innerHTML = html;
-
-  zone.appendChild(bloc);
-
-  select.value = "";
-}
 // ======================================================
 // ================== PRÉVISUALISATION IMAGE ============
 // ======================================================
@@ -688,21 +671,6 @@ function previewImage(event, input) {
 // ======================================================
 
 function genererRapportImpression() {
-
-  const dossier = document.getElementById("numeroDossier")?.value || "";
-  const locataire = document.getElementById("locataire")?.value || "";
-  const telephone = document.getElementById("telephone")?.value || "";
-  const appartement = document.getElementById("numeroAppartement")?.value || "";
-  const adresse = document.getElementById("adresse")?.value || "";
-  const ville = document.getElementById("ville")?.value || "";
-  const dateVerification = document.getElementById("verification-date")?.value || "";
-  const verificateur = document.getElementById("verificateur")?.value || "Jean-Louis Raymond";
-
-  const heures = tempsTotalSecondes / 3600;
-  const sousTotal = heures * tauxHoraire;
-  const tps = sousTotal * 0.05;
-  const tvq = sousTotal * 0.09975;
-  const total = sousTotal + tps + tvq;
 
   const valeursConformes = [
     "Bon","Bonne","Bons","Bonnes",
@@ -736,7 +704,12 @@ function genererRapportImpression() {
       if (!valeur || valeur === "Sélectionnez") return;
 
       const nomChamp = label.childNodes[0].textContent.trim();
-      const ligne = `<div><strong>${titre}</strong> — ${nomChamp} : ${valeur}</div>`;
+
+      const ligne =
+        `<div style="margin-bottom:8px;">
+           <strong>${titre}</strong><br>
+           ${nomChamp} : ${valeur}
+         </div>`;
 
       if (valeursConformes.includes(valeur)) {
         conformes += ligne;
@@ -752,70 +725,19 @@ function genererRapportImpression() {
   if (!zone) return;
 
   zone.innerHTML = `
-  <div style="position:relative;">
-
-    <div style="
-      position:absolute;
-      top:40%;
-      left:50%;
-      transform:translate(-50%,-50%) rotate(-30deg);
-      font-size:80px;
-      color:rgba(0,0,0,0.05);
-      font-weight:bold;
-      pointer-events:none;
-      z-index:0;">
-      JLR
+    <div style="page-break-after:always;">
+      <h1>ÉLÉMENTS DÉFECTUEUX</h1>
+      ${defectueux || "<p>Aucun problème détecté.</p>"}
     </div>
-
-    <div style="position:relative; z-index:1;">
-
-      <div style="text-align:center; margin-bottom:20px;">
-        <img src="logo_jlr.png" style="max-height:80px;"><br>
-        <strong>Vérification Préventive Immobilière</strong><br>
-        Jean-Louis Raymond<br>
-        Consultant en vérification préventive<br><br>
-        jlouisraymond@hotmail.com | 438-220-6511<br>
-        NEQ : 2268876952<br>
-        TPS : 771362471 RT 0001<br>
-        TVQ : 1227894560 TQ 0001
-      </div>
-
-      <hr>
-
-      <h2>Informations du client</h2>
-      <div>Numéro de dossier : ${dossier}</div>
-      <div>Nom du locataire : ${locataire}</div>
-      <div>Téléphone : ${telephone}</div>
-      <div>Adresse : ${adresse}, ${appartement}, ${ville}</div>
-      <div>Date de vérification : ${dateVerification}</div>
-      <div>Nom du vérificateur : ${verificateur}</div>
-
-      <hr>
-
-      <h2>Éléments défectueux</h2>
-      ${defectueux || "<div>Aucun problème détecté.</div>"}
-
-      <hr>
-
-      <h2>Éléments conformes</h2>
-      ${conformes || "<div>Aucun élément conforme détecté.</div>"}
-
-      <hr>
-
-      <h2>Facturation</h2>
-      <div>Temps travaillé : ${heures.toFixed(2)} heures</div>
-      <div>Taux horaire : ${tauxHoraire} $ / heure</div><br>
-      <div>Sous-total : ${sousTotal.toFixed(2)} $</div>
-      <div>TPS (5%) : ${tps.toFixed(2)} $</div>
-      <div>TVQ (9.975%) : ${tvq.toFixed(2)} $</div>
-      <strong>Total à payer : ${total.toFixed(2)} $</strong>
-
+    <div>
+      <h1>ÉLÉMENTS CONFORMES</h1>
+      ${conformes || "<p>Aucun élément conforme détecté.</p>"}
     </div>
-  </div>
   `;
 }
 
 window.addEventListener("beforeprint", genererRapportImpression);
+
 // ======================================================
 // ================= TERMINER PIÈCE =====================
 // ======================================================
@@ -851,10 +773,6 @@ function terminerPiece(id) {
 
   piece.appendChild(blocResume);
 
-  piece.querySelectorAll("label").forEach(el => {
-    el.style.display = "none";
-  });
-
   const header = piece.querySelector(".piece-header");
   if (header) {
     header.innerHTML = `
@@ -863,6 +781,7 @@ function terminerPiece(id) {
     `;
   }
 
+  piece.style.opacity = "0.85";
   piece.style.border = "2px solid #4CAF50";
 }
 
@@ -879,10 +798,6 @@ function rouvrirPiece(id) {
     el.disabled = false;
   });
 
-  piece.querySelectorAll("label").forEach(el => {
-    el.style.display = "";
-  });
-
   const resume = piece.querySelector(".resume-piece");
   if (resume) resume.remove();
 
@@ -896,8 +811,10 @@ function rouvrirPiece(id) {
     `;
   }
 
+  piece.style.opacity = "1";
   piece.style.border = "1px solid #ccc";
 }
+
 // ======================================================
 // ================= SIGNATURES ==========================
 // ======================================================
@@ -911,54 +828,48 @@ function activerSignature(canvasId) {
   let dessin = false;
 
   canvas.dataset.locked = "false";
-  canvas.style.touchAction = "none";
 
-  function getPosition(e) {
-    const rect = canvas.getBoundingClientRect();
-    return {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    };
-  }
-
-  canvas.addEventListener("pointerdown", function(e) {
+  canvas.addEventListener("mousedown", function(e) {
 
     if (canvas.dataset.locked === "true") return;
 
     dessin = true;
-    canvas.setPointerCapture(e.pointerId);
 
-    const pos = getPosition(e);
-
+    const rect = canvas.getBoundingClientRect();
     ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
+    ctx.moveTo(
+      e.clientX - rect.left,
+      e.clientY - rect.top
+    );
   });
 
-  canvas.addEventListener("pointermove", function(e) {
+  canvas.addEventListener("mouseup", function() {
+    dessin = false;
+    ctx.beginPath();
+  });
+
+  canvas.addEventListener("mousemove", function(e) {
 
     if (!dessin || canvas.dataset.locked === "true") return;
 
-    const pos = getPosition(e);
+    const rect = canvas.getBoundingClientRect();
 
     ctx.lineWidth = 2;
     ctx.lineCap = "round";
     ctx.strokeStyle = "#000";
 
-    ctx.lineTo(pos.x, pos.y);
+    ctx.lineTo(
+      e.clientX - rect.left,
+      e.clientY - rect.top
+    );
+
     ctx.stroke();
-  });
-
-  canvas.addEventListener("pointerup", function(e) {
-
-    dessin = false;
-    canvas.releasePointerCapture(e.pointerId);
     ctx.beginPath();
-  });
+    ctx.moveTo(
+      e.clientX - rect.left,
+      e.clientY - rect.top
+    );
 
-  canvas.addEventListener("pointercancel", function() {
-
-    dessin = false;
-    ctx.beginPath();
   });
 
 }
@@ -1004,6 +915,7 @@ document.addEventListener("DOMContentLoaded", function() {
   activerSignature("signature-client");
   activerSignature("signature-verificateur");
 });
+
 // ======================================================
 // ===================== MINUTEUR ========================
 // ======================================================
@@ -1081,133 +993,9 @@ function basculerVisibiliteMinuteur() {
     montant.style.display = "none";
   }
 }
-// ======================================================
-// ================= BASE CLIENT INDEXEDDB ==============
-// ======================================================
-
-let dbClients = null;
-
-function initialiserBaseClients() {
-
-  const request = indexedDB.open("VPIJLR_DB", 1);
-
-  request.onupgradeneeded = function(event) {
-
-    const db = event.target.result;
-
-    if (!db.objectStoreNames.contains("clients")) {
-
-      const store = db.createObjectStore("clients", {
-        keyPath: "id",
-        autoIncrement: true
-      });
-
-      store.createIndex("nom", "nom", { unique: false });
-      store.createIndex("telephone", "telephone", { unique: false });
-      store.createIndex("email", "email", { unique: false });
-      store.createIndex("numeroClient", "numeroClient", { unique: true });
-
-    }
-  };
-
-  request.onsuccess = function(event) {
-    dbClients = event.target.result;
-  };
-
-  request.onerror = function() {
-    alert("Erreur ouverture base clients.");
-  };
-}
 
 // ======================================================
-// ================= FONCTIONS CLIENT ===================
-// ======================================================
-
-function ajouterClient() {
-
-  if (!dbClients) return;
-
-  const client = {
-    numeroClient: "CL-" + Date.now(),
-    nom: document.getElementById("locataire")?.value || "",
-    telephone: document.getElementById("telephone")?.value || "",
-    email: document.getElementById("emailProprietaire")?.value || "",
-    adresse: document.getElementById("adresse")?.value || "",
-    appartement: document.getElementById("numeroAppartement")?.value || "",
-    ville: document.getElementById("ville")?.value || "",
-    dateCreation: new Date().toISOString()
-  };
-
-  const transaction = dbClients.transaction(["clients"], "readwrite");
-  const store = transaction.objectStore("clients");
-  store.add(client);
-
-  transaction.oncomplete = function() {
-    alert("Client enregistré.");
-  };
-}
-
-function rechercherClientParNom(nomRecherche) {
-
-  if (!dbClients) return;
-
-  const transaction = dbClients.transaction(["clients"], "readonly");
-  const store = transaction.objectStore("clients");
-  const index = store.index("nom");
-
-  const request = index.getAll();
-
-  request.onsuccess = function() {
-
-    const resultats = request.result.filter(c =>
-      c.nom.toLowerCase().includes(nomRecherche.toLowerCase())
-    );
-
-    afficherResultatsClients(resultats);
-  };
-}
-
-function afficherResultatsClients(liste) {
-
-  const zone = document.getElementById("resultats-clients");
-  if (!zone) return;
-
-  zone.innerHTML = "";
-
-  liste.forEach(client => {
-
-    const div = document.createElement("div");
-    div.style.border = "1px solid #ccc";
-    div.style.padding = "8px";
-    div.style.marginBottom = "5px";
-    div.style.cursor = "pointer";
-
-    div.innerHTML =
-      "<strong>" + client.nom + "</strong><br>" +
-      "Téléphone : " + client.telephone + "<br>" +
-      "Ville : " + client.ville;
-
-    div.onclick = function() {
-      chargerClientDansFormulaire(client);
-    };
-
-    zone.appendChild(div);
-  });
-}
-
-function chargerClientDansFormulaire(client) {
-
-  document.getElementById("locataire").value = client.nom || "";
-  document.getElementById("telephone").value = client.telephone || "";
-  document.getElementById("emailProprietaire").value = client.email || "";
-  document.getElementById("adresse").value = client.adresse || "";
-  document.getElementById("numeroAppartement").value = client.appartement || "";
-  document.getElementById("ville").value = client.ville || "";
-
-  genererNumeroDossier();
-}
-// ======================================================
-// ================= ENVOI COURRIEL TEXTE ===============
+// ================= ENVOI COURRIEL TEXTE =================
 // ======================================================
 
 function genererMailto() {
@@ -1288,85 +1076,4 @@ function genererMailto() {
 
 document.addEventListener("DOMContentLoaded", function() {
   mettreAJourAffichage();
-  initialiserBaseClients();
 });
-// ======================================================
-// ================= RÉINITIALISATION TOTALE ============
-// ======================================================
-
-function reinitialiserVerification() {
-
-  if (!confirm("Commencer une nouvelle vérification ?")) {
-    return;
-  }
-
-  document.querySelectorAll("#formulaire-client input").forEach(el => {
-    if (!el.readOnly) el.value = "";
-  });
-
-  const selectVerif = document.getElementById("verificateur");
-  if (selectVerif) selectVerif.selectedIndex = 0;
-
-  const dossier = document.getElementById("numeroDossier");
-  if (dossier) dossier.value = "";
-
-  const liste = document.getElementById("liste-pieces");
-  if (liste) liste.innerHTML = "";
-
-  const canvas1 = document.getElementById("signature-client");
-  const canvas2 = document.getElementById("signature-verificateur");
-
-  if (canvas1) canvas1.getContext("2d").clearRect(0, 0, canvas1.width, canvas1.height);
-  if (canvas2) canvas2.getContext("2d").clearRect(0, 0, canvas2.width, canvas2.height);
-
-  pauseMinuteur();
-  tempsTotalSecondes = 0;
-  mettreAJourAffichage();
-
-  const zone = document.getElementById("zone-impression");
-  if (zone) zone.innerHTML = "";
-
-  genererNumeroDossier();
-}
-
-// ======================================================
-// ========= SAUVEGARDE PDF SUPPORT AMOVIBLE ============
-// ======================================================
-
-function sauvegarderSurSupport() {
-
-  genererRapportImpression();
-
-  const zone = document.getElementById("zone-impression");
-  if (!zone || zone.innerHTML.trim() === "") {
-    alert("Le rapport est vide.");
-    return;
-  }
-
-  const dossier = document.getElementById("numeroDossier")?.value || "rapport";
-
-  const options = {
-    margin: 10,
-    filename: dossier + ".pdf",
-    image: { type: "jpeg", quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
-  };
-
-  html2pdf()
-    .set(options)
-    .from(zone)
-    .outputPdf("blob")
-    .then(function (pdfBlob) {
-
-      const lien = document.createElement("a");
-      lien.href = URL.createObjectURL(pdfBlob);
-      lien.download = dossier + ".pdf";
-
-      document.body.appendChild(lien);
-      lien.click();
-      document.body.removeChild(lien);
-
-    });
-
-}

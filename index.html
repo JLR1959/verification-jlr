@@ -78,10 +78,6 @@ h2 { border-bottom: 1px solid #ddd; padding-bottom: 5px; }
 <input type="tel" id="telephone">
 </label>
 
-<label>Courriel propriétaire
-<input type="email" id="emailProprietaire">
-</label>
-
 <label>Numéro d’appartement
 <input type="text" id="numeroAppartement">
 </label>
@@ -94,34 +90,9 @@ h2 { border-bottom: 1px solid #ddd; padding-bottom: 5px; }
 <input type="text" id="ville">
 </label>
 
-<hr>
-
-<button type="button" onclick="ajouterClient()">
-Enregistrer le client
-</button>
-
-<br><br>
-
-<input type="text"
-placeholder="Rechercher un client"
-oninput="rechercherClientParNom(this.value)"
-style="width:100%; padding:6px;">
-
-<div id="resultats-clients"
-style="margin-top:10px;"></div>
-
-<hr>
-
 <label>Date de vérification
 <input type="date" id="verification-date">
 </label>
-
-<label>Nom du vérificateur</label>
-<select id="verificateur">
-<option>Sélectionner</option>
-<option>Jean-Louis Raymond</option>
-<option>Manon Leclerc</option>
-</select>
 
 </section>
 
@@ -243,14 +214,6 @@ Total : <span id="montant-affiche">0.00 $</span>
 
 <button type="button" onclick="window.print()" class="no-print">
 Imprimer le rapport
-</button>
-
-<button type="button" onclick="reinitialiserVerification()" class="no-print">
-Nouvelle vérification
-</button>
-
-<button type="button" onclick="sauvegarderSurSupport()" class="no-print">
-Sauvegarder sur clé USB
 </button>
 
 </footer>
