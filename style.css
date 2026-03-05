@@ -1,11 +1,10 @@
-/* =========================== */
-/* STYLE GLOBAL ET CORPS       */
-/* =========================== */
+/* ==============================
+   STYLE GLOBAL
+   ============================== */
 body {
   font-family: Arial, sans-serif;
   padding: 10px;
   background: #f7f7f7;
-  color: #333;
 }
 
 header, section, footer {
@@ -20,55 +19,36 @@ h1, h2, h3, h4 {
   margin: 5px 0;
 }
 
-/* =========================== */
-/* FORMULAIRES ET CHAMPS       */
-/* =========================== */
 label {
   display: block;
   margin: 5px 0;
-  font-weight: bold;
 }
 
 input, select, textarea {
-  margin: 4px 0 12px 0;
-  padding: 6px;
-  width: 100%;
-  box-sizing: border-box;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  font-size: 0.95em;
+  margin: 4px 0 12px 10px;
+  padding: 4px;
+  width: 250px;
 }
 
-textarea {
-  resize: vertical;
-}
-
-/* =========================== */
-/* BOUTONS                     */
-/* =========================== */
 button {
-  margin: 4px 4px 4px 0;
+  margin: 5px 5px 5px 0;
   padding: 6px 12px;
   border-radius: 4px;
-  border: 1px solid #555;
+  cursor: pointer;
+  border: none;
   background-color: #4CAF50;
   color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s;
 }
 
 button:hover {
   background-color: #45a049;
 }
 
-.no-print {
-  display: inline-block;
+canvas {
+  border: 1px solid #000;
+  margin-top: 5px;
 }
 
-/* =========================== */
-/* LISTE DES PIÈCES            */
-/* =========================== */
 .piece-container {
   border: 1px solid #ccc;
   margin: 10px 0;
@@ -80,71 +60,72 @@ button:hover {
 .piece-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 10px;
   margin-bottom: 10px;
 }
 
 .piece-header .piece-titre {
   font-weight: bold;
-  font-size: 1.1em;
-  white-space: nowrap;
-}
-
-.piece-header .piece-actions {
-  display: flex;
-  gap: 5px;
-  flex-shrink: 0;
 }
 
 .piece-header .piece-actions button {
-  background-color: #2196F3; /* bleu */
-  border: 1px solid #0b7dda;
+  background-color: #2196F3;
+  color: #fff;
+  margin-right: 5px;
 }
 
 .piece-header .piece-actions button:hover {
-  background-color: #0b7dda;
+  background-color: #1976D2;
+}
+
+.liste-equipements .bloc-equipement {
+  margin: 5px 0;
+  padding: 5px;
+  background: #f0f0f0;
+  border-radius: 4px;
 }
 
 .resume-piece {
   margin-top: 10px;
-  padding: 10px;
-  background: #f0f0f0;
-  border-radius: 6px;
 }
 
-/* =========================== */
-/* PRÉVISUALISATION IMAGE      */
-/* =========================== */
-img {
+.photo-preview {
   max-width: 200px;
-  display: block;
+  display: none;
   margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
 }
 
-/* =========================== */
-/* MINUTEUR                    */
-/* =========================== */
-#minuteur-container {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+textarea {
+  width: 100%;
 }
 
-#affichage-minuteur, #affichage-montant {
-  font-weight: bold;
-  font-size: 1.1em;
-}
-
-#affichage-minuteur, #affichage-montant {
+/* ==============================
+   MINUTEUR
+   ============================== */
+#affichage-minuteur,
+#affichage-montant {
+  font-size: 1.2em;
+  margin: 5px 0;
   display: none; /* caché par défaut */
 }
 
-/* =========================== */
-/* IMPRESSION                  */
-/* =========================== */
+#section-minuteur button {
+  background-color: #2196F3;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+#section-minuteur button:hover {
+  background-color: #1976D2;
+}
+
+/* ==============================
+   PRINT
+   ============================== */
 @media print {
   .no-print { display: none !important; }
 
