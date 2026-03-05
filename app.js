@@ -1,4 +1,5 @@
 // ======================================================
+// MODULE 1
 // NUMÉRO DOSSIER AUTOMATIQUE
 // ======================================================
 
@@ -16,14 +17,13 @@ function genererNumeroDossier() {
     return;
   }
 
-  // Date active du jour (YYYYMMDD)
   const aujourdHui = new Date();
+
   const dateActive =
     aujourdHui.getFullYear().toString() +
     String(aujourdHui.getMonth() + 1).padStart(2, "0") +
     String(aujourdHui.getDate()).padStart(2, "0");
 
-  // Nettoyage nom
   const nomFormate = nom
     .toLowerCase()
     .normalize("NFD")
@@ -39,12 +39,8 @@ function genererNumeroDossier() {
     nomFormate + "-" +
     telephoneFormate + "-" +
     appartementFormate;
+
 }
-
-
-// ======================================================
-// MISE À JOUR EN TEMPS RÉEL
-// ======================================================
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -64,38 +60,339 @@ document.addEventListener("DOMContentLoaded", function () {
 
   });
 
-  // Génération initiale
   genererNumeroDossier();
 
 });
 
 // ======================================================
+// MODULE 2
 // OUTILS GÉNÉRIQUES
 // ======================================================
 
 function champ(label, options) {
+
   let html = `<label>${label}
   <select>
   <option value="">Sélectionnez</option>`;
+
   options.forEach(option => {
     html += `<option>${option}</option>`;
   });
+
   html += `</select></label>`;
+
   return html;
+
 }
 
 function texte(label) {
+
   return `<label>${label}
   <textarea rows="3" style="width:100%;"></textarea>
   </label>`;
+
 }
 
 // ======================================================
-// AJOUT PIÈCE — MOTEUR GLOBAL
+// MODULE 3
+// ÉQUIPEMENTS TECHNIQUES
 // ======================================================
 
-function ajouterPiece() {
+const equipementsTechniques = {
 
+  "Système d'alarme": () =>
+    champ("Système d'alarme - Présence", ["Présent","Absent"]) +
+    champ("Système d'alarme - Fonctionnalité", ["Fonctionnel","Défectueux"]),
+
+  "Détecteur CO2": () =>
+    champ("Détecteur CO2 - Présence", ["Présent","Absent"]) +
+    champ("Détecteur CO2 - Fonctionnalité", ["Fonctionnel","Défectueux"]),
+
+  "Caméra surveillance": () =>
+    champ("Caméra surveillance - Présence", ["Présente","Absente"]) +
+    champ("Caméra surveillance - Fonctionnalité", ["Fonctionnelle","Défectueuse"]),
+
+  "Interphone": () =>
+    champ("Interphone - Présence", ["Présent","Absent"]) +
+    champ("Interphone - Fonctionnalité", ["Fonctionnel","Défectueux"]),
+
+  "Accès handicapé": () =>
+    champ("Accès handicapé - Présence", ["Présent","Absent"]) +
+    champ("Accès handicapé - Conformité", ["Conforme","Non conforme"]),
+
+  "Thermopompe": () =>
+    champ("Thermopompe - Présence", ["Présente","Absente"]) +
+    champ("Thermopompe - Type", ["Murale","Centrale"]) +
+    champ("Thermopompe - Fonctionnalité", ["Fonctionnelle","Défectueuse"]),
+
+  "Échangeur d'air": () =>
+    champ("Échangeur d'air - Présence", ["Présent","Absent"]) +
+    champ("Échangeur d'air - Fonctionnalité", ["Fonctionnel","Défectueux"]),
+
+  "Panneau secondaire": () =>
+    champ("Panneau secondaire - Présence", ["Présent","Absent"]) +
+    champ("Panneau secondaire - État", ["Bon","Non conforme"]),
+
+  "Compteur électrique": () =>
+    champ("Compteur électrique - Présence", ["Présent","Absent"]) +
+    champ("Compteur électrique - État", ["Bon","Endommagé"]),
+
+  "Valve principale eau": () =>
+    champ("Valve principale eau - Présence", ["Présente","Absente"]) +
+    champ("Valve principale eau - État", ["Bonne","Fuite"]),
+
+  "Compteur eau": () =>
+    champ("Compteur eau - Présence", ["Présent","Absent"]) +
+    champ("Compteur eau - État", ["Bon","Défectueux"]),
+
+  "Sortie extérieure": () =>
+    champ("Sortie extérieure - Présence", ["Présente","Absente"]) +
+    champ("Sortie extérieure - État", ["Bonne","Endommagée"]),
+
+  "Balcon": () =>
+    champ("Balcon - Présence", ["Présent","Absent"]) +
+    champ("Balcon - État", ["Bon","Instable","Endommagé"]) +
+    champ("Garde-corps balcon - État", ["Bon","Instable","Non conforme"])
+
+};
+
+// ======================================================
+// MODULE 4
+// AJOUT ÉQUIPEMENT
+// ======================================================
+
+function ajouterEquipement(pieceId) {
+
+  const piece = document.getElementById(pieceId);
+  if (!piece) return;
+
+  const select = document.getElementById("equipement-" + pieceId);
+  const type = select.value;
+
+  if (!type) return;
+
+  const zone = piece.querySelector(".liste-equipements");
+
+  const bloc = document.createElement("div");
+  bloc.className = "bloc-equipement";
+
+  bloc.innerHTML =
+  `<strong>${type}</strong>
+   <button type="button" onclick="this.parentElement.remove()">Supprimer</button>
+   ${equipementsTechniques[type]()}
+  `;
+
+  zone.appendChild(bloc);
+
+  select.value = "";
+
+}
+
+// ======================================================
+// MODULE 5.1
+// MODÈLES DE PIÈCES
+// ======================================================
+
+const modelesPieces = {
+
+  "Cuisine": function() {
+
+    let html = "";
+
+    html += champ("Plafond - Type", ["Gypsum","Bois","Suspendu","Béton"]);
+    html += champ("Plafond - État", ["Bon","Fissuré","Taché","Endommagé"]);
+
+    html += champ("Mur - Type", ["Cloison sèche","Brique","Bois","Béton"]);
+    html += champ("Mur - État", ["Bon","Fissuré","Humidité"]);
+
+    html += champ("Plancher - Type", ["Céramique","Vinyle","Bois"]);
+    html += champ("Plancher - État", ["Bon","Usé","Endommagé"]);
+
+    html += champ("Fenêtre - Présence", ["Présente","Absente"]);
+    html += champ("Fenêtre - Étanchéité", ["Bonne","Air","Infiltration"]);
+
+    html += champ("Porte patio - Présence", ["Présente","Absente"]);
+
+    html += champ("Armoires supérieures - État", ["Bon","Endommagé"]);
+    html += champ("Armoires inférieures - État", ["Bon","Endommagé"]);
+
+    html += champ("Comptoir - Matériau", ["Stratifié","Quartz","Granite","Bois"]);
+    html += champ("Comptoir - État", ["Bon","Fissuré","Endommagé"]);
+
+    html += champ("Évier - Type", ["Simple","Double"]);
+    html += champ("Évier - Fonctionnalité", ["Fonctionnel","Défectueux"]);
+
+    html += champ("Robinetterie - État", ["Bonne","Fuite"]);
+
+    html += champ("Hotte - Présence", ["Présente","Absente"]);
+    html += champ("Hotte - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
+
+    html += champ("Prises GFCI - Présence", ["Présentes","Absentes"]);
+
+    html += texte("Commentaires cuisine");
+
+    return html;
+
+  },
+
+  "Salle de bain": function() {
+
+    let html = "";
+
+    html += champ("Plafond - État", ["Bon","Taché","Moisissure"]);
+    html += champ("Mur - État", ["Bon","Humidité","Moisissure"]);
+    html += champ("Plancher - État", ["Bon","Usé","Endommagé"]);
+
+    html += champ("Lavabo - Type", ["Simple","Double"]);
+    html += champ("Lavabo - Fonctionnalité", ["Fonctionnel","Défectueux"]);
+
+    html += champ("Vanité - État", ["Bon","Humidité"]);
+
+    html += champ("Toilette - Fonctionnalité", ["Fonctionnelle","Fuite","Instable"]);
+
+    html += champ("Douche - État", ["Bon","Fuite","Moisissure"]);
+    html += champ("Baignoire - État", ["Bonne","Fissurée"]);
+
+    html += champ("Ventilation - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
+
+    html += champ("Prise GFCI - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
+
+    html += texte("Commentaires salle de bain");
+
+    return html;
+
+  },
+
+  "Salon": function() {
+
+    let html = "";
+
+    html += champ("Plafond - État", ["Bon","Fissuré"]);
+    html += champ("Mur - État", ["Bon","Taché"]);
+    html += champ("Plancher - État", ["Bon","Usé"]);
+
+    html += champ("Fenêtres - État", ["Bon","Air","Condensation"]);
+
+    html += champ("Porte patio - Présence", ["Présente","Absente"]);
+
+    html += champ("Foyer - Présence", ["Présent","Absent"]);
+
+    html += champ("Sortie câble / internet - Présence", ["Présente","Absente"]);
+
+    html += champ("Prises - Fonctionnalité", ["Fonctionnelles","Défectueuses"]);
+
+    html += texte("Commentaires salon");
+
+    return html;
+
+  },
+
+  "Chambre": function() {
+
+    let html = "";
+
+    html += champ("Plafond - État", ["Bon","Fissuré"]);
+    html += champ("Mur - État", ["Bon","Taché"]);
+    html += champ("Plancher - État", ["Bon","Usé"]);
+
+    html += champ("Fenêtre - État", ["Bonne","Air","Condensation"]);
+
+    html += champ("Garde-robe - Présence", ["Présent","Absent"]);
+    html += champ("Garde-robe - État", ["Bon","Endommagé"]);
+
+    html += champ("Sortie TV - Présence", ["Présente","Absente"]);
+
+    html += champ("Détecteur fumée - Fonctionnalité", ["Fonctionnel","Défectueux"]);
+
+    html += texte("Commentaires chambre");
+
+    return html;
+
+  },
+
+  "Garage": function() {
+
+    let html = "";
+
+    html += champ("Plancher garage - État", ["Bon","Fissuré","Taché huile"]);
+
+    html += champ("Porte de garage - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
+
+    html += champ("Moteur porte garage - État", ["Bon","Défectueux"]);
+
+    html += champ("Panneau électrique - Présence", ["Présent","Absent"]);
+
+    html += champ("Prise 240V - Présence", ["Présente","Absente"]);
+
+    html += champ("Drain garage - État", ["Bon","Obstrué"]);
+
+    html += texte("Commentaires garage");
+
+    return html;
+
+  }
+
+};
+
+// ======================================================
+// MODULE 5
+// MOTEUR DES PIÈCES COMPLET AVEC BOUTONS À GAUCHE
+// ======================================================
+
+// CSS intégré pour le module 5
+const styleModule5 = document.createElement('style');
+styleModule5.textContent = `
+.piece-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 15px;
+  background: #fafafa;
+  border-radius: 6px;
+}
+
+.piece-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.piece-header .piece-titre {
+  font-weight: bold;
+  font-size: 1.1em;
+  white-space: nowrap;
+}
+
+.piece-header .piece-actions {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.piece-header button {
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid #888;
+  background-color: #eee;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.piece-header button:hover {
+  background-color: #ddd;
+}
+
+/* Cache le minuteur par défaut */
+#section-minuteur {
+  display: none;
+}
+`;
+document.head.appendChild(styleModule5);
+
+// Fonction principale d’ajout d’une pièce
+function ajouterPiece() {
   const type = document.getElementById("type-piece").value;
   if (!type) {
     alert("Veuillez sélectionner une pièce.");
@@ -107,567 +404,105 @@ function ajouterPiece() {
   div.className = "piece-container";
   div.id = id;
 
-  let html = `<h3 class="piece-header">
-  ${type}
-  <button type="button" onclick="terminerPiece('${id}')">Terminer</button>
-  <button type="button" onclick="document.getElementById('${id}').remove()">Retirer</button>
-</h3>`;
-
-  // ===== STRUCTURE UNIVERSELLE =====
-
-  html += champ("Plafond - Type", ["Gypsum","Bois","Suspendu","Béton"]);
-  html += champ("Plafond - État", ["Bon","Fissuré","Taché","Endommagé"]);
-  html += champ("Plafond - Matériau", ["Plâtre","PVC","Bois","Métal"]);
-
-  html += champ("Mur - Type", ["Cloison sèche","Brique","Bois","Béton"]);
-  html += champ("Mur - État", ["Bon","Fissuré","Taché","Humidité"]);
-  html += champ("Mur - Matériau", ["Peinture","Papier peint","Carrelage","Bois"]);
-
-  html += champ("Plancher - Type", ["Bois","Céramique","Vinyle","Béton","Tapis"]);
-  html += champ("Plancher - État", ["Bon","Usé","Fissuré","Endommagé"]);
-  html += champ("Plancher - Matériau", ["Bois franc","Flottant","Stratifié","Béton"]);
-
-  html += champ("Fenêtre - Type", ["Coulissante","À battant","Fixe"]);
-  html += champ("Fenêtre - État", ["Bonne","À réparer","Brisée"]);
-  html += champ("Fenêtre - Matériau", ["PVC","Aluminium","Bois"]);
-
-  html += champ("Porte - Type", ["Bois","Métal","Vitrée"]);
-  html += champ("Porte - État", ["Bonne","À réparer","Endommagée"]);
-
-  html += champ("Éclairage - Type", ["Encastré","Plafonnier","Rail","Murale"]);
-  html += champ("Éclairage - État", ["Fonctionnel","Défectueux"]);
-  html += champ("Éclairage - Fonctionnalité", ["Normal","Gradateur"]);
-
-  html += champ("Prises - Type", ["Standard","GFCI","USB"]);
-  html += champ("Prises - Quantité", ["1","2","3+"]);
-  html += champ("Prises - Fonctionnalité", ["Fonctionnelles","Défectueuses"]);
-
-  html += champ("Chauffage - Type", ["Plinthe","Radiateur","Unité murale"]);
-  html += champ("Chauffage - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-  html += champ("Climatisation - Type", ["Murale","Fenêtre","Centrale"]);
-  html += champ("Climatisation - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-  html += champ("Thermostat - Type", ["Numérique","Mécanique"]);
-  html += champ("Thermostat - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-  html += champ("Interrupteurs - État", ["Fonctionnels","Défectueux"]);
-    // ======================================================
-  // ====================== CUISINE =======================
-  // ======================================================
-
-  if (type === "Cuisine") {
-
-    html += champ("Hotte - Type", ["Standard","Micro-ondes intégrée","Commerciale"]);
-    html += champ("Hotte - État", ["Fonctionnelle","Défectueuse","Bruyante"]);
-    html += champ("Hotte - Matériau", ["Inox","Plastique","Aluminium"]);
-
-    html += champ("Armoires supérieures - Type", ["Standard","Modulaire","Sur mesure"]);
-    html += champ("Armoires supérieures - État", ["Bonnes","Endommagées","Gondolées"]);
-    html += champ("Armoires supérieures - Matériau", ["Bois","Mélamine","PVC"]);
-
-    html += champ("Armoires inférieures - Type", ["Standard","Modulaire","Sur mesure"]);
-    html += champ("Armoires inférieures - État", ["Bonnes","Endommagées","Humidité"]);
-    html += champ("Armoires inférieures - Matériau", ["Bois","Mélamine","PVC"]);
-
-    html += champ("Comptoir - Type", ["Standard","Îlot","Linéaire"]);
-    html += champ("Comptoir - État", ["Bon","Endommagé","Fissuré"]);
-    html += champ("Comptoir - Matériau", ["Stratifié","Quartz","Granite","Bois"]);
-
-    html += champ("Îlot - Présence", ["Présent","Absent"]);
-    html += champ("Îlot - État", ["Bon","Endommagé","Instable"]);
-
-    html += champ("Évier - Type", ["Simple","Double","Commercial"]);
-    html += champ("Évier - État", ["Bon","Fissuré","Rouille"]);
-    html += champ("Évier - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-    html += champ("Évier - Matériau", ["Inox","Composite","Céramique"]);
-
-    html += champ("Robinetterie - Type", ["Standard","À détecteur","Combinée"]);
-    html += champ("Robinetterie - État", ["Bonne","Fuite","Défectueuse"]);
-    html += champ("Robinetterie - Matériau", ["Chrome","Noir mat","Inox"]);
-
-    html += champ("Plomberie - Type", ["Cuivre","PEX","ABS","PVC"]);
-    html += champ("Plomberie - État", ["Bon","Fuite","Bouchée","Corrosion"]);
-    html += champ("Plomberie - Fonctionnalité", ["Fonctionnelle","Non fonctionnelle"]);
-
-    html += champ("Sortie gaz - Présence", ["Présente","Absente"]);
-    html += champ("Sortie gaz - Conformité", ["Conforme","Non conforme"]);
-
-    html += champ("Détecteur fumée - Présence", ["Présent","Absent"]);
-    html += champ("Détecteur fumée - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-    html += champ("Ventilation cuisine - Type", ["Naturelle","Mécanique"]);
-    html += champ("Ventilation cuisine - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-    html += texte("Commentaires spécifiques cuisine");
-  }
-
-  // ======================================================
-  // ================= SALLE DE BAIN ======================
-  // ======================================================
-
-  if (type === "Salle de bain") {
-
-    html += champ("Lavabo - Type", ["Simple","Double","Suspendu"]);
-    html += champ("Lavabo - État", ["Bon","Fissuré","Endommagé"]);
-    html += champ("Lavabo - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-    html += champ("Lavabo - Matériau", ["Porcelaine","Céramique","Composite"]);
-
-    html += champ("Vanité - Type", ["Suspendue","Sur pied","Modulaire"]);
-    html += champ("Vanité - État", ["Bonne","Endommagée","Humidité"]);
-    html += champ("Vanité - Matériau", ["Bois","Mélamine","PVC"]);
-
-    html += champ("Toilette - Type", ["Standard","Ultra-flux","Suspendue"]);
-    html += champ("Toilette - État", ["Bonne","Fuite","Instable"]);
-    html += champ("Toilette - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-    html += champ("Douche - Type", ["Coin","Murale","Walk-in"]);
-    html += champ("Douche - État", ["Bon","Fuite","Moisissure"]);
-    html += champ("Douche - Matériau", ["Fibre de verre","Céramique","Acrylique"]);
-
-    html += champ("Baignoire - Type", ["Encastrée","Autoportante"]);
-    html += champ("Baignoire - État", ["Bonne","Fissurée","Endommagée"]);
-    html += champ("Baignoire - Matériau", ["Acrylique","Fonte","Composite"]);
-
-    html += champ("Robinetterie bain - État", ["Bonne","Fuite","Défectueuse"]);
-    html += champ("Robinetterie douche - État", ["Bonne","Fuite","Défectueuse"]);
-
-    html += champ("Ventilation - Type", ["Mécanique","Naturelle"]);
-    html += champ("Ventilation - État", ["Fonctionnelle","Bruyante","Défectueuse"]);
-
-    html += champ("Prise GFCI - Présence", ["Présente","Absente"]);
-    html += champ("Prise GFCI - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-    html += champ("Chauffage salle bain - Type", ["Plinthe","Radiateur"]);
-    html += champ("Chauffage salle bain - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-    html += texte("Commentaires spécifiques salle de bain");
-  }
-
-  // ======================================================
-  // ==================== SALLE D’EAU =====================
-  // ======================================================
-
-  if (type === "Salle d'eau") {
-
-    html += champ("Lavabo - Type", ["Simple","Suspendu"]);
-    html += champ("Lavabo - État", ["Bon","Fissuré","Endommagé"]);
-    html += champ("Lavabo - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-    html += champ("Toilette - Type", ["Standard","Suspendue"]);
-    html += champ("Toilette - État", ["Bonne","Fuite","Instable"]);
-    html += champ("Toilette - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-    html += champ("Ventilation - Type", ["Mécanique","Naturelle"]);
-    html += champ("Ventilation - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-    html += champ("Prise GFCI - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-    html += texte("Commentaires spécifiques salle d'eau");
-  }
-    // ======================================================
-  // ======================== SALON =======================
-  // ======================================================
-
-  if (type === "Salon") {
-
-    html += champ("Foyer - Présence", ["Présent","Absent"]);
-    html += champ("Foyer - Type", ["Bois","Gaz","Électrique"]);
-    html += champ("Foyer - État", ["Bon","Endommagé","Non fonctionnel"]);
-
-    html += champ("Moulures - Présence", ["Présentes","Absentes"]);
-    html += champ("Moulures - État", ["Bon","Endommagé"]);
-
-    html += champ("Colonnes décoratives - Présence", ["Présentes","Absentes"]);
-    html += champ("Colonnes décoratives - État", ["Bon","Endommagé"]);
-
-    html += champ("Plafond cathédrale - Présence", ["Oui","Non"]);
-    html += champ("Plafond cathédrale - État", ["Bon","Fissuré","Taché"]);
-
-    html += champ("Isolation sonore - Présence", ["Présente","Absente"]);
-    html += champ("Isolation sonore - État", ["Bonne","Insuffisante"]);
-
-    html += champ("Sortie câble / internet - Présence", ["Présente","Absente"]);
-    html += champ("Sortie câble / internet - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-    html += champ("Détecteur fumée - Présence", ["Présent","Absent"]);
-    html += champ("Détecteur fumée - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-    html += texte("Commentaires spécifiques salon");
-  }
-
-  // ======================================================
-  // ======================= CHAMBRE ======================
-  // ======================================================
-
-  if (type === "Chambre") {
-
-    html += champ("Garde-robe - Présence", ["Présent","Absent"]);
-    html += champ("Garde-robe - Type", ["Standard","Walk-in","Porte coulissante"]);
-    html += champ("Garde-robe - État", ["Bon","Endommagé","Portes défectueuses"]);
-
-    html += champ("Détecteur fumée - Présence", ["Présent","Absent"]);
-    html += champ("Détecteur fumée - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-    html += champ("Isolation - Type", ["Laine minérale","Cellulose","Autre"]);
-    html += champ("Isolation - État", ["Bonne","Insuffisante"]);
-
-    html += champ("Sortie TV - Présence", ["Présente","Absente"]);
-    html += champ("Sortie TV - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-    html += champ("Sortie téléphone - Présence", ["Présente","Absente"]);
-    html += champ("Sortie téléphone - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-    html += texte("Commentaires spécifiques chambre");
-  }
-
-  // ======================================================
-  // ======================== ENTRÉE ======================
-  // ======================================================
-
-  if (type === "Entrée") {
-
-    html += champ("Porte principale - Type", ["Bois","Acier","Fibre de verre"]);
-    html += champ("Porte principale - État", ["Bonne","Endommagée","Mal ajustée"]);
-    html += champ("Porte principale - Fonctionnalité", ["Fonctionnelle","Difficile à ouvrir"]);
-
-    html += champ("Serrure - Type", ["Standard","Électronique","Multipoint"]);
-    html += champ("Serrure - État", ["Bonne","Défectueuse"]);
-
-    html += champ("Judasse / Oeil magique - Présence", ["Présent","Absent"]);
-    html += champ("Judasse / Oeil magique - État", ["Bon","Défectueux"]);
-
-    html += champ("Tapis d'entrée - Présence", ["Présent","Absent"]);
-    html += champ("Tapis d'entrée - État", ["Bon","Usé"]);
-
-    html += champ("Vestiaire - Présence", ["Présent","Absent"]);
-    html += champ("Vestiaire - État", ["Bon","Endommagé"]);
-
-    html += texte("Commentaires spécifiques entrée");
-  }
-
-  // ======================================================
-  // ======================== PASSAGE =====================
-  // ======================================================
-
-  if (type === "Passage") {
-
-    html += champ("Garde-corps - Présence", ["Présent","Absent"]);
-    html += champ("Garde-corps - État", ["Bon","Instable","Endommagé"]);
-    html += champ("Garde-corps - Matériau", ["Bois","Métal","Verre"]);
-
-    html += champ("Escalier - Présence", ["Présent","Absent"]);
-    html += champ("Escalier - État", ["Bon","Craque","Instable"]);
-    html += champ("Escalier - Matériau", ["Bois","Béton","Métal"]);
-
-    html += champ("Main courante - Présence", ["Présente","Absente"]);
-    html += champ("Main courante - État", ["Bonne","Instable"]);
-
-    html += champ("Éclairage corridor - Type", ["Plafonnier","Encastré"]);
-    html += champ("Éclairage corridor - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-    html += texte("Commentaires spécifiques passage");
-  }
-
-  // ======================================================
-  // ================== SALLE DE LAVAGE ===================
-  // ======================================================
-
-  if (type === "Salle de lavage") {
-
-    html += champ("Entrée laveuse - Présence", ["Présente","Absente"]);
-    html += champ("Entrée laveuse - État", ["Bonne","Fuite","Corrosion"]);
-
-    html += champ("Entrée sécheuse - Présence", ["Présente","Absente"]);
-    html += champ("Entrée sécheuse - État", ["Bonne","Défectueuse"]);
-
-    html += champ("Sortie sécheuse - Type", ["Murale","Plafond"]);
-    html += champ("Sortie sécheuse - État", ["Bonne","Obstruée"]);
-
-    html += champ("Drain de plancher - Présence", ["Présent","Absent"]);
-    html += champ("Drain de plancher - État", ["Bon","Bouché"]);
-
-    html += champ("Bac de lavage - Présence", ["Présent","Absent"]);
-    html += champ("Bac de lavage - État", ["Bon","Fissuré"]);
-
-    html += champ("Réservoir eau chaude - Présence", ["Présent","Absent"]);
-    html += champ("Réservoir eau chaude - État", ["Bon","Corrosion","Fuite"]);
-    html += champ("Réservoir eau chaude - Type", ["Électrique","Gaz"]);
-
-    html += champ("Plomberie générale - Matériau", ["Cuivre","PEX","ABS"]);
-    html += champ("Plomberie générale - État", ["Bonne","Fuite","Corrosion"]);
-
-    html += texte("Commentaires spécifiques salle de lavage");
-  }
-  // ======================================================
-  // ======================== SOUS-SOL ====================
-  // ======================================================
-
-  if (type === "Sous-sol") {
-
-    html += champ("Fondation - Type", ["Béton coulé","Bloc béton"]);
-    html += champ("Fondation - État", ["Bonne","Fissure mineure","Fissure majeure"]);
-
-    html += champ("Isolation - Présence", ["Présente","Absente"]);
-    html += champ("Isolation - État", ["Bonne","Humidité","Moisissure"]);
-
-    html += champ("Pompe de puisard - Présence", ["Présente","Absente"]);
-    html += champ("Pompe de puisard - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-    html += champ("Drain français - Présence", ["Présent","Absent"]);
-    html += champ("Drain français - État", ["Bon","Obstrué"]);
-
-    html += champ("Humidité générale - Niveau", ["Faible","Modéré","Élevé"]);
-
-    html += champ("Poutres apparentes - État", ["Bon","Fissuré","Affaissé"]);
-    html += champ("Colonnes de soutien - État", ["Bon","Rouille","Instable"]);
-
-    html += texte("Commentaires spécifiques sous-sol");
-  }
-
-  // ======================================================
-  // ================== CHAMBRE FROIDE ====================
-  // ======================================================
-
-  if (type === "Chambre froide") {
-
-    html += champ("Isolation chambre froide - Type", ["Mousse","Laine","Autre"]);
-    html += champ("Isolation chambre froide - État", ["Bonne","Humide","Endommagée"]);
-
-    html += champ("Ventilation chambre froide - Présence", ["Présente","Absente"]);
-    html += champ("Ventilation chambre froide - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-    html += champ("Humidité - Niveau", ["Faible","Modéré","Élevé"]);
-    html += champ("Moisissure - Présence", ["Présente","Absente"]);
-
-    html += champ("Tablettes - Présence", ["Présentes","Absentes"]);
-    html += champ("Tablettes - État", ["Bon","Endommagé"]);
-
-    html += texte("Commentaires spécifiques chambre froide");
-  }
-
-  // ======================================================
-  // ========================= GARAGE =====================
-  // ======================================================
-
-  if (type === "Garage") {
-
-    html += champ("Porte de garage - Type", ["Manuelle","Motorisée"]);
-    html += champ("Porte de garage - État", ["Bonne","Défectueuse","Mal alignée"]);
-    html += champ("Porte de garage - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-    html += champ("Moteur porte garage - Présence", ["Présent","Absent"]);
-    html += champ("Moteur porte garage - État", ["Bon","Défectueux"]);
-
-    html += champ("Plancher garage - Type", ["Béton brut","Époxy"]);
-    html += champ("Plancher garage - État", ["Bon","Fissuré","Taché huile"]);
-
-    html += champ("Drain garage - Présence", ["Présent","Absent"]);
-    html += champ("Drain garage - État", ["Bon","Obstrué"]);
-
-    html += champ("Panneau électrique - Présence", ["Présent","Absent"]);
-    html += champ("Panneau électrique - État", ["Bon","Non conforme"]);
-
-    html += champ("Prise 240V - Présence", ["Présente","Absente"]);
-    html += champ("Prise 240V - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-    html += texte("Commentaires spécifiques garage");
-  }
-
-  // ======================================================
-  // ======================= VÉRANDA ======================
-  // ======================================================
-
-  if (type === "Véranda") {
-
-    html += champ("Structure véranda - Type", ["Bois","Aluminium","PVC"]);
-    html += champ("Structure véranda - État", ["Bonne","Instable","Endommagée"]);
-
-    html += champ("Fenêtres véranda - Type", ["Simple vitrage","Double vitrage"]);
-    html += champ("Fenêtres véranda - État", ["Bon","Fissuré","Condensation"]);
-
-    html += champ("Toiture véranda - Type", ["Polycarbonate","Verre","Bardeau"]);
-    html += champ("Toiture véranda - État", ["Bonne","Fuite","Endommagée"]);
-
-    html += champ("Plancher véranda - Type", ["Bois traité","Composite","Céramique"]);
-    html += champ("Plancher véranda - État", ["Bon","Usé","Pourriture"]);
-
-    html += champ("Isolation véranda - Présence", ["Présente","Absente"]);
-    html += champ("Isolation véranda - État", ["Bonne","Insuffisante"]);
-
-    html += champ("Chauffage véranda - Présence", ["Présent","Absent"]);
-    html += champ("Chauffage véranda - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-    html += texte("Commentaires spécifiques véranda");
-  }
-
-  // ======================================================
-  // ======================= VERRIÈRE =====================
-  // ======================================================
-
-  if (type === "Verrière") {
-
-    html += champ("Structure verrière - Matériau", ["Aluminium","Acier","Bois"]);
-    html += champ("Structure verrière - État", ["Bon","Corrosion","Instable"]);
-
-    html += champ("Panneaux vitrés - Type", ["Simple","Double","Triple vitrage"]);
-    html += champ("Panneaux vitrés - État", ["Bon","Fissuré","Condensation"]);
-
-    html += champ("Étanchéité verrière - État", ["Bonne","Fuite","Joint usé"]);
-
-    html += champ("Ouverture verrière - Fonctionnalité", ["Fonctionnelle","Bloquée"]);
-
-    html += champ("Drainage verrière - Présence", ["Présent","Absent"]);
-    html += champ("Drainage verrière - État", ["Bon","Obstrué"]);
-
-    html += texte("Commentaires spécifiques verrière");
-  }
-  // ======================================================
-  // ================= CHAMBRE DE RANGEMENT ===============
-  // ======================================================
-
-  if (type === "Chambre de rangement") {
-
-    html += champ("Tablettes - Présence", ["Présentes","Absentes"]);
-    html += champ("Tablettes - Matériau", ["Bois","Métal","Plastique"]);
-    html += champ("Tablettes - État", ["Bon","Instable","Endommagé"]);
-
-    html += champ("Ventilation rangement - Présence", ["Présente","Absente"]);
-    html += champ("Ventilation rangement - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-    html += champ("Humidité rangement - Niveau", ["Faible","Modéré","Élevé"]);
-    html += champ("Moisissure rangement - Présence", ["Présente","Absente"]);
-
-    html += champ("Éclairage rangement - Type", ["Ampoule","DEL","Néon"]);
-    html += champ("Éclairage rangement - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-    html += texte("Commentaires spécifiques chambre de rangement");
-  }
-
-  // ======================================================
-  // ============== ÉLÉMENTS TECHNIQUES GÉNÉRAUX =========
-  // ======================================================
-
-  html += champ("Système d'alarme - Présence", ["Présent","Absent"]);
-  html += champ("Système d'alarme - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-  html += champ("Détecteur CO2 - Présence", ["Présent","Absent"]);
-  html += champ("Détecteur CO2 - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-  html += champ("Caméra surveillance - Présence", ["Présente","Absente"]);
-  html += champ("Caméra surveillance - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-  html += champ("Interphone - Présence", ["Présent","Absent"]);
-  html += champ("Interphone - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-  html += champ("Accès handicapé - Présence", ["Présent","Absent"]);
-  html += champ("Accès handicapé - Conformité", ["Conforme","Non conforme"]);
-
-  html += champ("Conformité générale électrique", ["Conforme","Non conforme"]);
-  html += champ("Conformité générale plomberie", ["Conforme","Non conforme"]);
-  html += champ("Conformité générale structure", ["Conforme","Non conforme"]);
-
-  html += texte("Commentaires techniques globaux");
-
-  // ======================================================
-  // ================= ÉQUIPEMENTS AVANCÉS ================
-  // ======================================================
-
-  html += champ("Thermopompe - Présence", ["Présente","Absente"]);
-  html += champ("Thermopompe - Type", ["Murale","Centrale"]);
-  html += champ("Thermopompe - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
-
-  html += champ("Échangeur d'air - Présence", ["Présent","Absent"]);
-  html += champ("Échangeur d'air - Fonctionnalité", ["Fonctionnel","Défectueux"]);
-
-  html += champ("Panneau secondaire - Présence", ["Présent","Absent"]);
-  html += champ("Panneau secondaire - État", ["Bon","Non conforme"]);
-
-  html += champ("Compteur électrique - Présence", ["Présent","Absent"]);
-  html += champ("Compteur électrique - État", ["Bon","Endommagé"]);
-
-  html += champ("Valve principale eau - Présence", ["Présente","Absente"]);
-  html += champ("Valve principale eau - État", ["Bonne","Fuite"]);
-
-  html += champ("Compteur eau - Présence", ["Présent","Absent"]);
-  html += champ("Compteur eau - État", ["Bon","Défectueux"]);
-
-  html += champ("Sortie extérieure - Présence", ["Présente","Absente"]);
-  html += champ("Sortie extérieure - État", ["Bonne","Endommagée"]);
-
-  html += champ("Balcon - Présence", ["Présent","Absent"]);
-  html += champ("Balcon - État", ["Bon","Instable","Endommagé"]);
-
-  html += champ("Garde-corps balcon - État", ["Bon","Instable","Non conforme"]);
-
-  // ======================================================
-  // ===================== PHOTOS =========================
-  // ======================================================
-
+  // HEADER : titre + boutons à gauche
+  let html = `
+    <div class="piece-header">
+      <span class="piece-titre">${type}</span>
+      <div class="piece-actions">
+        <button type="button" onclick="terminerPiece('${id}')">Terminer</button>
+        <button type="button" onclick="document.getElementById('${id}').remove()">Retirer</button>
+      </div>
+    </div>
+  `;
+
+  // ÉQUIPEMENTS TECHNIQUES
   html += `
-  <label>Photo générale 1
-    <input type="file" accept="image/*" onchange="previewImage(event,this)">
-    <img style="max-width:200px; display:none; margin-top:5px;">
-  </label>`;
+    <div class="equipement-technique">
+      <h4>Équipements techniques</h4>
+      <select id="equipement-${id}">
+        <option value="">Sélectionnez</option>
+        ${typeof equipementsTechniques !== "undefined"
+          ? Object.keys(equipementsTechniques).map(e => `<option>${e}</option>`).join("")
+          : ""}
+      </select>
+      <button type="button" onclick="ajouterEquipement('${id}')">Ajouter</button>
+      <div class="liste-equipements"></div>
+    </div>
+  `;
 
+  // MODÈLE DE PIÈCE SPÉCIFIQUE
+  if (modelesPieces[type]) {
+    html += modelesPieces[type]();
+  } else {
+    html += texte("Commentaires");
+  }
+
+  // PHOTOS
   html += `
-  <label>Photo générale 2
-    <input type="file" accept="image/*" onchange="previewImage(event,this)">
-    <img style="max-width:200px; display:none; margin-top:5px;">
-  </label>`;
+    <label>Photo générale 1
+      <input type="file" accept="image/*" onchange="previewImage(event,this)">
+      <img style="max-width:200px; display:none; margin-top:5px;">
+    </label>
+    <label>Photo générale 2
+      <input type="file" accept="image/*" onchange="previewImage(event,this)">
+      <img style="max-width:200px; display:none; margin-top:5px;">
+    </label>
+    <label>Photo défaut spécifique
+      <input type="file" accept="image/*" onchange="previewImage(event,this)">
+      <img style="max-width:200px; display:none; margin-top:5px;">
+    </label>
+  `;
 
+  // VALIDATION VISUELLE
   html += `
-  <label>Photo défaut spécifique
-    <input type="file" accept="image/*" onchange="previewImage(event,this)">
-    <img style="max-width:200px; display:none; margin-top:5px;">
-  </label>`;
+    <label>Validation visuelle pièce
+      <select>
+        <option value="">Sélectionnez</option>
+        <option>Conforme</option>
+        <option>Non conforme</option>
+      </select>
+    </label>
+  `;
 
-  // ======================================================
-  // ================= SIGNATURE PIÈCE ====================
-  // ======================================================
-
-  html += `
-  <label>Validation visuelle pièce
-    <select>
-      <option value="">Sélectionnez</option>
-      <option>Conforme</option>
-      <option>Non conforme</option>
-    </select>
-  </label>`;
-
-  // ======================================================
-  // ================= COMMENTAIRES FINAUX =================
-  // ======================================================
-
+  // COMMENTAIRE FINAL
   html += texte("Résumé technique final de la pièce");
 
+  // AJOUT DANS LE DOM
   div.innerHTML = html;
   document.getElementById("liste-pieces").appendChild(div);
   document.getElementById("type-piece").value = "";
-
 }
 
 // ======================================================
-// ================== PRÉVISUALISATION IMAGE ============
+// MODULE 6
+// PRÉVISUALISATION DES IMAGES
 // ======================================================
 
 function previewImage(event, input) {
 
   const file = event.target.files[0];
+
   if (!file) return;
 
   const reader = new FileReader();
+
   const img = input.nextElementSibling;
 
   reader.onload = function(e) {
+
     img.src = e.target.result;
+
     img.style.display = "block";
+
   };
 
   reader.readAsDataURL(file);
+
 }
+
 // ======================================================
-// ===================== IMPRESSION ======================
+// MODULE 7
+// GÉNÉRATION DU RAPPORT D’IMPRESSION
 // ======================================================
 
 function genererRapportImpression() {
@@ -690,17 +525,21 @@ function genererRapportImpression() {
     let titre = "Pièce";
 
     if (titreElement) {
+
       const clone = titreElement.cloneNode(true);
       clone.querySelectorAll("button").forEach(btn => btn.remove());
       titre = clone.textContent.trim();
+
     }
 
     piece.querySelectorAll("label").forEach(label => {
 
       const select = label.querySelector("select");
+
       if (!select) return;
 
       const valeur = select.value;
+
       if (!valeur || valeur === "Sélectionnez") return;
 
       const nomChamp = label.childNodes[0].textContent.trim();
@@ -712,9 +551,13 @@ function genererRapportImpression() {
          </div>`;
 
       if (valeursConformes.includes(valeur)) {
+
         conformes += ligne;
+
       } else {
+
         defectueux += ligne;
+
       }
 
     });
@@ -722,6 +565,7 @@ function genererRapportImpression() {
   });
 
   const zone = document.getElementById("zone-impression");
+
   if (!zone) return;
 
   zone.innerHTML = `
@@ -734,12 +578,14 @@ function genererRapportImpression() {
       ${conformes || "<p>Aucun élément conforme détecté.</p>"}
     </div>
   `;
+
 }
 
 window.addEventListener("beforeprint", genererRapportImpression);
 
 // ======================================================
-// ================= TERMINER PIÈCE =====================
+// MODULE 8
+// TERMINER UNE PIÈCE
 // ======================================================
 
 function terminerPiece(id) {
@@ -752,41 +598,60 @@ function terminerPiece(id) {
   });
 
   let resume = "";
+
   piece.querySelectorAll("label").forEach(label => {
 
     const select = label.querySelector("select");
     if (!select) return;
+
     if (!select.value || select.value === "Sélectionnez") return;
 
     const nomChamp = label.childNodes[0].textContent.trim();
+
     resume += `<div>${nomChamp} : ${select.value}</div>`;
+
   });
 
   const blocResume = document.createElement("div");
   blocResume.className = "resume-piece";
+
   blocResume.innerHTML = `
-    <div style="margin-top:10px; padding:10px; background:#f0f0f0; border-radius:6px;">
-      <strong>Résumé rapide :</strong>
-      ${resume || "<div>Aucune donnée sélectionnée</div>"}
-    </div>
+  <div style="margin-top:10px;padding:10px;background:#f0f0f0;border-radius:6px;">
+  <strong>Résumé rapide :</strong>
+  ${resume || "<div>Aucune donnée sélectionnée</div>"}
+  </div>
   `;
 
   piece.appendChild(blocResume);
 
-  const header = piece.querySelector(".piece-header");
-  if (header) {
-    header.innerHTML = `
-      ${header.textContent.replace("Terminer","").replace("Retirer","").trim()}
-      <button type="button" onclick="rouvrirPiece('${id}')">Réouvrir</button>
+  const actions = piece.querySelector(".piece-actions");
+
+  if (actions) {
+
+    actions.innerHTML = `
+    <button type="button" onclick="rouvrirPiece('${id}')">
+    Réouvrir
+    </button>
     `;
+
   }
 
   piece.style.opacity = "0.85";
   piece.style.border = "2px solid #4CAF50";
+
+  piece.classList.add("piece-fermee");
+
+  const suivante = piece.nextElementSibling;
+
+  if (suivante) {
+    suivante.scrollIntoView({behavior:"smooth"});
+  }
+
 }
 
 // ======================================================
-// ================= RÉOUVRIR PIÈCE =====================
+// MODULE 9
+// RÉOUVRIR UNE PIÈCE
 // ======================================================
 
 function rouvrirPiece(id) {
@@ -801,22 +666,32 @@ function rouvrirPiece(id) {
   const resume = piece.querySelector(".resume-piece");
   if (resume) resume.remove();
 
-  const header = piece.querySelector(".piece-header");
-  if (header) {
-    const titre = header.textContent.replace("Réouvrir","").trim();
-    header.innerHTML = `
-      ${titre}
-      <button type="button" onclick="terminerPiece('${id}')">Terminer</button>
-      <button type="button" onclick="document.getElementById('${id}').remove()">Retirer</button>
+  const actions = piece.querySelector(".piece-actions");
+
+  if (actions) {
+
+    actions.innerHTML = `
+    <button type="button" onclick="terminerPiece('${id}')">
+    Terminer
+    </button>
+
+    <button type="button" onclick="document.getElementById('${id}').remove()">
+    Retirer
+    </button>
     `;
+
   }
 
   piece.style.opacity = "1";
   piece.style.border = "1px solid #ccc";
+
+  piece.classList.remove("piece-fermee");
+
 }
 
 // ======================================================
-// ================= SIGNATURES ==========================
+// MODULE 10
+// SIGNATURES
 // ======================================================
 
 function activerSignature(canvasId) {
@@ -836,16 +711,21 @@ function activerSignature(canvasId) {
     dessin = true;
 
     const rect = canvas.getBoundingClientRect();
+
     ctx.beginPath();
+
     ctx.moveTo(
       e.clientX - rect.left,
       e.clientY - rect.top
     );
+
   });
 
   canvas.addEventListener("mouseup", function() {
+
     dessin = false;
     ctx.beginPath();
+
   });
 
   canvas.addEventListener("mousemove", function(e) {
@@ -864,7 +744,9 @@ function activerSignature(canvasId) {
     );
 
     ctx.stroke();
+
     ctx.beginPath();
+
     ctx.moveTo(
       e.clientX - rect.left,
       e.clientY - rect.top
@@ -880,7 +762,14 @@ function effacerSignatureLocataire() {
   if (!canvas) return;
 
   const ctx = canvas.getContext("2d");
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
 }
 
 function effacerSignatureConsultant() {
@@ -889,7 +778,14 @@ function effacerSignatureConsultant() {
   if (!canvas) return;
 
   const ctx = canvas.getContext("2d");
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
 }
 
 function figerSignature(canvasId) {
@@ -899,6 +795,7 @@ function figerSignature(canvasId) {
 
   canvas.dataset.locked = "true";
   canvas.style.opacity = "0.6";
+
 }
 
 function deverrouillerSignature(canvasId) {
@@ -908,21 +805,25 @@ function deverrouillerSignature(canvasId) {
 
   canvas.dataset.locked = "false";
   canvas.style.opacity = "1";
+
 }
 
 document.addEventListener("DOMContentLoaded", function() {
 
   activerSignature("signature-client");
   activerSignature("signature-verificateur");
+
 });
 
 // ======================================================
-// ===================== MINUTEUR ========================
+// MODULE 11
+// MINUTEUR DE VÉRIFICATION
 // ======================================================
 
 let tempsTotalSecondes = 0;
 let intervalMinuteur = null;
 let minuteurEnCours = false;
+
 const tauxHoraire = 125;
 
 function formaterTemps(secondes) {
@@ -932,10 +833,11 @@ function formaterTemps(secondes) {
   const s = secondes % 60;
 
   return (
-    String(h).padStart(2, '0') + ':' +
-    String(m).padStart(2, '0') + ':' +
-    String(s).padStart(2, '0')
+    String(h).padStart(2, "0") + ":" +
+    String(m).padStart(2, "0") + ":" +
+    String(s).padStart(2, "0")
   );
+
 }
 
 function mettreAJourAffichage() {
@@ -951,6 +853,7 @@ function mettreAJourAffichage() {
   const montant = heures * tauxHoraire;
 
   montantElement.textContent = montant.toFixed(2) + " $";
+
 }
 
 function demarrerMinuteur() {
@@ -960,22 +863,31 @@ function demarrerMinuteur() {
   minuteurEnCours = true;
 
   intervalMinuteur = setInterval(function() {
+
     tempsTotalSecondes++;
+
     mettreAJourAffichage();
+
   }, 1000);
+
 }
 
 function pauseMinuteur() {
 
   minuteurEnCours = false;
+
   clearInterval(intervalMinuteur);
+
 }
 
 function reinitialiserMinuteur() {
 
   pauseMinuteur();
+
   tempsTotalSecondes = 0;
+
   mettreAJourAffichage();
+
 }
 
 function basculerVisibiliteMinuteur() {
@@ -986,16 +898,22 @@ function basculerVisibiliteMinuteur() {
   if (!affichage || !montant) return;
 
   if (affichage.style.display === "none") {
+
     affichage.style.display = "block";
     montant.style.display = "block";
+
   } else {
+
     affichage.style.display = "none";
     montant.style.display = "none";
+
   }
+
 }
 
 // ======================================================
-// ================= ENVOI COURRIEL TEXTE =================
+// MODULE 12
+// ENVOI DU RAPPORT PAR COURRIEL
 // ======================================================
 
 function genererMailto() {
@@ -1009,6 +927,7 @@ function genererMailto() {
   const ville = document.getElementById("ville")?.value || "";
 
   const heures = tempsTotalSecondes / 3600;
+
   const sousTotal = heures * tauxHoraire;
   const tps = sousTotal * 0.05;
   const tvq = sousTotal * 0.09975;
@@ -1019,6 +938,7 @@ function genererMailto() {
   contenu += "VÉRIFICATION PRÉVENTIVE IMMOBILIÈRE\n";
   contenu += "Jean-Louis Raymond\n";
   contenu += "Consultant en vérification préventive\n\n";
+
   contenu += "Courriel : jlouisraymond@hotmail.com\n";
   contenu += "Téléphone : 438-220-6511\n";
   contenu += "NEQ : 2268876952\n";
@@ -1046,19 +966,24 @@ function genererMailto() {
 
       const select = label.querySelector("select");
       if (!select) return;
+
       if (!select.value || select.value === "Sélectionnez") return;
 
       const nomChamp = label.childNodes[0].textContent.trim();
+
       contenu += nomChamp + " : " + select.value + "\n";
+
     });
 
     contenu += "\n";
+
   });
 
   contenu += "FACTURATION\n";
   contenu += "----------------------------------------\n";
   contenu += "Temps travaillé : " + heures.toFixed(2) + " heures\n";
   contenu += "Taux horaire : " + tauxHoraire + " $ / heure\n\n";
+
   contenu += "Sous-total : " + sousTotal.toFixed(2) + " $\n";
   contenu += "TPS (5%) : " + tps.toFixed(2) + " $\n";
   contenu += "TVQ (9.975%) : " + tvq.toFixed(2) + " $\n";
@@ -1072,8 +997,13 @@ function genererMailto() {
     "&body=" + encodeURIComponent(contenu);
 
   window.location.href = mailtoUrl;
+
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+
   mettreAJourAffichage();
+
 });
+
+

@@ -1,172 +1,152 @@
-/* ===============================
-   STYLES GÉNÉRAUX
-================================= */
-
+/* =========================== */
+/* STYLE GLOBAL ET CORPS       */
+/* =========================== */
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f6f7;
-  margin: 0;
-  padding: 20px;
+  font-family: Arial, sans-serif;
+  padding: 10px;
+  background: #f7f7f7;
+  color: #333;
 }
 
-/* ===============================
-   EN-TÊTE
-================================= */
-
-header {
-  background-color: #ffffff;
-  color: #000000;
-  text-align: center;
+header, section, footer {
+  background: #fff;
   padding: 20px;
-  border-radius: 8px;
   margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-header h1 {
-  font-size: 28px;
+h1, h2, h3, h4 {
+  margin: 5px 0;
+}
+
+/* =========================== */
+/* FORMULAIRES ET CHAMPS       */
+/* =========================== */
+label {
+  display: block;
+  margin: 5px 0;
   font-weight: bold;
-  margin: 10px 0;
 }
 
-header p {
-  font-size: 14px;
-  margin: 3px 0;
+input, select, textarea {
+  margin: 4px 0 12px 0;
+  padding: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 0.95em;
 }
 
-/* ===============================
-   SECTIONS
-================================= */
-
-section,
-footer {
-  background-color: white;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+textarea {
+  resize: vertical;
 }
 
-/* ===============================
-   BOUTONS
-================================= */
-
+/* =========================== */
+/* BOUTONS                     */
+/* =========================== */
 button {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 5px;
+  margin: 4px 4px 4px 0;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid #555;
+  background-color: #4CAF50;
+  color: #fff;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 14px;
-  margin: 5px;
+  transition: background-color 0.2s;
 }
 
 button:hover {
-  background-color: #2980b9;
+  background-color: #45a049;
 }
 
-/* ===============================
-   FORMULAIRES
-================================= */
-
-label {
-  display: block;
-  margin: 10px 0 5px;
-  font-weight: bold;
+.no-print {
+  display: inline-block;
 }
 
-input,
-select,
-textarea {
-  width: 25%;
-  padding: 8px;
-  margin-top: 4px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
-
-/* ===============================
-   NUMÉRO DE DOSSIER
-================================= */
-
-#numeroDossier {
-  width: 35%;
-  box-sizing: border-box;
-  padding: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  background-color: #eaeaea;
-  letter-spacing: 1px;
-}
-
-/* ===============================
-   PIÈCES INSPECTÉES
-================================= */
-
+/* =========================== */
+/* LISTE DES PIÈCES            */
+/* =========================== */
 .piece-container {
-  background-color: #fff;
   border: 1px solid #ccc;
-  padding: 15px;
-  margin-top: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  margin: 10px 0;
+  padding: 10px;
+  background: #fefefe;
+  border-radius: 6px;
 }
 
-/* ===============================
-   SIGNATURES
-================================= */
+.piece-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
 
-canvas {
-  border: 1px solid #000;
+.piece-header .piece-titre {
+  font-weight: bold;
+  font-size: 1.1em;
+  white-space: nowrap;
+}
+
+.piece-header .piece-actions {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.piece-header .piece-actions button {
+  background-color: #2196F3; /* bleu */
+  border: 1px solid #0b7dda;
+}
+
+.piece-header .piece-actions button:hover {
+  background-color: #0b7dda;
+}
+
+.resume-piece {
   margin-top: 10px;
-  border-radius: 5px;
+  padding: 10px;
+  background: #f0f0f0;
+  border-radius: 6px;
 }
 
-/* ===============================
-   IMAGE PRÉVISUALISÉE
-================================= */
-
-.photo-preview {
+/* =========================== */
+/* PRÉVISUALISATION IMAGE      */
+/* =========================== */
+img {
   max-width: 200px;
-  display: none;
-  margin-top: 10px;
-  border-radius: 5px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  display: block;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-/* ===============================
-   TITRES
-================================= */
-
-h2 {
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 5px;
-  color: #2c3e50;
+/* =========================== */
+/* MINUTEUR                    */
+/* =========================== */
+#minuteur-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-/* ===============================
-   IMPRESSION
-================================= */
+#affichage-minuteur, #affichage-montant {
+  font-weight: bold;
+  font-size: 1.1em;
+}
 
+#affichage-minuteur, #affichage-montant {
+  display: none; /* caché par défaut */
+}
+
+/* =========================== */
+/* IMPRESSION                  */
+/* =========================== */
 @media print {
-
-  body {
-    margin: 0;
-    padding: 0;
-  }
-
-  /* Cacher tout */
-  body * {
-    visibility: hidden;
-  }
-
-  /* Afficher uniquement le rapport généré */
-  #zone-impression,
-  #zone-impression * {
-    visibility: visible;
-  }
+  .no-print { display: none !important; }
 
   #zone-impression {
     position: absolute;
@@ -176,51 +156,17 @@ h2 {
     padding: 30px;
   }
 
-  /* Masquer tous les boutons */
-  button {
-    display: none !important;
+  #zone-impression * {
+    visibility: visible;
   }
 
-  /* Empêche coupure au milieu */
-  #zone-impression div {
-    page-break-inside: avoid;
-    break-inside: avoid;
+  @page {
+    size: auto;
+    margin: 20mm;
   }
 
-  #zone-impression h1,
-  #zone-impression h3 {
-    page-break-after: avoid;
+  body {
+    margin: 0;
+    padding: 0;
   }
-
-  .no-print {
-    display: none !important;
-  }
-
-}
-/* =====================================================
-   FILIGRANE RAPPORT
-===================================================== */
-
-#zone-impression {
-  position: relative;
-}
-
-#zone-impression::before {
-  content: "VÉRIFICATION PRÉVENTIVE IMMOBILIÈRE\nJean-Louis Raymond";
-  white-space: pre;
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-30deg);
-  font-size: 48px;
-  font-weight: bold;
-  color: rgba(0, 0, 0, 0.08);
-  text-align: center;
-  pointer-events: none;
-  z-index: 0;
-}
-
-#zone-impression * {
-  position: relative;
-  z-index: 1;
 }
