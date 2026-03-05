@@ -336,141 +336,144 @@ const modelesPieces = {
 
 // ======================================================
 // MODULE 5
-// MOTEUR DES PIÈCES COMPLET AVEC BOUTONS À GAUCHE
+// MOTEUR DES PIÈCES – BOUTONS À GAUCHE + CSS INTÉGRÉ
 // ======================================================
 
-// CSS intégré pour le module 5
-const styleModule5 = document.createElement('style');
-styleModule5.textContent = `
-.piece-container {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 15px;
-  background: #fafafa;
-  border-radius: 6px;
-}
-
-.piece-header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
-}
-
-.piece-header .piece-titre {
-  font-weight: bold;
-  font-size: 1.1em;
-  white-space: nowrap;
-}
-
-.piece-header .piece-actions {
-  display: flex;
-  gap: 5px;
-  flex-shrink: 0;
-}
-
-.piece-header button {
-  padding: 4px 10px;
-  border-radius: 4px;
-  border: 1px solid #888;
-  background-color: #eee;
-  cursor: pointer;
-  font-size: 0.9em;
-}
-
-.piece-header button:hover {
-  background-color: #ddd;
-}
-
-/* Cache le minuteur par défaut */
-#section-minuteur {
-  display: none;
-}
-`;
-document.head.appendChild(styleModule5);
-
-// Fonction principale d’ajout d’une pièce
 function ajouterPiece() {
+
   const type = document.getElementById("type-piece").value;
-  if (!type) {
-    alert("Veuillez sélectionner une pièce.");
-    return;
-  }
+  if (!type) { alert("Veuillez sélectionner une pièce."); return; }
 
   const id = "piece-" + Date.now();
   const div = document.createElement("div");
   div.className = "piece-container";
   div.id = id;
 
-  // HEADER : titre + boutons à gauche
+  // HEADER : Titre + boutons alignés à gauche
   let html = `
-    <div class="piece-header">
-      <span class="piece-titre">${type}</span>
-      <div class="piece-actions">
-        <button type="button" onclick="terminerPiece('${id}')">Terminer</button>
-        <button type="button" onclick="document.getElementById('${id}').remove()">Retirer</button>
-      </div>
+  <div class="piece-header">
+    <span class="piece-titre">${type}</span>
+    <div class="piece-actions">
+      <button type="button" onclick="retracterPiece('${id}')">Terminer</button>
+      <button type="button" onclick="document.getElementById('${id}').remove()">Retirer</button>
     </div>
+  </div>
   `;
 
-  // ÉQUIPEMENTS TECHNIQUES
+  // Équipements techniques
   html += `
-    <div class="equipement-technique">
-      <h4>Équipements techniques</h4>
-      <select id="equipement-${id}">
-        <option value="">Sélectionnez</option>
-        ${typeof equipementsTechniques !== "undefined"
-          ? Object.keys(equipementsTechniques).map(e => `<option>${e}</option>`).join("")
-          : ""}
-      </select>
-      <button type="button" onclick="ajouterEquipement('${id}')">Ajouter</button>
-      <div class="liste-equipements"></div>
-    </div>
+  <div class="equipement-technique">
+    <h4>Équipements techniques</h4>
+    <select id="equipement-${id}">
+      <option value="">Sélectionnez</option>
+      ${typeof equipementsTechniques !== "undefined" 
+        ? Object.keys(equipementsTechniques).map(e => `<option>${e}</option>`).join("")
+        : ""}
+    </select>
+    <button type="button" onclick="ajouterEquipement('${id}')">Ajouter</button>
+    <div class="liste-equipements"></div>
+  </div>
   `;
 
-  // MODÈLE DE PIÈCE SPÉCIFIQUE
-  if (modelesPieces[type]) {
-    html += modelesPieces[type]();
-  } else {
-    html += texte("Commentaires");
-  }
+  // Modèle spécifique
+  if (modelesPieces[type]) { html += modelesPieces[type](); } 
+  else { html += texte("Commentaires"); }
 
-  // PHOTOS
+  // Photos
   html += `
-    <label>Photo générale 1
-      <input type="file" accept="image/*" onchange="previewImage(event,this)">
-      <img style="max-width:200px; display:none; margin-top:5px;">
-    </label>
-    <label>Photo générale 2
-      <input type="file" accept="image/*" onchange="previewImage(event,this)">
-      <img style="max-width:200px; display:none; margin-top:5px;">
-    </label>
-    <label>Photo défaut spécifique
-      <input type="file" accept="image/*" onchange="previewImage(event,this)">
-      <img style="max-width:200px; display:none; margin-top:5px;">
-    </label>
+  <label>Photo générale 1
+    <input type="file" accept="image/*" onchange="previewImage(event,this)">
+    <img style="max-width:200px; display:none; margin-top:5px;">
+  </label>
+  <label>Photo générale 2
+    <input type="file" accept="image/*" onchange="previewImage(event,this)">
+    <img style="max-width:200px; display:none; margin-top:5px;">
+  </label>
+  <label>Photo défaut spécifique
+    <input type="file" accept="image/*" onchange="previewImage(event,this)">
+    <img style="max-width:200px; display:none; margin-top:5px;">
+  </label>
   `;
 
-  // VALIDATION VISUELLE
+  // Validation visuelle
   html += `
-    <label>Validation visuelle pièce
-      <select>
-        <option value="">Sélectionnez</option>
-        <option>Conforme</option>
-        <option>Non conforme</option>
-      </select>
-    </label>
+  <label>Validation visuelle pièce
+    <select>
+      <option value="">Sélectionnez</option>
+      <option>Conforme</option>
+      <option>Non conforme</option>
+    </select>
+  </label>
   `;
 
-  // COMMENTAIRE FINAL
+  // Commentaire final
   html += texte("Résumé technique final de la pièce");
 
-  // AJOUT DANS LE DOM
+  // Injection dans DOM
   div.innerHTML = html;
   document.getElementById("liste-pieces").appendChild(div);
   document.getElementById("type-piece").value = "";
+
+  // ===== CSS intégré pour boutons et rétractable =====
+  const style = document.createElement("style");
+  style.innerHTML = `
+  .piece-container {
+    border:1px solid #ccc; border-radius:6px; padding:10px; margin-bottom:10px; background:#fff;
+  }
+  .piece-header {
+    display:flex; align-items:center; gap:10px; justify-content:flex-start;
+  }
+  .piece-actions {
+    display:flex; gap:5px;
+  }
+  .piece-container.retractable .equipement-technique,
+  .piece-container.retractable label,
+  .piece-container.retractable textarea,
+  .piece-container.retractable select,
+  .piece-container.retractable .liste-equipements {
+    display:none;
+  }
+  .piece-container.retractable { opacity:0.8; border:2px solid #4CAF50; }
+  .piece-header button {
+    background-color:#4CAF50; color:#fff; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;
+  }
+  .piece-header button:hover { background-color:#45a049; }
+  `;
+  document.head.appendChild(style);
+}
+
+// ======================================================
+// MODULE RÉTRACTABLE
+// ======================================================
+
+function retracterPiece(id) {
+  const piece = document.getElementById(id);
+  if (!piece) return;
+
+  piece.classList.add("retractable");
+
+  const header = piece.querySelector(".piece-header");
+  if (header) {
+    header.querySelector(".piece-actions").innerHTML =
+      `<button type="button" onclick="deployerPiece('${id}')">Réouvrir</button>`;
+  }
+
+  const suivante = piece.nextElementSibling;
+  if (suivante) suivante.scrollIntoView({ behavior: "smooth" });
+}
+
+function deployerPiece(id) {
+  const piece = document.getElementById(id);
+  if (!piece) return;
+
+  piece.classList.remove("retractable");
+
+  const header = piece.querySelector(".piece-header");
+  if (header) {
+    header.querySelector(".piece-actions").innerHTML =
+      `<button type="button" onclick="retracterPiece('${id}')">Terminer</button>
+       <button type="button" onclick="document.getElementById('${id}').remove()">Retirer</button>`;
+  }
 }
 
 // ======================================================
