@@ -151,3 +151,17 @@ textarea {
     padding: 0;
   }
 }
+/* ======================================================
+   #zone-impression : caché à l’écran, visible à l’impression
+====================================================== */
+#zone-impression {
+    display: none; /* caché à l’écran */
+}
+
+@media print {
+    #zone-impression {
+        display: block; /* visible uniquement à l’impression */
+        width: 100%;
+        padding: 30px;
+    }
+}
