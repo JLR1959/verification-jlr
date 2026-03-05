@@ -505,7 +505,7 @@ function previewImage(event, input) {
 
 // ======================================================
 // MODULE 7
-// GÉNÉRATION DU RAPPORT D’IMPRESSION
+// GÉNÉRATION DU RAPPORT COMPLET AVEC FACTURE
 // ======================================================
 
 function genererRapportImpression() {
@@ -523,65 +523,86 @@ function genererRapportImpression() {
   const pieces = document.querySelectorAll(".piece-container");
 
   pieces.forEach(piece => {
-
-    const titreElement = piece.querySelector("h3");
-    let titre = "Pièce";
-
-    if (titreElement) {
-
-      const clone = titreElement.cloneNode(true);
-      clone.querySelectorAll("button").forEach(btn => btn.remove());
-      titre = clone.textContent.trim();
-
-    }
+    const titreElement = piece.querySelector(".piece-header .piece-titre");
+    const titre = titreElement ? titreElement.textContent.trim() : "Pièce";
 
     piece.querySelectorAll("label").forEach(label => {
-
       const select = label.querySelector("select");
-
       if (!select) return;
-
-      const valeur = select.value;
-
-      if (!valeur || valeur === "Sélectionnez") return;
+      if (!select.value || select.value === "Sélectionnez") return;
 
       const nomChamp = label.childNodes[0].textContent.trim();
 
-      const ligne =
-        `<div style="margin-bottom:8px;">
-           <strong>${titre}</strong><br>
-           ${nomChamp} : ${valeur}
-         </div>`;
+      const ligne = `<div style="margin-bottom:4px;">
+        <strong>${titre}</strong><br>
+        ${nomChamp} : ${select.value}
+      </div>`;
 
-      if (valeursConformes.includes(valeur)) {
-
+      if (valeursConformes.includes(select.value)) {
         conformes += ligne;
-
       } else {
-
         defectueux += ligne;
-
       }
-
     });
-
   });
 
   const zone = document.getElementById("zone-impression");
-
   if (!zone) return;
 
+  // Récupération des infos client
+  const dossier = document.getElementById("numeroDossier")?.value || "";
+  const locataire = document.getElementById("locataire")?.value || "";
+  const telephone = document.getElementById("telephone")?.value || "";
+  const appartement = document.getElementById("numeroAppartement")?.value || "";
+  const adresse = document.getElementById("adresse")?.value || "";
+  const ville = document.getElementById("ville")?.value || "";
+
+  // Calcul facture
+  const heures = tempsTotalSecondes / 3600;
+  const sousTotal = heures * tauxHoraire;
+  const tps = sousTotal * 0.05;
+  const tvq = sousTotal * 0.09975;
+  const total = sousTotal + tps + tvq;
+
   zone.innerHTML = `
+    <div style="text-align:center; margin-bottom:20px;">
+      <img src="logo_jlr.png" alt="Logo JLR" style="max-height:80px;">
+      <h1>Vérification Préventive Immobilière</h1>
+      <h2>Jean-Louis Raymond</h2>
+      <p>Consultant en vérification préventive</p>
+      <p>📧 jlouisraymond@hotmail.com | 📞 438-220-6511</p>
+      <p>NEQ : 2268876952</p>
+      <p>TPS : 771362471 RT 0001 | TVQ : 1227894560 TQ 0001</p>
+    </div>
+
+    <div style="margin-bottom:20px;">
+      <h2>Informations client</h2>
+      <p><strong>Numéro de dossier:</strong> ${dossier}</p>
+      <p><strong>Locataire:</strong> ${locataire}</p>
+      <p><strong>Téléphone:</strong> ${telephone}</p>
+      <p><strong>Adresse:</strong> ${adresse}, ${appartement}, ${ville}</p>
+    </div>
+
     <div style="page-break-after:always;">
-      <h1>ÉLÉMENTS DÉFECTUEUX</h1>
+      <h2>Éléments défectueux</h2>
       ${defectueux || "<p>Aucun problème détecté.</p>"}
     </div>
-    <div>
-      <h1>ÉLÉMENTS CONFORMES</h1>
+
+    <div style="page-break-after:always;">
+      <h2>Éléments conformes</h2>
       ${conformes || "<p>Aucun élément conforme détecté.</p>"}
     </div>
-  `;
 
+    <div>
+      <h2>Facturation</h2>
+      <p>Temps travaillé : ${heures.toFixed(2)} heures</p>
+      <p>Taux horaire : ${tauxHoraire.toFixed(2)} $ / heure</p>
+      <p>Sous-total : ${sousTotal.toFixed(2)} $</p>
+      <p>TPS (5%) : ${tps.toFixed(2)} $</p>
+      <p>TVQ (9.975%) : ${tvq.toFixed(2)} $</p>
+      <h3>Total à payer : ${total.toFixed(2)} $</h3>
+    </div>
+  `;
 }
 
 window.addEventListener("beforeprint", genererRapportImpression);
