@@ -1,24 +1,48 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
 <meta charset="utf-8">
 <title>Vérification Préventive Immobilière - Jean-Louis Raymond</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="style.css">
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script defer src="app.js"></script>
+<script defer src="typeVerification.js"></script>
+
+<link href="style.css" rel="stylesheet">
+
+<style>
+
+#rapport-impression{
+display:none;
+}
+
+@media print{
+
+body *{
+visibility:hidden;
+}
+
+#rapport-impression,
+#rapport-impression *{
+visibility:visible;
+}
+
+#rapport-impression{
+display:block;
+position:absolute;
+left:0;
+top:0;
+width:100%;
+}
+
+}
+
+</style>
 
 </head>
 
-
-
 <body>
-
-
 
 <div id="bandeau-mode-verification">
 Mode de vérification : NON SÉLECTIONNÉ
@@ -31,6 +55,8 @@ Mode de vérification : NON SÉLECTIONNÉ
 <img src="logo_jlr.png" alt="Logo JLR" style="max-height:80px;">
 
 <h1>Vérification Préventive Immobilière</h1>
+
+<p><strong>Étapes numérotées à suivre pour remplir ce formulaire</strong></p>
 
 <h2>Jean-Louis Raymond</h2>
 
@@ -48,40 +74,35 @@ Mode de vérification : NON SÉLECTIONNÉ
 
 <section id="formulaire-client">
 
+<h2>Étapes numérotées à suivre pour remplir ce formulaire</h2>
+
 <h2>Informations du client</h2>
 
-<label>
-Numéro de dossier
+<label>***Numéro de dossier automatique, SVP... Ne rien écrire ici***
 <input type="text" id="numeroDossier" readonly>
 </label>
 
-<label>
-Nom du locataire
+<label>1) Nom du locataire
 <input type="text" id="locataire">
 </label>
 
-<label>
-Téléphone
+<label>2) Téléphone
 <input type="tel" id="telephone">
 </label>
 
-<label>
-Numéro d’appartement
+<label>3) Numéro d’appartement
 <input type="text" id="numeroAppartement">
 </label>
 
-<label>
-Adresse
+<label>4) Adresse
 <input type="text" id="adresse">
 </label>
 
-<label>
-Ville
+<label>5) Ville
 <input type="text" id="ville">
 </label>
 
-<label>
-Date de vérification
+<label>6) Ajouter la date de vérification
 <input type="date" id="verification-date">
 </label>
 
@@ -91,60 +112,75 @@ Date de vérification
 
 <section>
 
-
-<label>1) SÉLECTIONNEZ UN TYPE DE VÉRIFICATION (intérieur) ou (extérieur) pour débuter</label>
+<label>7) Choisissez un type de vérification (INTÉRIEUR) A ou (EXTÉRIEUR) B</label>
 
 <div id="choix-verification">
 
-<button
-type="button"
-id="btn-interieur"
-class="type-btn interieur"
-onclick="choisirVerification('interieur')">
-
-🏠 Vérification intérieure
-
+<button type="button" id="btn-interieur" onclick="choisirVerification('interieur')" class="type-btn interieur">
+🏠 A) Vérification Intérieure
 </button>
 
-
-
-<button
-type="button"
-id="btn-exterieur"
-class="type-btn exterieur"
-onclick="choisirVerification('exterieur')">
-
-🌳 Vérification extérieure
-
+<button type="button" id="btn-exterieur" onclick="choisirVerification('exterieur')" class="type-btn exterieur">
+🌳 B) Vérification Extérieure
 </button>
+
+<input type="hidden" id="type-verification">
 
 </div>
-
-
 
 <div id="mode-verification-indicateur"></div>
 
 
 
-<label>2) Sélectionnez une pièce ou un élément ci-dessous en cliquant sur 3) Sélectionnez</label>
+<label>8) Sélectionnez Pièces ou éléments ci-dessous</label>
 
 <select id="type-piece">
 
-<option value="">
-3) Sélectionnez
-</option>
+<option value="">Pièces ou éléments</option>
+
+<optgroup label="Intérieur" id="pieces-interieur">
+
+<option>Cuisine</option>
+<option>Salle de bain</option>
+<option>Salle d'eau</option>
+<option>Salle à manger</option>
+<option>Salon</option>
+<option>Chambre</option>
+<option>Bureau</option>
+<option>Corridor</option>
+<option>Escalier</option>
+<option>Hall d'entrée</option>
+<option>Sous-sol</option>
+<option>Salle mécanique</option>
+<option>Salle électrique</option>
+<option>Éclairage</option>
+<option>Salle lavage</option>
+
+</optgroup>
+
+<optgroup label="Extérieur" id="pieces-exterieur">
+
+<option>Garage</option>
+<option>Balcon</option>
+<option>Terrasse</option>
+<option>Piscine</option>
+<option>Verrière</option>
+<option>Climatisation</option>
+<option>Porte patio</option>
+<option>Réservoir eau chaude</option>
+<option>Stationnement</option>
+<option>Borne de recharge</option>
+<option>Clôture</option>
+<option>Cabanon</option>
+<option>Porte</option>
+<option>Vide sanitaire</option>
+
+</optgroup>
 
 </select>
 
-
-
-<button
-type="button"
-onclick="ajouterPiece()"
-class="no-print">
-
-Ajouter cette pièce ou élément
-
+<button type="button" onclick="ajouterPiece()" class="no-print">
+9) Cliquez ici pour ouvrir Pièces ou éléments
 </button>
 
 </section>
@@ -153,96 +189,51 @@ Ajouter cette pièce ou élément
 
 <section>
 
-<h2>Pièces ou éléments en cours de vérification</h2>
+<h2>Pièces en cours de vérification</h2>
 
 <div id="liste-pieces"></div>
 
 </section>
-
-
-
 <section>
 
 <h2>Signatures</h2>
 
-
-
 <label>Signature du client</label>
 
-<canvas
-id="signature-client"
-width="300"
-height="100"></canvas>
+<canvas id="signature-client" width="300" height="100"></canvas>
 
 <br>
 
-<button
-type="button"
-onclick="effacerSignatureLocataire()"
-class="no-print">
-
+<button type="button" onclick="effacerSignatureLocataire()" class="no-print">
 Effacer signature client
-
 </button>
 
-<button
-type="button"
-onclick="figerSignature('signature-client')"
-class="no-print">
-
+<button type="button" onclick="figerSignature('signature-client')" class="no-print">
 Figer
-
 </button>
 
-<button
-type="button"
-onclick="deverrouillerSignature('signature-client')"
-class="no-print">
-
+<button type="button" onclick="deverrouillerSignature('signature-client')" class="no-print">
 Réouvrir
-
 </button>
-
-
 
 <br><br>
 
-
-
 <label>Signature du consultant</label>
 
-<canvas
-id="signature-verificateur"
-width="300"
-height="100"></canvas>
+<canvas id="signature-verificateur" width="300" height="100"></canvas>
 
 <br>
 
-<button
-type="button"
-onclick="effacerSignatureConsultant()"
-class="no-print">
-
+<button type="button" onclick="effacerSignatureConsultant()" class="no-print">
 Effacer signature consultant
-
 </button>
 
-<button
-type="button"
-onclick="figerSignature('signature-verificateur')"
-class="no-print">
-
+<button type="button" onclick="figerSignature('signature-verificateur')" class="no-print">
 Figer
-
 </button>
 
-<button
-type="button"
-onclick="deverrouillerSignature('signature-verificateur')"
-class="no-print">
-
+<button type="button" onclick="deverrouillerSignature('signature-verificateur')" class="no-print">
 Réouvrir
-
 </button>
 
 </section>
@@ -253,31 +244,17 @@ Réouvrir
 
 <h2>Envoyer le rapport par courriel</h2>
 
-<label>
-Courriel du propriétaire
-<input
-type="email"
-id="emailProprietaire"
-placeholder="Entrez le courriel du propriétaire">
-</label>
+<label>Courriel du propriétaire</label>
+
+<input type="email" id="emailProprietaire" placeholder="Entrez le courriel du propriétaire">
 
 <label>
-
-<input
-type="checkbox"
-id="envoyerAuProprietaire"
-checked>
-
+<input type="checkbox" id="envoyerAuProprietaire" checked>
 Envoyer également au propriétaire
-
 </label>
 
-<button
-type="button"
-onclick="genererMailto()">
-
+<button type="button" onclick="genererMailto()">
 Envoyer le rapport
-
 </button>
 
 </section>
@@ -298,10 +275,10 @@ Envoyer le rapport
 Total : <span id="montant-affiche">0.00 $</span>
 </div>
 
-<button onclick="demarrerMinuteur()">Démarrer</button>
-<button onclick="pauseMinuteur()">Pause</button>
-<button onclick="reinitialiserMinuteur()">Réinitialiser</button>
-<button onclick="basculerVisibiliteMinuteur()">Voir / Cacher</button>
+<button type="button" onclick="demarrerMinuteur()">Démarrer</button>
+<button type="button" onclick="pauseMinuteur()">Pause</button>
+<button type="button" onclick="reinitialiserMinuteur()">Réinitialiser</button>
+<button type="button" onclick="basculerVisibiliteMinuteur()">Voir / Cacher</button>
 
 </div>
 
@@ -311,13 +288,8 @@ Total : <span id="montant-affiche">0.00 $</span>
 
 <footer>
 
-<button
-type="button"
-onclick="window.print()"
-class="no-print">
-
+<button type="button" onclick="window.print()" class="no-print">
 Imprimer le rapport
-
 </button>
 
 </footer>
@@ -346,36 +318,53 @@ Imprimer le rapport
 
 <h2>Informations client</h2>
 
-<p id="rapport-client"></p>
+<p>Numéro de dossier :</p>
+<p>Locataire :</p>
+<p>Téléphone :</p>
+<p>Adresse :</p>
 
 
 
-<h2>Éléments inspectés</h2>
+<h2>Éléments défectueux</h2>
 
-<div id="rapport-pieces"></div>
+<p>Aucun problème détecté.</p>
+
+
+
+<h2>Éléments conformes</h2>
+
+<p>Aucun élément conforme détecté.</p>
 
 
 
 <h2>Facturation</h2>
 
-<p>Taux horaire : 125 $ / heure</p>
+<p>Temps travaillé : 0.00 heures</p>
+
+<p>Taux horaire : 125.00 $ / heure</p>
+
+<p>Sous-total : 0.00 $</p>
+
+<p>TPS (5%) : 0.00 $</p>
+
+<p>TVQ (9.975%) : 0.00 $</p>
+
+<h3>Total à payer : 0.00 $</h3>
 
 
 
 <section id="sceau-conformite">
 
-<h2>Attestation de conformité</h2>
+<h2>Attestation de conformité de vérification</h2>
 
-<img
-src="sceau certification VPIJLR.png"
-class="sceau-image"
-alt="Sceau certification VPIJLR">
+<img src="sceau certification VPIJLR.png" class="sceau-image">
 
 <p>
 
-Je soussigné Jean-Louis Raymond atteste que la
-vérification préventive immobilière a été effectuée
-selon les règles de l’art.
+Je soussigné, Jean-Louis Raymond, consultant en vérification préventive immobilière,
+atteste que la présente vérification visuelle a été réalisée conformément aux règles
+de l’art et selon les pratiques généralement reconnues dans le domaine de la
+vérification préventive immobilière.
 
 </p>
 
@@ -384,11 +373,6 @@ selon les règles de l’art.
 </section>
 
 </div>
-
-
-
-<script src="typeVerification.js"></script>
-<script src="app.js"></script>
 
 </body>
 </html>

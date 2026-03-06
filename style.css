@@ -1,3 +1,7 @@
+/* ======================================================
+PALETTE
+====================================================== */
+
 :root{
 --bleu:#2563eb;
 --vert:#16a34a;
@@ -8,7 +12,9 @@
 
 
 
-/* base */
+/* ======================================================
+BASE
+====================================================== */
 
 body{
 margin:0;
@@ -20,7 +26,9 @@ color:var(--texte);
 
 
 
-/* bandeau mode */
+/* ======================================================
+BANDEAU MODE
+====================================================== */
 
 #bandeau-mode-verification{
 
@@ -47,7 +55,9 @@ z-index:1000;
 
 
 
-/* couleurs mode */
+/* ======================================================
+COULEURS MODE
+====================================================== */
 
 .bandeau-interieur{
 background:#dbeafe;
@@ -61,7 +71,9 @@ color:#166534;
 
 
 
-/* cartes interface */
+/* ======================================================
+CARTES INTERFACE
+====================================================== */
 
 header,
 section,
@@ -82,7 +94,9 @@ box-shadow:
 
 
 
-/* titres */
+/* ======================================================
+TITRES
+====================================================== */
 
 h1{
 margin:10px 0;
@@ -98,7 +112,9 @@ border-bottom:2px solid #e5e7eb;
 
 
 
-/* champs */
+/* ======================================================
+CHAMPS
+====================================================== */
 
 label{
 display:block;
@@ -111,22 +127,18 @@ select,
 textarea{
 
 width:100%;
-max-width:100%;
+max-width:400px;
 
 padding:10px 12px;
 
 border-radius:8px;
 border:1px solid #d1d5db;
 
-font-size:16px;
-
-box-sizing:border-box;
+font-size:14px;
 
 transition:.2s;
 
 }
-
-
 
 input:focus,
 select:focus,
@@ -141,7 +153,9 @@ box-shadow:0 0 0 3px rgba(37,99,235,0.15);
 
 
 
-/* boutons */
+/* ======================================================
+BOUTONS
+====================================================== */
 
 button{
 
@@ -162,8 +176,6 @@ transition:.2s;
 
 }
 
-
-
 button:hover{
 
 transform:translateY(-2px);
@@ -173,7 +185,9 @@ box-shadow:0 10px 20px rgba(0,0,0,0.12);
 
 
 
-/* boutons intérieur / extérieur */
+/* ======================================================
+BOUTONS INTERIEUR / EXTERIEUR
+====================================================== */
 
 #choix-verification{
 display:flex;
@@ -184,23 +198,15 @@ margin-bottom:20px;
 .type-btn{
 
 flex:1;
-
 font-size:18px;
 padding:18px;
-
 border-radius:12px;
-
 font-weight:700;
-
 cursor:pointer;
-
 border:none;
-
 transition:.2s;
 
 }
-
-
 
 .interieur{
 background:#dbeafe;
@@ -212,8 +218,6 @@ background:#dcfce7;
 color:#166534;
 }
 
-
-
 .type-btn.actif{
 
 transform:scale(1.05);
@@ -223,20 +227,18 @@ box-shadow:0 0 0 4px rgba(37,99,235,0.35);
 
 
 
-/* indicateur mode */
+/* ======================================================
+INDICATEUR MODE
+====================================================== */
 
 #mode-verification-indicateur{
 
 margin-top:12px;
 padding:14px;
-
 border-radius:8px;
-
 font-size:16px;
 font-weight:700;
-
 text-align:center;
-
 display:none;
 
 }
@@ -253,18 +255,16 @@ color:#166534;
 
 
 
-/* bloc pièces */
+/* ======================================================
+BLOC PIECES
+====================================================== */
 
 .piece-container{
 
 background:#f9fafb;
-
 border-radius:10px;
-
 padding:16px;
-
 margin:14px 0;
-
 border:1px solid #e5e7eb;
 
 }
@@ -274,14 +274,15 @@ border:1px solid #e5e7eb;
 display:flex;
 justify-content:space-between;
 align-items:center;
-
 margin-bottom:10px;
 
 }
 
 
 
-/* signature */
+/* ======================================================
+SIGNATURE
+====================================================== */
 
 canvas{
 
@@ -289,49 +290,62 @@ border-radius:8px;
 border:1px solid #e5e7eb;
 background:white;
 
-touch-action:none;
-
 }
 
 
 
-/* minuteur */
+/* ======================================================
+MINUTEUR MASQUÉ
+====================================================== */
 
-#minuteur-container{
+#section-minuteur{
+display:none !important;
+}
 
-display:none;
 
-padding:15px;
 
-background:#f9fafb;
+/* ======================================================
+BOUTON FORMULAIRE TERMINÉ
+====================================================== */
+
+.btn-formulaire-termine{
+
+background:#16a34a;
+color:white;
+
+font-size:16px;
+font-weight:700;
+
+padding:14px 24px;
 
 border-radius:10px;
 
-border:1px solid #e5e7eb;
+margin-top:20px;
 
 }
 
-#affichage-minuteur{
-font-size:32px;
-font-weight:700;
-color:var(--bleu);
-}
-
-#affichage-montant{
-font-size:18px;
+.btn-formulaire-termine:hover{
+background:#15803d;
 }
 
 
 
-/* rapport caché dans l'interface */
+/* ======================================================
+MASQUER COMPLETEMENT LE RAPPORT
+====================================================== */
 
 #rapport-impression{
-display:none;
+display:none !important;
+visibility:hidden;
+height:0;
+overflow:hidden;
 }
 
 
 
-/* sceau */
+/* ======================================================
+SCEAU
+====================================================== */
 
 .sceau-image{
 
@@ -347,7 +361,9 @@ opacity:0.9;
 
 
 
-/* impression */
+/* ======================================================
+MODE IMPRESSION
+====================================================== */
 
 @media print{
 
@@ -355,14 +371,18 @@ body *{
 visibility:hidden;
 }
 
+
+
 #rapport-impression,
 #rapport-impression *{
 visibility:visible;
 }
 
+
+
 #rapport-impression{
 
-display:block;
+display:block !important;
 
 position:absolute;
 
@@ -371,44 +391,28 @@ left:0;
 
 width:100%;
 
+height:auto;
+
+overflow:visible;
+
 padding:30px;
 
 }
+
+
+
+/* saut de page avant attestation */
 
 #sceau-conformite{
 page-break-before:always;
 text-align:center;
 }
 
+
+
 button,
 .no-print{
 display:none !important;
-}
-
-}
-
-
-
-/* optimisation mobile */
-
-@media (max-width:768px){
-
-body{
-padding:12px;
-}
-
-section,
-header,
-footer{
-padding:18px;
-}
-
-#choix-verification{
-flex-direction:column;
-}
-
-.type-btn{
-width:100%;
 }
 
 }
