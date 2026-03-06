@@ -2534,61 +2534,101 @@ function activerSignature(canvasId) {
   if (!canvas) return;
 
   const ctx = canvas.getContext("2d");
+
   let dessin = false;
 
   canvas.dataset.locked = "false";
 
-  canvas.addEventListener("mousedown", function(e) {
+
+
+  function position(event) {
+
+    const rect = canvas.getBoundingClientRect();
+
+    if (event.touches) {
+
+      return {
+        x: event.touches[0].clientX - rect.left,
+        y: event.touches[0].clientY - rect.top
+      };
+
+    }
+
+    return {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
+    };
+
+  }
+
+
+
+  function commencer(event) {
 
     if (canvas.dataset.locked === "true") return;
 
     dessin = true;
 
-    const rect = canvas.getBoundingClientRect();
+    const pos = position(event);
 
     ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
 
-    ctx.moveTo(
-      e.clientX - rect.left,
-      e.clientY - rect.top
-    );
+    event.preventDefault();
 
-  });
+  }
 
-  canvas.addEventListener("mouseup", function() {
 
-    dessin = false;
-    ctx.beginPath();
 
-  });
-
-  canvas.addEventListener("mousemove", function(e) {
+  function dessiner(event) {
 
     if (!dessin || canvas.dataset.locked === "true") return;
 
-    const rect = canvas.getBoundingClientRect();
+    const pos = position(event);
 
     ctx.lineWidth = 2;
     ctx.lineCap = "round";
     ctx.strokeStyle = "#000";
 
-    ctx.lineTo(
-      e.clientX - rect.left,
-      e.clientY - rect.top
-    );
-
+    ctx.lineTo(pos.x, pos.y);
     ctx.stroke();
 
     ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
 
-    ctx.moveTo(
-      e.clientX - rect.left,
-      e.clientY - rect.top
-    );
+    event.preventDefault();
 
-  });
+  }
+
+
+
+  function arreter() {
+
+    dessin = false;
+    ctx.beginPath();
+
+  }
+
+
+
+  // Souris (ordinateur)
+
+  canvas.addEventListener("mousedown", commencer);
+  canvas.addEventListener("mousemove", dessiner);
+  canvas.addEventListener("mouseup", arreter);
+  canvas.addEventListener("mouseleave", arreter);
+
+
+
+  // Tactile (Android / iPhone)
+
+  canvas.addEventListener("touchstart", commencer, { passive:false });
+  canvas.addEventListener("touchmove", dessiner, { passive:false });
+  canvas.addEventListener("touchend", arreter);
 
 }
+
+
 
 function effacerSignatureLocataire() {
 
@@ -2597,12 +2637,7 @@ function effacerSignatureLocataire() {
 
   const ctx = canvas.getContext("2d");
 
-  ctx.clearRect(
-    0,
-    0,
-    canvas.width,
-    canvas.height
-  );
+  ctx.clearRect(0,0,canvas.width,canvas.height);
 
 }
 
