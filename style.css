@@ -1,167 +1,348 @@
-/* ==============================
-   STYLE GLOBAL
-   ============================== */
-body {
-  font-family: Arial, sans-serif;
-  padding: 10px;
-  background: #f7f7f7;
+:root{
+
+--bleu:#2563eb;
+--vert:#16a34a;
+--fond:#eef2f7;
+--carte:#ffffff;
+--texte:#1f2937;
+
 }
 
-header, section, footer {
-  background: #fff;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+
+/* fond général */
+
+body{
+
+margin:0;
+padding:30px;
+background:linear-gradient(135deg,#eef2f7,#dbeafe);
+font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+color:var(--texte);
+
 }
 
-h1, h2, h3, h4 {
-  margin: 5px 0;
+
+
+/* blocs principaux */
+
+header,
+section,
+footer{
+
+background:var(--carte);
+border-radius:14px;
+padding:25px;
+margin-bottom:22px;
+
+box-shadow:
+0 4px 10px rgba(0,0,0,0.05),
+0 20px 40px rgba(0,0,0,0.06);
+
 }
 
-label {
-  display: block;
-  margin: 5px 0;
+
+
+/* titre principal */
+
+h1{
+
+margin:10px 0;
+font-size:30px;
+font-weight:700;
+
 }
 
-input, select, textarea {
-  margin: 4px 0 12px 10px;
-  padding: 4px;
-  width: 250px;
+
+
+h2{
+
+margin-top:0;
+padding-bottom:8px;
+border-bottom:2px solid #e5e7eb;
+
 }
 
-button {
-  margin: 5px 5px 5px 0;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  border: none;
-  background-color: #4CAF50;
-  color: #fff;
+
+
+/* formulaire */
+
+label{
+
+display:block;
+margin-top:12px;
+font-weight:600;
+
 }
 
-button:hover {
-  background-color: #45a049;
+
+
+input,
+select,
+textarea{
+
+width:100%;
+max-width:400px;
+
+padding:10px 12px;
+
+border-radius:8px;
+border:1px solid #d1d5db;
+
+font-size:14px;
+
+transition:.2s;
+
 }
 
-canvas {
-  border: 1px solid #000;
-  margin-top: 5px;
+
+
+input:focus,
+select:focus,
+textarea:focus{
+
+outline:none;
+border-color:var(--bleu);
+
+box-shadow:0 0 0 3px rgba(37,99,235,0.15);
+
 }
 
-.piece-container {
-  border: 1px solid #ccc;
-  margin: 10px 0;
-  padding: 10px;
-  background: #fefefe;
-  border-radius: 6px;
+
+
+/* boutons */
+
+button{
+
+background:var(--bleu);
+color:white;
+
+border:none;
+border-radius:8px;
+
+padding:10px 18px;
+
+font-size:14px;
+font-weight:600;
+
+cursor:pointer;
+
+transition:.2s;
+
 }
 
-.piece-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
+
+
+button:hover{
+
+transform:translateY(-2px);
+
+box-shadow:0 10px 20px rgba(0,0,0,0.12);
+
 }
 
-.piece-header .piece-titre {
-  font-weight: bold;
+
+
+/* choix interieur / exterieur */
+
+#choix-verification{
+
+display:flex;
+gap:20px;
+margin-bottom:20px;
+
 }
 
-.piece-header .piece-actions button {
-  background-color: #2196F3;
-  color: #fff;
-  margin-right: 5px;
+
+
+.type-btn{
+
+flex:1;
+
+font-size:18px;
+padding:18px;
+
+border-radius:12px;
+
+font-weight:700;
+
+cursor:pointer;
+
+border:none;
+
+transition:.2s;
+
 }
 
-.piece-header .piece-actions button:hover {
-  background-color: #1976D2;
+
+
+.interieur{
+
+background:#dbeafe;
+color:#1e40af;
+
 }
 
-.liste-equipements .bloc-equipement {
-  margin: 5px 0;
-  padding: 5px;
-  background: #f0f0f0;
-  border-radius: 4px;
+
+
+.exterieur{
+
+background:#dcfce7;
+color:#166534;
+
 }
 
-.resume-piece {
-  margin-top: 10px;
+
+
+.type-btn.actif{
+
+transform:scale(1.05);
+
+box-shadow:0 0 0 4px rgba(37,99,235,0.4);
+
 }
 
-.photo-preview {
-  max-width: 200px;
-  display: none;
-  margin-top: 5px;
+
+
+/* blocs pieces */
+
+.piece-container{
+
+background:#f9fafb;
+
+border-radius:10px;
+
+padding:16px;
+
+margin:14px 0;
+
+border:1px solid #e5e7eb;
+
 }
 
-textarea {
-  width: 100%;
+
+
+.piece-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:10px;
+
 }
 
-/* ==============================
-   MINUTEUR
-   ============================== */
-#affichage-minuteur,
-#affichage-montant {
-  font-size: 1.2em;
-  margin: 5px 0;
-  display: none; /* caché par défaut */
+
+
+/* signatures */
+
+canvas{
+
+border-radius:8px;
+
+border:1px solid #e5e7eb;
+
+background:white;
+
 }
 
-#section-minuteur button {
-  background-color: #2196F3;
-  color: #fff;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-right: 5px;
+
+
+/* minuteur */
+
+#minuteur-container{
+
+display:none;
+
+padding:15px;
+
+background:#f9fafb;
+
+border-radius:10px;
+
+border:1px solid #e5e7eb;
+
 }
 
-#section-minuteur button:hover {
-  background-color: #1976D2;
+
+
+#affichage-minuteur{
+
+font-size:32px;
+font-weight:700;
+
+color:var(--bleu);
+
 }
 
-/* ==============================
-   PRINT
-   ============================== */
-@media print {
-  .no-print { display: none !important; }
 
-  #zone-impression {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 30px;
-  }
 
-  #zone-impression * {
-    visibility: visible;
-  }
+#affichage-montant{
 
-  @page {
-    size: auto;
-    margin: 20mm;
-  }
+font-size:18px;
 
-  body {
-    margin: 0;
-    padding: 0;
-  }
-}
-/* ======================================================
-   #zone-impression : caché à l’écran, visible à l’impression
-====================================================== */
-#zone-impression {
-    display: none; /* caché à l’écran */
 }
 
-@media print {
-    #zone-impression {
-        display: block; /* visible uniquement à l’impression */
-        width: 100%;
-        padding: 30px;
-    }
+
+
+/* impression */
+
+@media print{
+
+body *{
+visibility:hidden;
+}
+
+#zone-impression,
+#zone-impression *{
+visibility:visible;
+}
+
+/* Indicateur du mode de vérification */
+
+#mode-verification-indicateur{
+
+margin-top:12px;
+padding:14px;
+
+border-radius:8px;
+
+font-size:16px;
+font-weight:700;
+
+text-align:center;
+
+display:none;
+
+}
+
+.mode-interieur{
+
+background:#dbeafe;
+color:#1e40af;
+
+}
+
+.mode-exterieur{
+
+background:#dcfce7;
+color:#166534;
+
+}
+
+#zone-impression{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+padding:30px;
+}
+
+button,
+.no-print{
+display:none !important;
+}
+
 }

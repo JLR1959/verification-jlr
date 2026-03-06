@@ -7,115 +7,10 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script defer src="app.js"></script>
+<script defer src="typeVerification.js"></script>
 
 <link href="style.css" rel="stylesheet">
 
-<style>
-
-/* Styles de base et mise en page */
-
-body{
-font-family: Arial, sans-serif;
-padding:10px;
-background:#f7f7f7;
-}
-
-header, section, footer{
-background:#fff;
-padding:20px;
-margin-bottom:20px;
-border-radius:8px;
-box-shadow:0 2px 5px rgba(0,0,0,0.1);
-}
-
-label{
-display:block;
-margin:5px 0;
-}
-
-input, select, textarea{
-margin:4px 0 12px 10px;
-padding:4px;
-width:250px;
-}
-
-canvas{
-border:1px solid #000;
-margin-top:5px;
-}
-
-button{
-margin:10px 5px;
-padding:6px 12px;
-border-radius:4px;
-cursor:pointer;
-}
-
-h2{
-border-bottom:1px solid #ddd;
-padding-bottom:5px;
-}
-
-.piece-container{
-border:1px solid #ccc;
-margin:10px 0;
-padding:10px;
-background:#fefefe;
-border-radius:6px;
-}
-
-.piece-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:10px;
-}
-
-.piece-actions button{
-margin-left:5px;
-}
-
-.piece-body{
-padding:5px;
-}
-
-.photo-preview{
-max-width:200px;
-display:none;
-margin-top:10px;
-}
-
-.no-print{
-display:inline;
-}
-
-@media print{
-
-body *{
-visibility:hidden;
-}
-
-#zone-impression,
-#zone-impression *{
-visibility:visible;
-}
-
-#zone-impression{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-padding:30px;
-}
-
-button,
-.no-print{
-display:none !important;
-}
-
-}
-
-</style>
 </head>
 
 <body>
@@ -180,11 +75,33 @@ display:none !important;
 
 <h2>Ajouter une pièce ou un élément à vérifier</h2>
 
+<label>Type de vérification</label>
+
+<div id="choix-verification">
+
+<button type="button" id="btn-interieur" onclick="choisirVerification('interieur')" class="type-btn interieur">
+🏠 Vérification Intérieure
+</button>
+
+<button type="button" id="btn-exterieur" onclick="choisirVerification('exterieur')" class="type-btn exterieur">
+🌳 Vérification Extérieure
+</button>
+
+<input type="hidden" id="type-verification">
+
+</div>
+
+<div id="mode-verification-indicateur"></div>
+
+
+
 <label>Sélectionnez une pièce</label>
 
 <select id="type-piece">
 
 <option value="">Sélectionnez</option>
+
+<optgroup label="Intérieur" id="pieces-interieur">
 
 <option>Cuisine</option>
 <option>Salle de bain</option>
@@ -201,6 +118,11 @@ display:none !important;
 <option>Salle électrique</option>
 <option>Éclairage</option>
 <option>Salle lavage</option>
+
+</optgroup>
+
+<optgroup label="Extérieur" id="pieces-exterieur">
+
 <option>Garage</option>
 <option>Balcon</option>
 <option>Terrasse</option>
@@ -215,6 +137,8 @@ display:none !important;
 <option>Cabanon</option>
 <option>Porte</option>
 <option>Vide sanitaire</option>
+
+</optgroup>
 
 </select>
 
@@ -307,7 +231,7 @@ Envoyer le rapport
 
 <h2>Minuteur de vérification</h2>
 
-<div id="minuteur-container">
+<div id="minuteur-container" style="display:none;">
 
 <div id="affichage-minuteur">
 <span id="temps-affiche">00:00:00</span>
