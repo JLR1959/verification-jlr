@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
 <meta charset="utf-8">
 <title>Vérification Préventive Immobilière - Jean-Louis Raymond</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="style.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<link href="style.css" rel="stylesheet">
-
 </head>
 
+
+
 <body>
+
+
 
 <div id="bandeau-mode-verification">
 Mode de vérification : NON SÉLECTIONNÉ
@@ -77,38 +84,59 @@ Mode de vérification : NON SÉLECTIONNÉ
 
 <section>
 
-<h2>Ajouter une pièce ou un élément à vérifier</h2>
-
-<label>Type de vérification</label>
+<label>1) Sélectionnez le TYPE DE VÉRIFICATION (intérieur) ou (extérieur)</label>
 
 <div id="choix-verification">
 
-<button type="button" id="btn-interieur" onclick="choisirVerification('interieur')" class="type-btn interieur">
-🏠 Vérification Intérieure
+<button
+type="button"
+id="btn-interieur"
+class="type-btn interieur"
+onclick="choisirVerification('interieur')">
+
+🏠 Vérification intérieure
+
 </button>
 
-<button type="button" id="btn-exterieur" onclick="choisirVerification('exterieur')" class="type-btn exterieur">
-🌳 Vérification Extérieure
-</button>
 
-<input type="hidden" id="type-verification">
+
+<button
+type="button"
+id="btn-exterieur"
+class="type-btn exterieur"
+onclick="choisirVerification('exterieur')">
+
+🌳 Vérification extérieure
+
+</button>
 
 </div>
+
+
 
 <div id="mode-verification-indicateur"></div>
 
 
 
-<label>Sélectionnez une pièce</label>
+<label>2) Sélectionnez une pièce ou un élément en cliquant sur 3) sélectionnez </label>
 
 <select id="type-piece">
 
-<option value="">Sélectionnez une pièce</option>
+<option value="">
+3) Sélectionnez 
+</option>
 
 </select>
 
-<button type="button" onclick="ajouterPiece()" class="no-print">
-Ajouter cette pièce
+
+
+<button
+type="button"
+onclick="ajouterPiece()"
+class="no-print">
+
+4) Ajouter cette pièce ou cet élément
+
 </button>
 
 </section>
@@ -117,7 +145,7 @@ Ajouter cette pièce
 
 <section>
 
-<h2>Pièces en cours de vérification</h2>
+<h2>Pièces ou élément en cours de vérification</h2>
 
 <div id="liste-pieces"></div>
 
@@ -131,40 +159,80 @@ Ajouter cette pièce
 
 <label>Signature du client</label>
 
-<canvas id="signature-client" width="300" height="100"></canvas>
+<canvas
+id="signature-client"
+width="300"
+height="100"></canvas>
 
 <br>
 
-<button type="button" onclick="effacerSignatureLocataire()" class="no-print">
+<button
+type="button"
+onclick="effacerSignatureLocataire()"
+class="no-print">
+
 Effacer signature client
+
 </button>
 
-<button type="button" onclick="figerSignature('signature-client')" class="no-print">
+<button
+type="button"
+onclick="figerSignature('signature-client')"
+class="no-print">
+
 Figer
+
 </button>
 
-<button type="button" onclick="deverrouillerSignature('signature-client')" class="no-print">
+<button
+type="button"
+onclick="deverrouillerSignature('signature-client')"
+class="no-print">
+
 Réouvrir
+
 </button>
+
+
 
 <br><br>
 
+
+
 <label>Signature du consultant</label>
 
-<canvas id="signature-verificateur" width="300" height="100"></canvas>
+<canvas
+id="signature-verificateur"
+width="300"
+height="100"></canvas>
 
 <br>
 
-<button type="button" onclick="effacerSignatureConsultant()" class="no-print">
+<button
+type="button"
+onclick="effacerSignatureConsultant()"
+class="no-print">
+
 Effacer signature consultant
+
 </button>
 
-<button type="button" onclick="figerSignature('signature-verificateur')" class="no-print">
+<button
+type="button"
+onclick="figerSignature('signature-verificateur')"
+class="no-print">
+
 Figer
+
 </button>
 
-<button type="button" onclick="deverrouillerSignature('signature-verificateur')" class="no-print">
+<button
+type="button"
+onclick="deverrouillerSignature('signature-verificateur')"
+class="no-print">
+
 Réouvrir
+
 </button>
 
 </section>
@@ -177,15 +245,26 @@ Réouvrir
 
 <label>Courriel du propriétaire</label>
 
-<input type="email" id="emailProprietaire" placeholder="Entrez le courriel du propriétaire">
+<input
+type="email"
+id="emailProprietaire"
+placeholder="Entrez le courriel du propriétaire">
 
 <label>
-<input type="checkbox" id="envoyerAuProprietaire" checked>
+<input
+type="checkbox"
+id="envoyerAuProprietaire"
+checked>
+
 Envoyer également au propriétaire
 </label>
 
-<button type="button" onclick="genererMailto()">
+<button
+type="button"
+onclick="genererMailto()">
+
 Envoyer le rapport
+
 </button>
 
 </section>
@@ -206,10 +285,10 @@ Envoyer le rapport
 Total : <span id="montant-affiche">0.00 $</span>
 </div>
 
-<button type="button" onclick="demarrerMinuteur()">Démarrer</button>
-<button type="button" onclick="pauseMinuteur()">Pause</button>
-<button type="button" onclick="reinitialiserMinuteur()">Réinitialiser</button>
-<button type="button" onclick="basculerVisibiliteMinuteur()">Voir / Cacher</button>
+<button onclick="demarrerMinuteur()">Démarrer</button>
+<button onclick="pauseMinuteur()">Pause</button>
+<button onclick="reinitialiserMinuteur()">Réinitialiser</button>
+<button onclick="basculerVisibiliteMinuteur()">Voir / Cacher</button>
 
 </div>
 
@@ -219,8 +298,13 @@ Total : <span id="montant-affiche">0.00 $</span>
 
 <footer>
 
-<button type="button" onclick="window.print()" class="no-print">
+<button
+type="button"
+onclick="window.print()"
+class="no-print">
+
 Imprimer le rapport
+
 </button>
 
 </footer>
@@ -249,53 +333,36 @@ Imprimer le rapport
 
 <h2>Informations client</h2>
 
-<p>Numéro de dossier :</p>
-<p>Locataire :</p>
-<p>Téléphone :</p>
-<p>Adresse :</p>
+<p id="rapport-client"></p>
 
 
 
-<h2>Éléments défectueux</h2>
+<h2>Éléments inspectés</h2>
 
-<p>Aucun problème détecté.</p>
-
-
-
-<h2>Éléments conformes</h2>
-
-<p>Aucun élément conforme détecté.</p>
+<div id="rapport-pieces"></div>
 
 
 
 <h2>Facturation</h2>
 
-<p>Temps travaillé : 0.00 heures</p>
-
-<p>Taux horaire : 125.00 $ / heure</p>
-
-<p>Sous-total : 0.00 $</p>
-
-<p>TPS (5%) : 0.00 $</p>
-
-<p>TVQ (9.975%) : 0.00 $</p>
-
-<h3>Total à payer : 0.00 $</h3>
+<p>Taux horaire : 125 $ / heure</p>
 
 
 
 <section id="sceau-conformite">
 
-<h2>Attestation de conformité de vérification</h2>
+<h2>Attestation de conformité</h2>
 
-<img src="sceau certification VPIJLR.png" alt="Sceau certification VPIJLR" class="sceau-image">
+<img
+src="sceau certification VPIJLR.png"
+class="sceau-image"
+alt="Sceau certification VPIJLR">
 
 <p>
 
-Je soussigné, Jean-Louis Raymond, consultant en vérification préventive immobilière,
-atteste que la présente vérification visuelle a été réalisée conformément aux règles
-de l’art et selon les pratiques généralement reconnues dans le domaine de la
-vérification préventive immobilière.
+Je soussigné Jean-Louis Raymond atteste que la
+vérification préventive immobilière a été effectuée
+selon les règles de l’art.
 
 </p>
 
@@ -307,8 +374,8 @@ vérification préventive immobilière.
 
 
 
-<script src="app.js"></script>
 <script src="typeVerification.js"></script>
+<script src="app.js"></script>
 
 </body>
 </html>

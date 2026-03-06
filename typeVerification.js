@@ -1,4 +1,5 @@
 const piecesInterieur = [
+
 "Cuisine",
 "Salle de bain",
 "Salle d'eau",
@@ -14,9 +15,13 @@ const piecesInterieur = [
 "Salle électrique",
 "Éclairage",
 "Salle lavage"
+
 ];
 
+
+
 const piecesExterieur = [
+
 "Garage",
 "Balcon",
 "Terrasse",
@@ -31,23 +36,70 @@ const piecesExterieur = [
 "Cabanon",
 "Porte",
 "Vide sanitaire"
+
 ];
+
+
 
 function choisirVerification(type){
 
 const select = document.getElementById("type-piece");
 
+const boutonInterieur = document.getElementById("btn-interieur");
+const boutonExterieur = document.getElementById("btn-exterieur");
+
+const bandeau = document.getElementById("bandeau-mode-verification");
+const indicateur = document.getElementById("mode-verification-indicateur");
+
+
+
 select.innerHTML = '<option value="">Sélectionnez une pièce</option>';
 
 let liste = [];
 
+
+
 if(type === "interieur"){
+
 liste = piecesInterieur;
+
+boutonInterieur.classList.add("actif");
+boutonExterieur.classList.remove("actif");
+
+bandeau.classList.add("bandeau-interieur");
+bandeau.classList.remove("bandeau-exterieur");
+
+bandeau.innerText = "🏠 Mode actif : Vérification INTÉRIEURE";
+
+indicateur.className = "mode-interieur";
+indicateur.innerText = "Mode de vérification : INTÉRIEUR";
+
 }
 
+
+
 if(type === "exterieur"){
+
 liste = piecesExterieur;
+
+boutonExterieur.classList.add("actif");
+boutonInterieur.classList.remove("actif");
+
+bandeau.classList.add("bandeau-exterieur");
+bandeau.classList.remove("bandeau-interieur");
+
+bandeau.innerText = "🌳 Mode actif : Vérification EXTÉRIEURE";
+
+indicateur.className = "mode-exterieur";
+indicateur.innerText = "Mode de vérification : EXTÉRIEUR";
+
 }
+
+
+
+indicateur.style.display = "block";
+
+
 
 liste.forEach(function(piece){
 
