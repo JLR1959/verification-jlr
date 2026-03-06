@@ -50,31 +50,38 @@ Mode de vérification : NON SÉLECTIONNÉ
 
 <h2>Informations du client</h2>
 
-<label>Numéro de dossier
+<label>
+Numéro de dossier
 <input type="text" id="numeroDossier" readonly>
 </label>
 
-<label>Nom du locataire
+<label>
+Nom du locataire
 <input type="text" id="locataire">
 </label>
 
-<label>Téléphone
+<label>
+Téléphone
 <input type="tel" id="telephone">
 </label>
 
-<label>Numéro d’appartement
+<label>
+Numéro d’appartement
 <input type="text" id="numeroAppartement">
 </label>
 
-<label>Adresse
+<label>
+Adresse
 <input type="text" id="adresse">
 </label>
 
-<label>Ville
+<label>
+Ville
 <input type="text" id="ville">
 </label>
 
-<label>Date de vérification
+<label>
+Date de vérification
 <input type="date" id="verification-date">
 </label>
 
@@ -84,7 +91,9 @@ Mode de vérification : NON SÉLECTIONNÉ
 
 <section>
 
-<label>1) Sélectionnez le TYPE DE VÉRIFICATION (intérieur) ou (extérieur)</label>
+<h2>Ajouter une pièce ou un élément à vérifier</h2>
+
+<label>Type de vérification</label>
 
 <div id="choix-verification">
 
@@ -118,12 +127,12 @@ onclick="choisirVerification('exterieur')">
 
 
 
-<label>2) Sélectionnez une pièce ou un élément en cliquant sur 3) sélectionnez </label>
+<label>Sélectionnez une pièce</label>
 
 <select id="type-piece">
 
 <option value="">
-3) Sélectionnez 
+Sélectionnez une pièce
 </option>
 
 </select>
@@ -135,7 +144,7 @@ type="button"
 onclick="ajouterPiece()"
 class="no-print">
 
-4) Ajouter cette pièce ou cet élément
+Ajouter cette pièce
 
 </button>
 
@@ -145,7 +154,7 @@ class="no-print">
 
 <section>
 
-<h2>Pièces ou élément en cours de vérification</h2>
+<h2>Pièces en cours de vérification</h2>
 
 <div id="liste-pieces"></div>
 
@@ -156,6 +165,8 @@ class="no-print">
 <section>
 
 <h2>Signatures</h2>
+
+
 
 <label>Signature du client</label>
 
@@ -243,20 +254,23 @@ Réouvrir
 
 <h2>Envoyer le rapport par courriel</h2>
 
-<label>Courriel du propriétaire</label>
-
+<label>
+Courriel du propriétaire
 <input
 type="email"
 id="emailProprietaire"
 placeholder="Entrez le courriel du propriétaire">
+</label>
 
 <label>
+
 <input
 type="checkbox"
 id="envoyerAuProprietaire"
 checked>
 
 Envoyer également au propriétaire
+
 </label>
 
 <button

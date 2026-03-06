@@ -2528,161 +2528,147 @@ function rouvrirPiece(id) {
 // SIGNATURES
 // ======================================================
 
-function activerSignature(canvasId) {
+function activerSignature(canvasId){
 
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
+const canvas = document.getElementById(canvasId);
+if(!canvas) return;
 
-  const ctx = canvas.getContext("2d");
+const ctx = canvas.getContext("2d");
 
-  let dessin = false;
+let dessin = false;
 
-  canvas.dataset.locked = "false";
+canvas.dataset.locked = "false";
 
+ctx.lineWidth = 2;
+ctx.lineCap = "round";
+ctx.strokeStyle = "#000";
 
+function position(event){
 
-  function position(event) {
+const rect = canvas.getBoundingClientRect();
 
-    const rect = canvas.getBoundingClientRect();
-
-    if (event.touches) {
-
-      return {
-        x: event.touches[0].clientX - rect.left,
-        y: event.touches[0].clientY - rect.top
-      };
-
-    }
-
-    return {
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top
-    };
-
-  }
-
-
-
-  function commencer(event) {
-
-    if (canvas.dataset.locked === "true") return;
-
-    dessin = true;
-
-    const pos = position(event);
-
-    ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
-
-    event.preventDefault();
-
-  }
-
-
-
-  function dessiner(event) {
-
-    if (!dessin || canvas.dataset.locked === "true") return;
-
-    const pos = position(event);
-
-    ctx.lineWidth = 2;
-    ctx.lineCap = "round";
-    ctx.strokeStyle = "#000";
-
-    ctx.lineTo(pos.x, pos.y);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
-
-    event.preventDefault();
-
-  }
-
-
-
-  function arreter() {
-
-    dessin = false;
-    ctx.beginPath();
-
-  }
-
-
-
-  // Souris (ordinateur)
-
-  canvas.addEventListener("mousedown", commencer);
-  canvas.addEventListener("mousemove", dessiner);
-  canvas.addEventListener("mouseup", arreter);
-  canvas.addEventListener("mouseleave", arreter);
-
-
-
-  // Tactile (Android / iPhone)
-
-  canvas.addEventListener("touchstart", commencer, { passive:false });
-  canvas.addEventListener("touchmove", dessiner, { passive:false });
-  canvas.addEventListener("touchend", arreter);
+return {
+x:event.clientX - rect.left,
+y:event.clientY - rect.top
+};
 
 }
 
+canvas.addEventListener("pointerdown",function(e){
 
+if(canvas.dataset.locked === "true") return;
 
-function effacerSignatureLocataire() {
+dessin = true;
 
-  const canvas = document.getElementById("signature-client");
-  if (!canvas) return;
+canvas.setPointerCapture(e.pointerId);
 
-  const ctx = canvas.getContext("2d");
+const pos = position(e);
 
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-}
-
-function effacerSignatureConsultant() {
-
-  const canvas = document.getElementById("signature-verificateur");
-  if (!canvas) return;
-
-  const ctx = canvas.getContext("2d");
-
-  ctx.clearRect(
-    0,
-    0,
-    canvas.width,
-    canvas.height
-  );
-
-}
-
-function figerSignature(canvasId) {
-
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
-
-  canvas.dataset.locked = "true";
-  canvas.style.opacity = "0.6";
-
-}
-
-function deverrouillerSignature(canvasId) {
-
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
-
-  canvas.dataset.locked = "false";
-  canvas.style.opacity = "1";
-
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-
-  activerSignature("signature-client");
-  activerSignature("signature-verificateur");
+ctx.beginPath();
+ctx.moveTo(pos.x,pos.y);
 
 });
+
+
+canvas.addEventListener("pointermove",function(e){
+
+if(!dessin || canvas.dataset.locked === "true") return;
+
+const pos = position(e);
+
+ctx.lineTo(pos.x,pos.y);
+ctx.stroke();
+
+});
+
+
+
+canvas.addEventListener("pointerup",function(e){
+
+dessin = false;
+
+canvas.releasePointerCapture(e.pointerId);
+
+ctx.beginPath();
+
+});
+
+
+
+canvas.addEventListener("pointerleave",function(){
+
+dessin = false;
+ctx.beginPath();
+
+});
+
+}
+
+
+// ======================================================
+// INITIALISATION SIGNATURES
+// ======================================================
+
+document.addEventListener("DOMContentLoaded",function(){
+
+activerSignature("signature-client");
+activerSignature("signature-verificateur");
+
+});
+
+
+// ======================================================
+// EFFACER SIGNATURES
+// ======================================================
+
+function effacerSignatureLocataire(){
+
+const canvas = document.getElementById("signature-client");
+if(!canvas) return;
+
+const ctx = canvas.getContext("2d");
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+}
+
+
+
+function effacerSignatureConsultant(){
+
+const canvas = document.getElementById("signature-verificateur");
+if(!canvas) return;
+
+const ctx = canvas.getContext("2d");
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+}
+
+
+function effacerSignatureLocataire(){
+
+const canvas = document.getElementById("signature-client");
+if(!canvas) return;
+
+const ctx = canvas.getContext("2d");
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+}
+
+
+
+function effacerSignatureConsultant(){
+
+const canvas = document.getElementById("signature-verificateur");
+if(!canvas) return;
+
+const ctx = canvas.getContext("2d");
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+}
 
 // ======================================================
 // MODULE 11
@@ -2968,6 +2954,17 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
 document.addEventListener("DOMContentLoaded", function() {
 
   mettreAJourAffichage();
+
+});
+
+// ======================================================
+// INITIALISATION SIGNATURES
+// ======================================================
+
+document.addEventListener("DOMContentLoaded", function(){
+
+activerSignature("signature-client");
+activerSignature("signature-verificateur");
 
 });
 
