@@ -8,37 +8,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script defer src="app.js"></script>
 <script defer src="typeVerification.js"></script>
+<script defer src="gestionImpression.js"></script>
 
 <link href="style.css" rel="stylesheet">
-
-<style>
-
-#rapport-impression{
-display:none;
-}
-
-@media print{
-
-body *{
-visibility:hidden;
-}
-
-#rapport-impression,
-#rapport-impression *{
-visibility:visible;
-}
-
-#rapport-impression{
-display:block;
-position:absolute;
-left:0;
-top:0;
-width:100%;
-}
-
-}
-
-</style>
 
 </head>
 
@@ -194,6 +166,7 @@ Mode de vérification : NON SÉLECTIONNÉ
 <div id="liste-pieces"></div>
 
 </section>
+
 <section>
 
 <h2>Signatures</h2>
@@ -288,7 +261,7 @@ Total : <span id="montant-affiche">0.00 $</span>
 
 <footer>
 
-<button type="button" onclick="window.print()" class="no-print">
+<button type="button" onclick="imprimerRapport()" class="no-print">
 Imprimer le rapport
 </button>
 
