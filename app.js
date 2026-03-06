@@ -267,6 +267,98 @@ const modelesPieces = {
     html += texte("Commentaires cuisine");
     return html;
   },
+  
+  "Porte": function() {
+  let html = "";
+
+  // Présence
+  html += champ("Porte - Présence", [
+    "Présente",
+    "Absente"
+  ]);
+
+  // Type
+  html += champ("Porte - Type", [
+    "Intérieure",
+    "Extérieure",
+    "Coulissante",
+    "Française",
+    "Pliante"
+  ]);
+
+  // Matériau
+  html += champ("Porte - Matériau", [
+    "Bois",
+    "PVC",
+    "Aluminium",
+    "Métal",
+    "Verre",
+    "Composite"
+  ]);
+
+  // État général
+  html += champ("Porte - État général", [
+    "Bon",
+    "Usure normale",
+    "Endommagée"
+  ]);
+
+  // Alignement
+  html += champ("Porte - Alignement", [
+    "Correct",
+    "Légèrement décalé",
+    "Mal aligné"
+  ]);
+
+  // Charnières
+  html += champ("Charnières - État", [
+    "Bon",
+    "Grincement",
+    "Desserrées",
+    "Endommagées"
+  ]);
+
+  // Poignée
+  html += champ("Poignée - Fonctionnement", [
+    "Fonctionnelle",
+    "Légèrement dure",
+    "Défectueuse"
+  ]);
+
+  // Serrure
+  html += champ("Serrure - Fonctionnement", [
+    "Fonctionnelle",
+    "Difficile",
+    "Défectueuse",
+    "Absente"
+  ]);
+
+  // Coupe-froid
+  html += champ("Coupe-froid - État", [
+    "Bon",
+    "Usé",
+    "Absent"
+  ]);
+
+  // Étanchéité
+  html += champ("Étanchéité - État", [
+    "Bonne",
+    "Air présent",
+    "Infiltration possible"
+  ]);
+
+  // Esthétique
+  html += champ("Porte - Esthétique", [
+    "Esthétique OK",
+    "Égratignures",
+    "Peinture écaillée",
+    "Endommagée"
+  ]);
+
+  html += texte("Commentaires porte");
+
+  return html;
+},
 
 "Salle de bain": function() {
   let html = "";
@@ -541,6 +633,119 @@ const modelesPieces = {
   html += champ("Sortie câble / internet - Fonctionnalité", ["Fonctionnelle","Défectueuse"]);
 
   html += texte("Commentaires salon");
+
+  return html;
+},
+
+"Vide sanitaire": function() {
+  let html = "";
+
+  // Accès
+  html += champ("Accès au vide sanitaire", [
+    "Trappe intérieure",
+    "Trappe extérieure",
+    "Accès direct",
+    "Accès difficile"
+  ]);
+
+  html += champ("Trappe d'accès - État", [
+    "Bonne",
+    "Endommagée",
+    "Absente"
+  ]);
+
+  // Hauteur
+  html += champ("Hauteur du vide sanitaire", [
+    "Moins de 60 cm",
+    "60 à 90 cm",
+    "90 cm à 1.5 m",
+    "Plus de 1.5 m"
+  ]);
+
+  // Sol
+  html += champ("Sol - Type", [
+    "Terre battue",
+    "Gravier",
+    "Béton",
+    "Membrane pare-vapeur"
+  ]);
+
+  html += champ("Sol - État", [
+    "Sec",
+    "Humide",
+    "Accumulation d'eau"
+  ]);
+
+  // Humidité
+  html += champ("Humidité - Niveau", [
+    "Aucune",
+    "Faible",
+    "Élevée"
+  ]);
+
+  html += champ("Odeur d'humidité", [
+    "Aucune",
+    "Légère",
+    "Forte"
+  ]);
+
+  // Isolation
+  html += champ("Isolation - Présence", [
+    "Présente",
+    "Absente"
+  ]);
+
+  html += champ("Isolation - État", [
+    "Bonne",
+    "Humide",
+    "Endommagée"
+  ]);
+
+  // Structure
+  html += champ("Poutres / solives - État", [
+    "Bon",
+    "Usure normale",
+    "Humidité",
+    "Endommagé"
+  ]);
+
+  // Ventilation
+  html += champ("Ventilation - Présence", [
+    "Présente",
+    "Absente"
+  ]);
+
+  html += champ("Ventilation - État", [
+    "Bonne",
+    "Obstruée",
+    "Insuffisante"
+  ]);
+
+  // Tuyauterie
+  html += champ("Tuyauterie - Présence", [
+    "Présente",
+    "Absente"
+  ]);
+
+  html += champ("Tuyauterie - État", [
+    "Bon",
+    "Condensation",
+    "Fuite possible"
+  ]);
+
+  // Câblage
+  html += champ("Câblage électrique - Présence", [
+    "Présent",
+    "Absent"
+  ]);
+
+  html += champ("Câblage électrique - État", [
+    "Bon",
+    "À vérifier",
+    "Non conforme"
+  ]);
+
+  html += texte("Commentaires vide sanitaire");
 
   return html;
 },
@@ -1658,6 +1863,226 @@ const modelesPieces = {
   ]);
 
   html += texte("Commentaires borne de recharge");
+
+  return html;
+},
+
+"Clôture": function() {
+  let html = "";
+
+  // Présence
+  html += champ("Clôture - Présence", [
+    "Présente",
+    "Absente"
+  ]);
+
+  // Type de clôture
+  html += champ("Clôture - Type", [
+    "Bois",
+    "Frost (mailles métalliques)",
+    "PVC",
+    "Composite",
+    "Fer forgé",
+    "Aluminium"
+  ]);
+
+  // Hauteur
+  html += champ("Clôture - Hauteur", [
+    "Moins de 1 m",
+    "1 m à 1.5 m",
+    "1.5 m à 2 m",
+    "Plus de 2 m"
+  ]);
+
+  // État général
+  html += champ("Clôture - État général", [
+    "Bon",
+    "Usure normale",
+    "Endommagée"
+  ]);
+
+  // Stabilité
+  html += champ("Clôture - Stabilité", [
+    "Stable",
+    "Légèrement instable",
+    "Instable"
+  ]);
+
+  // Poteaux
+  html += champ("Poteaux - Matériau", [
+    "Bois",
+    "Métal",
+    "Béton",
+    "Composite"
+  ]);
+
+  html += champ("Poteaux - État", [
+    "Bon",
+    "Usé",
+    "Endommagé"
+  ]);
+
+  // Portail
+  html += champ("Portail - Présence", [
+    "Présent",
+    "Absent"
+  ]);
+
+  html += champ("Portail - Fonctionnement", [
+    "Fonctionnel",
+    "Difficile à ouvrir",
+    "Défectueux"
+  ]);
+
+  html += champ("Portail - Serrure", [
+    "Fonctionnelle",
+    "Défectueuse",
+    "Aucune"
+  ]);
+
+  // Alignement
+  html += champ("Alignement clôture", [
+    "Droit",
+    "Légèrement incliné",
+    "Fortement incliné"
+  ]);
+
+  // Conformité
+  html += champ("Clôture - Conformité apparente", [
+    "Conforme",
+    "À vérifier",
+    "Non conforme"
+  ]);
+
+  html += texte("Commentaires clôture");
+
+  return html;
+},
+
+"Cabanon": function() {
+  let html = "";
+
+  // Type de cabanon
+  html += champ("Cabanon - Type", [
+    "Bois",
+    "Résine / PVC",
+    "Métal",
+    "Composite"
+  ]);
+
+  // Fondation
+  html += champ("Fondation - Type", [
+    "Béton",
+    "Blocs",
+    "Gravier",
+    "Direct au sol"
+  ]);
+
+  html += champ("Fondation - État", [
+    "Bonne",
+    "Affaissement",
+    "Instable"
+  ]);
+
+  // Structure
+  html += champ("Structure - État", [
+    "Bonne",
+    "Usée",
+    "Endommagée"
+  ]);
+
+  html += champ("Structure - Stabilité", [
+    "Stable",
+    "Légèrement instable",
+    "Instable"
+  ]);
+
+  // Plancher
+  html += champ("Plancher - Type", [
+    "Bois",
+    "Béton",
+    "Composite",
+    "Absent"
+  ]);
+
+  html += champ("Plancher - État", [
+    "Bon",
+    "Usé",
+    "Endommagé"
+  ]);
+
+  // Murs
+  html += champ("Murs - Matériau", [
+    "Bois",
+    "PVC",
+    "Métal",
+    "Composite"
+  ]);
+
+  html += champ("Murs - État", [
+    "Bon",
+    "Usé",
+    "Endommagé"
+  ]);
+
+  // Toiture
+  html += champ("Toiture - Type", [
+    "Bardeaux d'asphalte",
+    "Tôle",
+    "Membrane",
+    "PVC"
+  ]);
+
+  html += champ("Toiture - État", [
+    "Bonne",
+    "Usure normale",
+    "Fuite possible",
+    "Endommagée"
+  ]);
+
+  // Porte
+  html += champ("Porte cabanon - Présence", [
+    "Présente",
+    "Absente"
+  ]);
+
+  html += champ("Porte cabanon - Fonctionnement", [
+    "Fonctionnelle",
+    "Difficile",
+    "Défectueuse"
+  ]);
+
+  html += champ("Porte cabanon - Serrure", [
+    "Présente",
+    "Absente",
+    "Défectueuse"
+  ]);
+
+  // Fenêtre
+  html += champ("Fenêtre cabanon - Présence", [
+    "Présente",
+    "Absente"
+  ]);
+
+  html += champ("Fenêtre cabanon - État", [
+    "Bonne",
+    "Brisée",
+    "Endommagée"
+  ]);
+
+  // Ventilation
+  html += champ("Ventilation - Présence", [
+    "Présente",
+    "Absente"
+  ]);
+
+  html += champ("Ventilation - État", [
+    "Bonne",
+    "Obstruée",
+    "Endommagée"
+  ]);
+
+  html += texte("Commentaires cabanon");
 
   return html;
 },
