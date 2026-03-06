@@ -24,6 +24,51 @@ color:var(--texte);
 
 
 
+/* bandeau mode inspection */
+
+#bandeau-mode-verification{
+
+position:sticky;
+top:0;
+
+width:100%;
+
+padding:14px;
+
+font-size:18px;
+font-weight:700;
+
+text-align:center;
+
+background:#e5e7eb;
+color:#1f2937;
+
+border-bottom:2px solid #d1d5db;
+
+z-index:1000;
+
+}
+
+
+
+/* couleurs selon mode */
+
+.bandeau-interieur{
+
+background:#dbeafe;
+color:#1e40af;
+
+}
+
+.bandeau-exterieur{
+
+background:#dcfce7;
+color:#166534;
+
+}
+
+
+
 /* blocs principaux */
 
 header,
@@ -43,7 +88,7 @@ box-shadow:
 
 
 
-/* titre principal */
+/* titres */
 
 h1{
 
@@ -52,8 +97,6 @@ font-size:30px;
 font-weight:700;
 
 }
-
-
 
 h2{
 
@@ -74,8 +117,6 @@ margin-top:12px;
 font-weight:600;
 
 }
-
-
 
 input,
 select,
@@ -143,7 +184,7 @@ box-shadow:0 10px 20px rgba(0,0,0,0.12);
 
 
 
-/* choix interieur / exterieur */
+/* choix intérieur extérieur */
 
 #choix-verification{
 
@@ -183,8 +224,6 @@ color:#1e40af;
 
 }
 
-
-
 .exterieur{
 
 background:#dcfce7;
@@ -197,14 +236,47 @@ color:#166534;
 .type-btn.actif{
 
 transform:scale(1.05);
-
-box-shadow:0 0 0 4px rgba(37,99,235,0.4);
+box-shadow:0 0 0 4px rgba(37,99,235,0.35);
 
 }
 
 
 
-/* blocs pieces */
+/* indicateur secondaire */
+
+#mode-verification-indicateur{
+
+margin-top:12px;
+padding:14px;
+
+border-radius:8px;
+
+font-size:16px;
+font-weight:700;
+
+text-align:center;
+
+display:none;
+
+}
+
+.mode-interieur{
+
+background:#dbeafe;
+color:#1e40af;
+
+}
+
+.mode-exterieur{
+
+background:#dcfce7;
+color:#166534;
+
+}
+
+
+
+/* bloc pièces */
 
 .piece-container{
 
@@ -236,14 +308,12 @@ margin-bottom:10px;
 
 
 
-/* signatures */
+/* signature */
 
 canvas{
 
 border-radius:8px;
-
 border:1px solid #e5e7eb;
-
 background:white;
 
 }
@@ -298,38 +368,6 @@ visibility:hidden;
 #zone-impression,
 #zone-impression *{
 visibility:visible;
-}
-
-/* Indicateur du mode de vérification */
-
-#mode-verification-indicateur{
-
-margin-top:12px;
-padding:14px;
-
-border-radius:8px;
-
-font-size:16px;
-font-weight:700;
-
-text-align:center;
-
-display:none;
-
-}
-
-.mode-interieur{
-
-background:#dbeafe;
-color:#1e40af;
-
-}
-
-.mode-exterieur{
-
-background:#dcfce7;
-color:#166534;
-
 }
 
 #zone-impression{
