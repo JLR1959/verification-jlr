@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
 
 <meta charset="utf-8">
@@ -25,7 +24,7 @@
 
 <!-- ======================================================
 MODULE 1
-BANDEAU MODE DE VÉRIFICATION
+BANDEAU MODE VÉRIFICATION
 ====================================================== -->
 
 <div id="bandeau-mode-verification">
@@ -101,7 +100,7 @@ FORMULAIRE CLIENT
 
 <!-- ======================================================
 MODULE 4
-CHOIX TYPE DE VÉRIFICATION
+CHOIX TYPE VÉRIFICATION
 ====================================================== -->
 
 <section>
@@ -129,12 +128,12 @@ CHOIX TYPE DE VÉRIFICATION
 
 <!-- ======================================================
 MODULE 5
-SÉLECTION DES PIÈCES
+SÉLECTION PIÈCES
 ====================================================== -->
 
 <section>
 
-<label>8) Sélectionnez Pièces ou éléments</label>
+<label>8) Sélectionnez les pièces ou éléments</label>
 
 <select id="type-piece">
 
@@ -190,7 +189,7 @@ Ouvrir pièce
 
 <!-- ======================================================
 MODULE 6
-PIÈCES EN COURS DE VÉRIFICATION
+PIÈCES EN VÉRIFICATION
 ====================================================== -->
 
 <section id="section-pieces-verification" style="display:none;">
@@ -252,7 +251,7 @@ Réouvrir
 
 <!-- ======================================================
 MODULE 8
-ENVOI PAR COURRIEL
+ENVOI COURRIEL
 ====================================================== -->
 
 <section id="envoi-par-courriel">
@@ -260,6 +259,7 @@ ENVOI PAR COURRIEL
 <h2>Envoyer le rapport par courriel</h2>
 
 <label>Courriel du propriétaire</label>
+
 <input type="email" id="emailProprietaire">
 
 <label>
@@ -333,7 +333,7 @@ Imprimer le rapport
 
 <!-- ======================================================
 MODULE 12
-ZONE RAPPORT IMPRESSION COMPLET
+RAPPORT IMPRESSION
 ====================================================== -->
 
 <div id="zone-impression"></div>
@@ -355,11 +355,8 @@ ZONE RAPPORT IMPRESSION COMPLET
 <h2>Informations client</h2>
 
 <p>Numéro de dossier : <span id="rapport-dossier"></span></p>
-
 <p>Locataire : <span id="rapport-locataire"></span></p>
-
 <p>Téléphone : <span id="rapport-telephone"></span></p>
-
 <p>Adresse : <span id="rapport-adresse"></span></p>
 
 <h2>Éléments défectueux</h2>
@@ -373,13 +370,9 @@ ZONE RAPPORT IMPRESSION COMPLET
 <h2>Facturation</h2>
 
 <p>Temps travaillé : 0.00 heures</p>
-
 <p>Taux horaire : 125.00 $ / heure</p>
-
 <p>Sous-total : 0.00 $</p>
-
 <p>TPS (5%) : 0.00 $</p>
-
 <p>TVQ (9.975%) : 0.00 $</p>
 
 <h3>Total à payer : 0.00 $</h3>
@@ -402,27 +395,6 @@ vérification préventive immobilière.
 </section>
 
 </div>
-
-<!-- ======================================================
-MODULE 13
-ARCHIVAGE ET CONSULTATION DES DOSSIERS
-====================================================== -->
-
-<section>
-
-<h2>Archivage des vérifications</h2>
-
-<button type="button" onclick="archiverVerification()">
-Archiver cette vérification
-</button>
-
-<button type="button" onclick="afficherDossiersArchives()">
-Afficher dossiers archivés
-</button>
-
-<div id="liste-dossiers-archives"></div>
-
-</section>
 
 </body>
 </html>
