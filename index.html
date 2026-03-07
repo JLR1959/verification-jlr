@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
+
+<!-- ======================================================
+MODULE 1
+HEAD / CONFIGURATION
+====================================================== -->
+
 <head>
 
 <meta charset="utf-8">
+
 <title>Vérification Préventive Immobilière - Jean-Louis Raymond</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -20,10 +28,12 @@
 
 </head>
 
+
+
 <body>
 
 <!-- ======================================================
-MODULE 1
+MODULE 2
 BANDEAU MODE VÉRIFICATION
 ====================================================== -->
 
@@ -32,8 +42,9 @@ Mode de vérification : NON SÉLECTIONNÉ
 </div>
 
 
+
 <!-- ======================================================
-MODULE 2
+MODULE 3
 ENTÊTE ENTREPRISE
 ====================================================== -->
 
@@ -56,8 +67,9 @@ ENTÊTE ENTREPRISE
 </header>
 
 
+
 <!-- ======================================================
-MODULE 3
+MODULE 4
 FORMULAIRE CLIENT
 ====================================================== -->
 
@@ -98,9 +110,10 @@ FORMULAIRE CLIENT
 </section>
 
 
+
 <!-- ======================================================
-MODULE 4
-CHOIX TYPE VÉRIFICATION
+MODULE 5
+TYPE DE VÉRIFICATION
 ====================================================== -->
 
 <section>
@@ -109,12 +122,20 @@ CHOIX TYPE VÉRIFICATION
 
 <div id="choix-verification">
 
-<button type="button" id="btn-interieur" onclick="choisirVerification('interieur')" class="type-btn interieur">
+<button type="button" id="btn-interieur"
+onclick="choisirVerification('interieur')"
+class="type-btn interieur">
+
 🏠 Vérification Intérieure
+
 </button>
 
-<button type="button" id="btn-exterieur" onclick="choisirVerification('exterieur')" class="type-btn exterieur">
+<button type="button" id="btn-exterieur"
+onclick="choisirVerification('exterieur')"
+class="type-btn exterieur">
+
 🌳 Vérification Extérieure
+
 </button>
 
 <input type="hidden" id="type-verification">
@@ -126,9 +147,10 @@ CHOIX TYPE VÉRIFICATION
 </section>
 
 
+
 <!-- ======================================================
-MODULE 5
-SÉLECTION PIÈCES
+MODULE 6
+SÉLECTION DES PIÈCES
 ====================================================== -->
 
 <section>
@@ -181,14 +203,17 @@ SÉLECTION PIÈCES
 </select>
 
 <button type="button" onclick="ajouterPiece()" class="no-print">
-Ouvrir pièce
+
+9) Cliquez ici pour ouvrir Pièces ou éléments
+
 </button>
 
 </section>
 
 
+
 <!-- ======================================================
-MODULE 6
+MODULE 7
 PIÈCES EN VÉRIFICATION
 ====================================================== -->
 
@@ -201,8 +226,9 @@ PIÈCES EN VÉRIFICATION
 </section>
 
 
+
 <!-- ======================================================
-MODULE 7
+MODULE 8
 SIGNATURES
 ====================================================== -->
 
@@ -211,6 +237,7 @@ SIGNATURES
 <h2>Signatures</h2>
 
 <label>Signature du client</label>
+
 <canvas id="signature-client" width="300" height="100"></canvas>
 
 <br>
@@ -230,6 +257,7 @@ Réouvrir
 <br><br>
 
 <label>Signature du consultant</label>
+
 <canvas id="signature-verificateur" width="300" height="100"></canvas>
 
 <br>
@@ -249,8 +277,9 @@ Réouvrir
 </section>
 
 
+
 <!-- ======================================================
-MODULE 8
+MODULE 9
 ENVOI COURRIEL
 ====================================================== -->
 
@@ -263,19 +292,25 @@ ENVOI COURRIEL
 <input type="email" id="emailProprietaire">
 
 <label>
+
 <input type="checkbox" id="envoyerAuProprietaire" checked>
+
 Envoyer également au propriétaire
+
 </label>
 
 <button type="button" onclick="genererMailto()">
+
 Envoyer le rapport
+
 </button>
 
 </section>
 
 
+
 <!-- ======================================================
-MODULE 9
+MODULE 10
 MINUTEUR
 ====================================================== -->
 
@@ -303,19 +338,6 @@ Total : <span id="montant-affiche">0.00 $</span>
 </section>
 
 
-<!-- ======================================================
-MODULE 10
-FIN DE VÉRIFICATION
-====================================================== -->
-
-<section>
-
-<button type="button" onclick="terminerVerification()" class="no-print">
-Vérification terminée
-</button>
-
-</section>
-
 
 <!-- ======================================================
 MODULE 11
@@ -325,20 +347,23 @@ IMPRESSION
 <footer>
 
 <button type="button" onclick="imprimerRapport()" class="no-print">
+
 Imprimer le rapport
+
 </button>
 
 </footer>
 
 
+
 <!-- ======================================================
 MODULE 12
-RAPPORT IMPRESSION
+RAPPORT D’IMPRESSION (CACHÉ)
 ====================================================== -->
 
 <div id="zone-impression"></div>
 
-<div id="rapport-impression">
+<div id="rapport-impression" style="display:none;">
 
 <h1>Vérification Préventive Immobilière</h1>
 
@@ -395,6 +420,8 @@ vérification préventive immobilière.
 </section>
 
 </div>
+
+
 
 </body>
 </html>

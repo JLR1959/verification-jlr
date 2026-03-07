@@ -3052,5 +3052,273 @@ champ.value = dossier[id];
 
 }
 
+// ======================================================
+// MODULE 16
+// CONFIRMATION VISUELLE DES ÉTAPES DU FORMULAIRE
+// ======================================================
 
+document.addEventListener("DOMContentLoaded", function(){
+
+const etapes = document.querySelectorAll("[data-etape]");
+
+etapes.forEach(function(section){
+
+const champs = section.querySelectorAll("input, select, textarea, canvas");
+
+champs.forEach(function(champ){
+
+champ.addEventListener("change", verifierEtape);
+champ.addEventListener("input", verifierEtape);
+
+});
+
+});
+
+verifierEtape();
+
+});
+
+
+function verifierEtape(){
+
+document.querySelectorAll("[data-etape]").forEach(function(section){
+
+let complete = true;
+
+section.querySelectorAll("input, select, textarea").forEach(function(champ){
+
+if(champ.type === "checkbox") return;
+
+if(champ.value === "" || champ.value === null){
+complete = false;
+}
+
+});
+
+if(complete){
+section.classList.add("etape-complete");
+}else{
+section.classList.remove("etape-complete");
+}
+
+});
+
+}
+
+// ======================================================
+// MODULE 17
+// BULLES ÉTAT DES CHAMPS
+// ======================================================
+
+document.addEventListener("DOMContentLoaded", function(){
+
+const champs = document.querySelectorAll("input, select, textarea");
+
+champs.forEach(function(champ){
+
+if(!champ.id) return;
+
+const wrapper = document.createElement("div");
+wrapper.className = "champ-etape";
+
+champ.parentNode.insertBefore(wrapper, champ);
+wrapper.appendChild(champ);
+
+const bulle = document.createElement("span");
+bulle.className = "bulle-etape";
+wrapper.appendChild(bulle);
+
+
+
+function verifierChamp(){
+
+if(champ.type === "checkbox"){
+
+if(champ.checked){
+
+bulle.className = "bulle-etape etape-ok";
+bulle.innerText = "Étape terminée";
+
+}else{
+
+bulle.className = "bulle-etape etape-ko";
+bulle.innerText = "Étape non terminée";
+
+}
+
+return;
+
+}
+
+
+
+if(champ.value && champ.value.trim() !== ""){
+
+bulle.className = "bulle-etape etape-ok";
+bulle.innerText = "Étape terminée";
+
+}else{
+
+bulle.className = "bulle-etape etape-ko";
+bulle.innerText = "Étape non terminée";
+
+}
+
+}
+
+
+
+champ.addEventListener("input", verifierChamp);
+champ.addEventListener("change", verifierChamp);
+champ.addEventListener("blur", verifierChamp);
+
+
+
+verifierChamp();
+
+});
+
+});
+
+
+// ======================================================
+// MODULE 17
+// BULLES ÉTAT DES CHAMPS
+// ======================================================
+
+document.addEventListener("DOMContentLoaded", function(){
+
+const champs = document.querySelectorAll("input, select, textarea");
+
+champs.forEach(function(champ){
+
+if(!champ.id) return;
+
+const wrapper = document.createElement("div");
+wrapper.className = "champ-etape";
+
+champ.parentNode.insertBefore(wrapper, champ);
+wrapper.appendChild(champ);
+
+const bulle = document.createElement("span");
+bulle.className = "bulle-etape";
+wrapper.appendChild(bulle);
+
+
+
+function verifierChamp(){
+
+if(champ.type === "checkbox"){
+
+if(champ.checked){
+
+bulle.className = "bulle-etape etape-ok";
+bulle.innerText = "Étape terminée";
+
+}else{
+
+bulle.className = "bulle-etape etape-ko";
+bulle.innerText = "Étape non terminée";
+
+}
+
+return;
+
+}
+
+
+
+if(champ.value && champ.value.trim() !== ""){
+
+bulle.className = "bulle-etape etape-ok";
+bulle.innerText = "Étape terminée";
+
+}else{
+
+bulle.className = "bulle-etape etape-ko";
+bulle.innerText = "Étape non terminée";
+
+}
+
+}
+
+
+
+champ.addEventListener("input", verifierChamp);
+champ.addEventListener("change", verifierChamp);
+champ.addEventListener("blur", verifierChamp);
+
+
+
+verifierChamp();
+
+});
+
+});
+
+// ======================================================
+// MODULE 18
+// CALCUL PROGRESSION FORMULAIRE
+// ======================================================
+
+document.addEventListener("DOMContentLoaded", function(){
+
+const champs = document.querySelectorAll(
+"#locataire, #telephone, #numeroAppartement, #adresse, #ville, #verification-date, #type-verification"
+);
+
+const barre = document.getElementById("barre-progress");
+const texte = document.getElementById("texte-progress");
+const boutonFin = document.querySelector("button[onclick='terminerVerification()']");
+
+function calculerProgression(){
+
+let remplis = 0;
+
+champs.forEach(function(champ){
+
+if(champ.value && champ.value.trim() !== ""){
+
+remplis++;
+
+}
+
+});
+
+const total = champs.length;
+
+const pourcentage = Math.round((remplis / total) * 100);
+
+barre.style.width = pourcentage + "%";
+
+texte.innerText = pourcentage + "% complété";
+
+
+
+if(pourcentage === 100){
+
+boutonFin.disabled = false;
+
+}else{
+
+boutonFin.disabled = true;
+
+}
+
+}
+
+
+
+champs.forEach(function(champ){
+
+champ.addEventListener("input", calculerProgression);
+champ.addEventListener("change", calculerProgression);
+
+});
+
+
+
+calculerProgression();
+
+});
 
