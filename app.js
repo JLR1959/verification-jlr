@@ -2909,3 +2909,85 @@ return "";
 
 });
 
+// ======================================================
+// MODULE 14
+// ARCHIVAGE DES DOSSIERS DE VÉRIFICATION
+// Enregistre la vérification complète dans localStorage
+// ======================================================
+
+function archiverVerification(){
+
+const dossier = {};
+
+document.querySelectorAll("input, select, textarea").forEach(function(champ){
+
+if(!champ.id) return;
+
+if(champ.type === "checkbox"){
+dossier[champ.id] = champ.checked;
+}else{
+dossier[champ.id] = champ.value;
+}
+
+});
+
+dossier.dateArchivage = new Date().toISOString();
+
+let dossiers = localStorage.getItem("VPI_DOSSIERS");
+
+if(dossiers){
+dossiers = JSON.parse(dossiers);
+}else{
+dossiers = [];
+}
+
+dossiers.push(dossier);
+
+localStorage.setItem("VPI_DOSSIERS", JSON.stringify(dossiers));
+
+alert("La vérification a été archivée avec succès.");
+
+}
+
+// ======================================================
+// MODULE 15
+// CONSULTATION DES DOSSIERS ARCHIVÉS
+// ======================================================
+
+function afficherDossiersArchives(){
+
+const zone = document.getElementById("liste-dossiers-archives");
+
+if(!zone) return;
+
+zone.innerHTML = "";
+
+let dossiers = localStorage.getItem("VPI_DOSSIERS");
+
+if(!dossiers){
+zone.innerHTML = "Aucun dossier archivé.";
+return;
+}
+
+dossiers = JSON.parse(dossiers);
+
+dossiers.forEach(function(dossier){
+
+const ligne = document.createElement("div");
+
+ligne.className = "piece-container";
+
+ligne.innerHTML =
+"<strong>Dossier :</strong> " + (dossier.numeroDossier || "") + "<br>" +
+"<strong>Locataire :</strong> " + (dossier.locataire || "") + "<br>" +
+"<strong>Adresse :</strong> " + (dossier.adresse || "") + "<br>" +
+"<strong>Ville :</strong> " + (dossier.ville || "") + "<br>";
+
+zone.appendChild(ligne);
+
+});
+
+}
+
+
+

@@ -1,0 +1,52 @@
+{
+  "name": "vpijlr",
+  "version": "1.0.0",
+  "description": "Application Vérification Préventive Immobilière Jean-Louis Raymond",
+  "main": "main.js",
+  "author": "Jean-Louis Raymond",
+  "license": "MIT",
+  "private": true,
+  "homepage": "https://github.com/JLR1959/verification-jlr",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:linux": "electron-builder --linux deb"
+  },
+  "devDependencies": {
+    "electron": "28.3.3",
+    "electron-builder": "24.13.3"
+  },
+  "dependencies": {
+    "electron-updater": "^6.1.8"
+  },
+  "build": {
+    "appId": "com.vpijlr.app",
+    "productName": "VPIJLR",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!dist/*",
+      "!node_modules/*/.cache"
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "JLR1959",
+        "repo": "verification-jlr"
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "linux": {
+      "target": "deb",
+      "category": "Utility",
+      "icon": "icon.png",
+      "maintainer": "Jean-Louis Raymond"
+    }
+  }
+}
