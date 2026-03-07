@@ -1,50 +1,24 @@
-document.addEventListener("DOMContentLoaded", function () {
+function remplirRapport(){
 
-const rapport = document.getElementById("rapport-impression");
+document.getElementById("rapport-dossier").textContent =
+document.getElementById("numeroDossier").value;
 
-if (!rapport) {
-return;
+document.getElementById("rapport-locataire").textContent =
+document.getElementById("locataire").value;
+
+document.getElementById("rapport-telephone").textContent =
+document.getElementById("telephone").value;
+
+document.getElementById("rapport-adresse").textContent =
+document.getElementById("adresse").value + ", " +
+document.getElementById("ville").value;
+
 }
 
-rapport.style.display = "none";
+function imprimerRapport(){
 
-window.addEventListener("beforeprint", function () {
-
-rapport.style.display = "block";
-
-});
-
-window.addEventListener("afterprint", function () {
-
-rapport.style.display = "none";
-
-});
-
-});
-
-
-
-function imprimerRapport() {
-
-const rapport = document.getElementById("rapport-impression");
-
-if (!rapport) {
-window.print();
-return;
-}
-
-rapport.style.display = "block";
-
-setTimeout(function () {
+remplirRapport();
 
 window.print();
-
-setTimeout(function () {
-
-rapport.style.display = "none";
-
-}, 100);
-
-}, 100);
 
 }

@@ -2790,6 +2790,7 @@ function genererMailto() {
 
   let contenu = "";
 
+  // 🟢 À GARDER
   contenu += "VÉRIFICATION PRÉVENTIVE IMMOBILIÈRE\n";
   contenu += "Jean-Louis Raymond\n";
   contenu += "Consultant en vérification préventive\n\n";
@@ -2833,103 +2834,8 @@ function genererMailto() {
     contenu += "\n";
 
   });
-  
-  function activerSignature(canvasId){
 
-const canvas = document.getElementById(canvasId);
-const ctx = canvas.getContext("2d");
-
-let dessin = false;
-
-function position(event){
-
-const rect = canvas.getBoundingClientRect();
-
-if(event.touches){
-return {
-x:event.touches[0].clientX - rect.left,
-y:event.touches[0].clientY - rect.top
-};
-}
-
-return {
-x:event.clientX - rect.left,
-y:event.clientY - rect.top
-};
-}
-
-function commencer(event){
-
-dessin = true;
-
-const pos = position(event);
-
-ctx.beginPath();
-ctx.moveTo(pos.x,pos.y);
-
-event.preventDefault();
-
-}
-
-function dessiner(event){
-
-if(!dessin) return;
-
-const pos = position(event);
-
-ctx.lineTo(pos.x,pos.y);
-ctx.stroke();
-
-event.preventDefault();
-
-}
-
-function arreter(){
-dessin = false;
-}
-
-canvas.addEventListener("mousedown",commencer);
-canvas.addEventListener("mousemove",dessiner);
-canvas.addEventListener("mouseup",arreter);
-canvas.addEventListener("mouseleave",arreter);
-
-canvas.addEventListener("touchstart",commencer);
-canvas.addEventListener("touchmove",dessiner);
-canvas.addEventListener("touchend",arreter);
-
-}
-
-
-
-document.addEventListener("DOMContentLoaded",function(){
-
-activerSignature("signature-client");
-activerSignature("signature-verificateur");
-
-});
-
-
-
-function effacerSignatureLocataire(){
-
-const canvas = document.getElementById("signature-client");
-const ctx = canvas.getContext("2d");
-
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-}
-
-
-
-function effacerSignatureConsultant(){
-
-const canvas = document.getElementById("signature-verificateur");
-const ctx = canvas.getContext("2d");
-
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-}
-
+  // 🟢 À GARDER
   contenu += "FACTURATION\n";
   contenu += "----------------------------------------\n";
   contenu += "Temps travaillé : " + heures.toFixed(2) + " heures\n";
@@ -2951,21 +2857,10 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
 
 }
 
+// 🟢 À GARDER
 document.addEventListener("DOMContentLoaded", function() {
 
   mettreAJourAffichage();
 
 });
-
-// ======================================================
-// INITIALISATION SIGNATURES
-// ======================================================
-
-document.addEventListener("DOMContentLoaded", function(){
-
-activerSignature("signature-client");
-activerSignature("signature-verificateur");
-
-});
-
 

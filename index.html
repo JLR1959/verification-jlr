@@ -25,8 +25,6 @@
 Mode de vérification : NON SÉLECTIONNÉ
 </div>
 
-
-
 <header style="text-align:center;">
 
 <img src="logo_jlr.png" alt="Logo JLR" style="max-height:80px;">
@@ -46,8 +44,6 @@ Mode de vérification : NON SÉLECTIONNÉ
 <p>TPS : 771362471 RT 0001 | TVQ : 1227894560 TQ 0001</p>
 
 </header>
-
-
 
 <section id="formulaire-client">
 
@@ -85,8 +81,6 @@ Mode de vérification : NON SÉLECTIONNÉ
 
 </section>
 
-
-
 <section>
 
 <label>7) Choisissez un type de vérification (INTÉRIEUR) A ou (EXTÉRIEUR) B</label>
@@ -106,8 +100,6 @@ Mode de vérification : NON SÉLECTIONNÉ
 </div>
 
 <div id="mode-verification-indicateur"></div>
-
-
 
 <label>8) Sélectionnez Pièces ou éléments ci-dessous</label>
 
@@ -162,8 +154,6 @@ Mode de vérification : NON SÉLECTIONNÉ
 
 </section>
 
-
-
 <section id="section-pieces-verification" style="display:none;">
 
 <h2>Pièces en cours de vérification</h2>
@@ -216,8 +206,6 @@ Réouvrir
 
 </section>
 
-
-
 <section id="envoi-par-courriel">
 
 <h2>Envoyer le rapport par courriel</h2>
@@ -236,8 +224,6 @@ Envoyer le rapport
 </button>
 
 </section>
-
-
 
 <section id="section-minuteur" class="no-print">
 
@@ -262,7 +248,7 @@ Total : <span id="montant-affiche">0.00 $</span>
 
 </section>
 
-
+<footer>
 
 <footer>
 
@@ -272,13 +258,17 @@ Imprimer le rapport
 
 </footer>
 
+<div id="zone-impression"></div>
 
+<div id="rapport-impression">
+
+</footer>
 
 <div id="zone-impression"></div>
 
-
-
 <div id="rapport-impression">
+
+</footer>
 
 <h1>Vérification Préventive Immobilière</h1>
 
@@ -292,44 +282,30 @@ Imprimer le rapport
 
 <p>TPS : 771362471 RT 0001 | TVQ : 1227894560 TQ 0001</p>
 
-
-
 <h2>Informations client</h2>
 
-<p>Numéro de dossier :</p>
-<p>Locataire :</p>
-<p>Téléphone :</p>
-<p>Adresse :</p>
-
-
+<p>Numéro de dossier : <span id="rapport-dossier"></span></p>
+<p>Locataire : <span id="rapport-locataire"></span></p>
+<p>Téléphone : <span id="rapport-telephone"></span></p>
+<p>Adresse : <span id="rapport-adresse"></span></p>
 
 <h2>Éléments défectueux</h2>
 
 <p>Aucun problème détecté.</p>
 
-
-
 <h2>Éléments conformes</h2>
 
 <p>Aucun élément conforme détecté.</p>
 
-
-
 <h2>Facturation</h2>
 
 <p>Temps travaillé : 0.00 heures</p>
-
 <p>Taux horaire : 125.00 $ / heure</p>
-
 <p>Sous-total : 0.00 $</p>
-
 <p>TPS (5%) : 0.00 $</p>
-
 <p>TVQ (9.975%) : 0.00 $</p>
 
 <h3>Total à payer : 0.00 $</h3>
-
-
 
 <section id="sceau-conformite">
 
@@ -338,12 +314,10 @@ Imprimer le rapport
 <img src="sceau certification VPIJLR.png" class="sceau-image">
 
 <p>
-
 Je soussigné, Jean-Louis Raymond, consultant en vérification préventive immobilière,
 atteste que la présente vérification visuelle a été réalisée conformément aux règles
 de l’art et selon les pratiques généralement reconnues dans le domaine de la
 vérification préventive immobilière.
-
 </p>
 
 <p><strong>Jean-Louis Raymond</strong></p>

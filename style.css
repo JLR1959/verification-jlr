@@ -331,14 +331,20 @@ background:#15803d;
 
 
 /* ======================================================
-MASQUER COMPLETEMENT LE RAPPORT
+RAPPORT HORS ÉCRAN (NE JAMAIS APPARAÎTRE DANS LE FORMULAIRE)
 ====================================================== */
 
 #rapport-impression{
-display:none !important;
-visibility:hidden;
-height:0;
-overflow:hidden;
+
+position:fixed;
+
+left:-100000px;
+top:-100000px;
+
+width:210mm;
+
+background:white;
+
 }
 
 
@@ -371,18 +377,12 @@ body *{
 visibility:hidden;
 }
 
-
-
 #rapport-impression,
 #rapport-impression *{
 visibility:visible;
 }
 
-
-
 #rapport-impression{
-
-display:block !important;
 
 position:absolute;
 
@@ -399,16 +399,12 @@ padding:30px;
 
 }
 
-
-
 /* saut de page avant attestation */
 
 #sceau-conformite{
 page-break-before:always;
 text-align:center;
 }
-
-
 
 button,
 .no-print{
