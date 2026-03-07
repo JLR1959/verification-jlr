@@ -2989,5 +2989,68 @@ zone.appendChild(ligne);
 
 }
 
+// ======================================================
+// MODULE 14
+// SAUVEGARDE DOSSIER CLIENT
+// ======================================================
+
+function sauvegarderDossierClient(){
+
+const dossier = {};
+
+document.querySelectorAll("input, select, textarea").forEach(function(champ){
+
+if(!champ.id) return;
+
+if(champ.type === "checkbox"){
+dossier[champ.id] = champ.checked;
+}else{
+dossier[champ.id] = champ.value;
+}
+
+});
+
+let dossiers = JSON.parse(localStorage.getItem("VPI_DOSSIERS") || "[]");
+
+dossiers.push(dossier);
+
+localStorage.setItem("VPI_DOSSIERS", JSON.stringify(dossiers));
+
+alert("Dossier client enregistré.");
+
+}
+
+// ======================================================
+// MODULE 15
+// OUVRIR DOSSIER CLIENT
+// ======================================================
+
+function ouvrirDossier(numero){
+
+const dossiers = JSON.parse(localStorage.getItem("VPI_DOSSIERS") || "[]");
+
+const dossier = dossiers.find(d => d.numeroDossier === numero);
+
+if(!dossier){
+alert("Dossier introuvable");
+return;
+}
+
+Object.keys(dossier).forEach(function(id){
+
+const champ = document.getElementById(id);
+
+if(!champ) return;
+
+if(champ.type === "checkbox"){
+champ.checked = dossier[id];
+}else{
+champ.value = dossier[id];
+}
+
+});
+
+}
+
 
 
