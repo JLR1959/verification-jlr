@@ -79,7 +79,7 @@ color:#166534;
 
 
 /* ======================================================
-ENTÊTE BLEU AVEC LETTRAGE OR LISIBILE
+ENTÊTE BLEU AVEC LETTRAGE OR
 ====================================================== */
 
 header{
@@ -162,7 +162,7 @@ font-weight:500;
 
 
 /* ======================================================
-CARTES INTERFACE (EFFET 3D)
+CARTES INTERFACE
 ====================================================== */
 
 section,
@@ -218,6 +218,8 @@ margin-top:12px;
 font-weight:600;
 }
 
+
+
 input,
 select,
 textarea{
@@ -229,7 +231,7 @@ padding:10px 12px;
 
 border-radius:10px;
 
-border:1px solid #d1d5db;
+border:2px solid #cbd5e1;
 
 background:#ffffff;
 
@@ -242,6 +244,18 @@ transition:.2s;
 
 }
 
+
+
+input:hover,
+select:hover,
+textarea:hover{
+
+border-color:#94a3b8;
+
+}
+
+
+
 input:focus,
 select:focus,
 textarea:focus{
@@ -251,15 +265,31 @@ outline:none;
 border-color:var(--bleu);
 
 box-shadow:
-0 0 0 3px rgba(37,99,235,0.2),
+0 0 0 3px rgba(37,99,235,0.25),
 inset 0 2px 4px rgba(0,0,0,0.05);
 
 }
 
 
 
+/* CHAMP AUTOMATIQUE */
+
+#numeroDossier{
+
+background:#e5e5e5;
+
+color:#444;
+
+border:2px dashed #9ca3af;
+
+cursor:not-allowed;
+
+}
+
+
+
 /* ======================================================
-BOUTONS 3D
+BOUTONS
 ====================================================== */
 
 button{
@@ -542,6 +572,24 @@ padding:30px;
 
 }
 
+#sceau-conformite{
+page-break-before:always;
+text-align:center;
+}
+
+button,
+.no-print{
+display:none !important;
+}
+
+}
+
+
+
+/* ======================================================
+RESPONSIVE
+====================================================== */
+
 @media (max-width:800px){
 
 header h1{
@@ -569,17 +617,6 @@ text-shadow:
 0 1px 0 #8c6f00,
 0 3px 8px rgba(0,0,0,0.7);
 
-}
-
-}
-#sceau-conformite{
-page-break-before:always;
-text-align:center;
-}
-
-button,
-.no-print{
-display:none !important;
 }
 
 }

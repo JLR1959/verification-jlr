@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
 <meta charset="utf-8">
 <title>Vérification Préventive Immobilière - Jean-Louis Raymond</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,17 +23,26 @@
 
 <body>
 
+<!-- ======================================================
+MODULE 1
+BANDEAU MODE DE VÉRIFICATION
+====================================================== -->
+
 <div id="bandeau-mode-verification">
 Mode de vérification : NON SÉLECTIONNÉ
 </div>
+
+
+<!-- ======================================================
+MODULE 2
+ENTÊTE ENTREPRISE
+====================================================== -->
 
 <header style="text-align:center;">
 
 <img src="logo_jlr.png" alt="Logo JLR" style="max-height:80px;">
 
 <h1>Vérification Préventive Immobilière</h1>
-
-<p><strong>Étapes numérotées à suivre pour remplir ce formulaire</strong></p>
 
 <h2>Jean-Louis Raymond</h2>
 
@@ -45,13 +56,19 @@ Mode de vérification : NON SÉLECTIONNÉ
 
 </header>
 
+
+<!-- ======================================================
+MODULE 3
+FORMULAIRE CLIENT
+====================================================== -->
+
 <section id="formulaire-client">
 
 <h2>Étapes numérotées à suivre pour remplir ce formulaire</h2>
 
 <h2>Informations du client</h2>
 
-<label>***Numéro de dossier automatique, SVP... Ne rien écrire ici***
+<label>***Numéro de dossier automatique***
 <input type="text" id="numeroDossier" readonly>
 </label>
 
@@ -75,24 +92,30 @@ Mode de vérification : NON SÉLECTIONNÉ
 <input type="text" id="ville">
 </label>
 
-<label>6) Ajouter la date de vérification
+<label>6) Date de vérification
 <input type="date" id="verification-date">
 </label>
 
 </section>
 
+
+<!-- ======================================================
+MODULE 4
+CHOIX TYPE DE VÉRIFICATION
+====================================================== -->
+
 <section>
 
-<label>7) Choisissez un type de vérification (INTÉRIEUR) A ou (EXTÉRIEUR) B</label>
+<label>7) Choisissez un type de vérification</label>
 
 <div id="choix-verification">
 
 <button type="button" id="btn-interieur" onclick="choisirVerification('interieur')" class="type-btn interieur">
-🏠 A) Vérification Intérieure
+🏠 Vérification Intérieure
 </button>
 
 <button type="button" id="btn-exterieur" onclick="choisirVerification('exterieur')" class="type-btn exterieur">
-🌳 B) Vérification Extérieure
+🌳 Vérification Extérieure
 </button>
 
 <input type="hidden" id="type-verification">
@@ -101,7 +124,17 @@ Mode de vérification : NON SÉLECTIONNÉ
 
 <div id="mode-verification-indicateur"></div>
 
-<label>8) Sélectionnez Pièces ou éléments ci-dessous</label>
+</section>
+
+
+<!-- ======================================================
+MODULE 5
+SÉLECTION DES PIÈCES
+====================================================== -->
+
+<section>
+
+<label>8) Sélectionnez Pièces ou éléments</label>
 
 <select id="type-piece">
 
@@ -149,10 +182,16 @@ Mode de vérification : NON SÉLECTIONNÉ
 </select>
 
 <button type="button" onclick="ajouterPiece()" class="no-print">
-9) Cliquez ici pour ouvrir Pièces ou éléments
+Ouvrir pièce
 </button>
 
 </section>
+
+
+<!-- ======================================================
+MODULE 6
+PIÈCES EN COURS DE VÉRIFICATION
+====================================================== -->
 
 <section id="section-pieces-verification" style="display:none;">
 
@@ -162,12 +201,17 @@ Mode de vérification : NON SÉLECTIONNÉ
 
 </section>
 
+
+<!-- ======================================================
+MODULE 7
+SIGNATURES
+====================================================== -->
+
 <section>
 
 <h2>Signatures</h2>
 
 <label>Signature du client</label>
-
 <canvas id="signature-client" width="300" height="100"></canvas>
 
 <br>
@@ -187,7 +231,6 @@ Réouvrir
 <br><br>
 
 <label>Signature du consultant</label>
-
 <canvas id="signature-verificateur" width="300" height="100"></canvas>
 
 <br>
@@ -206,13 +249,18 @@ Réouvrir
 
 </section>
 
+
+<!-- ======================================================
+MODULE 8
+ENVOI PAR COURRIEL
+====================================================== -->
+
 <section id="envoi-par-courriel">
 
 <h2>Envoyer le rapport par courriel</h2>
 
 <label>Courriel du propriétaire</label>
-
-<input type="email" id="emailProprietaire" placeholder="Entrez le courriel du propriétaire">
+<input type="email" id="emailProprietaire">
 
 <label>
 <input type="checkbox" id="envoyerAuProprietaire" checked>
@@ -224,6 +272,12 @@ Envoyer le rapport
 </button>
 
 </section>
+
+
+<!-- ======================================================
+MODULE 9
+MINUTEUR
+====================================================== -->
 
 <section id="section-minuteur" class="no-print">
 
@@ -248,7 +302,25 @@ Total : <span id="montant-affiche">0.00 $</span>
 
 </section>
 
-<footer>
+
+<!-- ======================================================
+MODULE 10
+FIN DE VÉRIFICATION
+====================================================== -->
+
+<section>
+
+<button type="button" onclick="terminerVerification()" class="no-print">
+Vérification terminée
+</button>
+
+</section>
+
+
+<!-- ======================================================
+MODULE 11
+IMPRESSION
+====================================================== -->
 
 <footer>
 
@@ -258,17 +330,15 @@ Imprimer le rapport
 
 </footer>
 
+
+<!-- ======================================================
+MODULE 12
+ZONE RAPPORT IMPRESSION
+====================================================== -->
+
 <div id="zone-impression"></div>
 
 <div id="rapport-impression">
-
-</footer>
-
-<div id="zone-impression"></div>
-
-<div id="rapport-impression">
-
-</footer>
 
 <h1>Vérification Préventive Immobilière</h1>
 
@@ -276,53 +346,12 @@ Imprimer le rapport
 
 <p>Consultant en vérification préventive</p>
 
-<p>📧 jlouisraymond@hotmail.com | 📞 438-220-6511</p>
-
-<p>NEQ : 2268876952</p>
-
-<p>TPS : 771362471 RT 0001 | TVQ : 1227894560 TQ 0001</p>
-
 <h2>Informations client</h2>
 
 <p>Numéro de dossier : <span id="rapport-dossier"></span></p>
 <p>Locataire : <span id="rapport-locataire"></span></p>
 <p>Téléphone : <span id="rapport-telephone"></span></p>
 <p>Adresse : <span id="rapport-adresse"></span></p>
-
-<h2>Éléments défectueux</h2>
-
-<p>Aucun problème détecté.</p>
-
-<h2>Éléments conformes</h2>
-
-<p>Aucun élément conforme détecté.</p>
-
-<h2>Facturation</h2>
-
-<p>Temps travaillé : 0.00 heures</p>
-<p>Taux horaire : 125.00 $ / heure</p>
-<p>Sous-total : 0.00 $</p>
-<p>TPS (5%) : 0.00 $</p>
-<p>TVQ (9.975%) : 0.00 $</p>
-
-<h3>Total à payer : 0.00 $</h3>
-
-<section id="sceau-conformite">
-
-<h2>Attestation de conformité de vérification</h2>
-
-<img src="sceau certification VPIJLR.png" class="sceau-image">
-
-<p>
-Je soussigné, Jean-Louis Raymond, consultant en vérification préventive immobilière,
-atteste que la présente vérification visuelle a été réalisée conformément aux règles
-de l’art et selon les pratiques généralement reconnues dans le domaine de la
-vérification préventive immobilière.
-</p>
-
-<p><strong>Jean-Louis Raymond</strong></p>
-
-</section>
 
 </div>
 

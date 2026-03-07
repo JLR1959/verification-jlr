@@ -2864,3 +2864,48 @@ document.addEventListener("DOMContentLoaded", function() {
 
 });
 
+// ======================================================
+// MODULE 13
+// PROTECTION FERMETURE APPLICATION
+// Empêche la fermeture du logiciel tant que la
+// vérification n'est pas terminée.
+// ======================================================
+
+let verificationTerminee = false;
+
+
+// ------------------------------------------------------
+// BOUTON VÉRIFICATION TERMINÉE
+// ------------------------------------------------------
+
+function terminerVerification(){
+
+const confirmation = confirm("Confirmez-vous que la vérification est terminée ?");
+
+if(!confirmation) return;
+
+verificationTerminee = true;
+
+alert("La vérification est terminée. Vous pouvez maintenant fermer l'application.");
+
+}
+
+
+// ------------------------------------------------------
+// PROTECTION CONTRE FERMETURE ACCIDENTELLE
+// ------------------------------------------------------
+
+window.addEventListener("beforeunload", function(e){
+
+if(!verificationTerminee){
+
+e.preventDefault();
+
+e.returnValue = "";
+
+return "";
+
+}
+
+});
+
