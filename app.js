@@ -3107,154 +3107,80 @@ section.classList.remove("etape-complete");
 
 // ======================================================
 // MODULE 17
-// BULLES ÉTAT DES CHAMPS
+// INDICATEUR CHAMPS (POINT + TEXTE)
 // ======================================================
 
 document.addEventListener("DOMContentLoaded", function(){
 
-const champs = document.querySelectorAll("input, select, textarea");
+const champs = [
 
-champs.forEach(function(champ){
+"locataire",
+"telephone",
+"numeroAppartement",
+"adresse",
+"ville",
+"verification-date",
+"type-verification",
+"type-piece",
+"emailProprietaire"
 
-if(!champ.id) return;
+];
 
-const wrapper = document.createElement("div");
-wrapper.className = "champ-etape";
+champs.forEach(function(id){
 
-champ.parentNode.insertBefore(wrapper, champ);
-wrapper.appendChild(champ);
+const champ = document.getElementById(id);
 
-const bulle = document.createElement("span");
-bulle.className = "bulle-etape";
-wrapper.appendChild(bulle);
+if(!champ) return;
 
+const indicateur = document.createElement("span");
 
+indicateur.className = "indicateur-etape etape-ko";
 
-function verifierChamp(){
+const texte = document.createElement("span");
 
-if(champ.type === "checkbox"){
+texte.className = "texte-etape";
+texte.innerText = "Non terminé";
 
-if(champ.checked){
+const conteneur = document.createElement("span");
 
-bulle.className = "bulle-etape etape-ok";
-bulle.innerText = "Étape terminée";
+conteneur.className = "etat-champ";
 
-}else{
+conteneur.appendChild(indicateur);
+conteneur.appendChild(texte);
 
-bulle.className = "bulle-etape etape-ko";
-bulle.innerText = "Étape non terminée";
-
-}
-
-return;
-
-}
-
-
-
-if(champ.value && champ.value.trim() !== ""){
-
-bulle.className = "bulle-etape etape-ok";
-bulle.innerText = "Étape terminée";
-
-}else{
-
-bulle.className = "bulle-etape etape-ko";
-bulle.innerText = "Étape non terminée";
-
-}
-
-}
+champ.parentNode.appendChild(conteneur);
 
 
 
-champ.addEventListener("input", verifierChamp);
-champ.addEventListener("change", verifierChamp);
-champ.addEventListener("blur", verifierChamp);
-
-
-
-verifierChamp();
-
-});
-
-});
-
-
-// ======================================================
-// MODULE 17
-// BULLES ÉTAT DES CHAMPS
-// ======================================================
-
-document.addEventListener("DOMContentLoaded", function(){
-
-const champs = document.querySelectorAll("input, select, textarea");
-
-champs.forEach(function(champ){
-
-if(!champ.id) return;
-
-const wrapper = document.createElement("div");
-wrapper.className = "champ-etape";
-
-champ.parentNode.insertBefore(wrapper, champ);
-wrapper.appendChild(champ);
-
-const bulle = document.createElement("span");
-bulle.className = "bulle-etape";
-wrapper.appendChild(bulle);
-
-
-
-function verifierChamp(){
-
-if(champ.type === "checkbox"){
-
-if(champ.checked){
-
-bulle.className = "bulle-etape etape-ok";
-bulle.innerText = "Étape terminée";
-
-}else{
-
-bulle.className = "bulle-etape etape-ko";
-bulle.innerText = "Étape non terminée";
-
-}
-
-return;
-
-}
-
-
+function verifier(){
 
 if(champ.value && champ.value.trim() !== ""){
 
-bulle.className = "bulle-etape etape-ok";
-bulle.innerText = "Étape terminée";
+indicateur.classList.remove("etape-ko");
+indicateur.classList.add("etape-ok");
+
+texte.innerText = "Terminé";
 
 }else{
 
-bulle.className = "bulle-etape etape-ko";
-bulle.innerText = "Étape non terminée";
+indicateur.classList.remove("etape-ok");
+indicateur.classList.add("etape-ko");
+
+texte.innerText = "Non terminé";
 
 }
 
 }
 
+champ.addEventListener("input", verifier);
+champ.addEventListener("change", verifier);
 
-
-champ.addEventListener("input", verifierChamp);
-champ.addEventListener("change", verifierChamp);
-champ.addEventListener("blur", verifierChamp);
-
-
-
-verifierChamp();
+verifier();
 
 });
 
 });
+
 
 // ======================================================
 // MODULE 18
