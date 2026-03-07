@@ -1,6 +1,6 @@
 // ======================================================
 // MODULE 14
-// SIGNATURE MULTIPLATEFORME + VERROUILLAGE
+// SIGNATURE MULTIPLATEFORME + VERROUILLAGE TOTAL
 // Compatible Windows / macOS / Linux / Android
 // ======================================================
 
@@ -35,9 +35,9 @@ function position(event){
 
 const rect = canvas.getBoundingClientRect();
 
-let x, y;
+let x,y;
 
-if(event.touches){
+if(event.touches && event.touches.length>0){
 
 x = event.touches[0].clientX - rect.left;
 y = event.touches[0].clientY - rect.top;
@@ -75,8 +75,8 @@ event.preventDefault();
 
 function move(event){
 
-if(!signatures[idCanvas].dessin) return;
 if(signatures[idCanvas].verrouille) return;
+if(!signatures[idCanvas].dessin) return;
 
 const pos = position(event);
 
@@ -98,7 +98,7 @@ signatures[idCanvas].dessin = false;
 
 
 
-/* pointer events */
+/* pointer */
 
 canvas.addEventListener("pointerdown",start);
 canvas.addEventListener("pointermove",move);
@@ -107,7 +107,7 @@ canvas.addEventListener("pointerleave",stop);
 
 
 
-/* mouse fallback */
+/* mouse */
 
 canvas.addEventListener("mousedown",start);
 canvas.addEventListener("mousemove",move);
@@ -115,7 +115,7 @@ canvas.addEventListener("mouseup",stop);
 
 
 
-/* touch fallback */
+/* touch */
 
 canvas.addEventListener("touchstart",start);
 canvas.addEventListener("touchmove",move);
@@ -124,6 +124,10 @@ canvas.addEventListener("touchend",stop);
 }
 
 
+
+/* ======================================================
+FIGER SIGNATURE
+====================================================== */
 
 function figerSignature(idCanvas){
 
@@ -135,6 +139,10 @@ signatures[idCanvas].verrouille = true;
 
 
 
+/* ======================================================
+DÉVERROUILLER SIGNATURE
+====================================================== */
+
 function deverrouillerSignature(idCanvas){
 
 if(!signatures[idCanvas]) return;
@@ -145,7 +153,13 @@ signatures[idCanvas].verrouille = false;
 
 
 
+/* ======================================================
+EFFACER SIGNATURE CLIENT
+====================================================== */
+
 function effacerSignatureLocataire(){
+
+if(signatures["signature-client"] && signatures["signature-client"].verrouille) return;
 
 const canvas = document.getElementById("signature-client");
 if(!canvas) return;
@@ -158,7 +172,13 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
 
 
 
+/* ======================================================
+EFFACER SIGNATURE CONSULTANT
+====================================================== */
+
 function effacerSignatureConsultant(){
+
+if(signatures["signature-verificateur"] && signatures["signature-verificateur"].verrouille) return;
 
 const canvas = document.getElementById("signature-verificateur");
 if(!canvas) return;
