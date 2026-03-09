@@ -28,8 +28,6 @@ HEAD / CONFIGURATION
 
 </head>
 
-
-
 <body>
 
 <!-- ======================================================
@@ -40,8 +38,6 @@ BANDEAU MODE VÉRIFICATION
 <div id="bandeau-mode-verification">
 Mode de vérification : NON SÉLECTIONNÉ
 </div>
-
-
 
 <!-- ======================================================
 MODULE 3
@@ -66,7 +62,6 @@ ENTÊTE ENTREPRISE
 
 </header>
 
-
 <!-- ======================================================
 MODULE 4
 FORMULAIRE CLIENT REPLIABLE
@@ -87,8 +82,6 @@ Replier / Déplier
 </button>
 
 </h2>
-
-</div>
 
 <div id="contenu-client">
 
@@ -242,9 +235,35 @@ Replier / Déplier
 <input type="date" id="verification-date">
 </label>
 
-</div>
+<!-- ======================================================
+INDICATEURS ENTREPRISE FACTURATION
+====================================================== -->
 
-</section>
+<label>
+Entreprise responsable de la facturation
+
+<input type="text" id="entreprise-facturation">
+
+<span class="etat-champ">
+<span id="etat-entreprise-facturation" class="indicateur-etape etape-ko"></span>
+<span class="texte-etape">Champ à compléter</span>
+</span>
+
+</label>
+
+
+<label>
+Courriel responsable facturation
+
+<input type="email" id="email-facturation">
+
+<span class="etat-champ">
+<span id="etat-email-facturation" class="indicateur-etape etape-ko"></span>
+<span class="texte-etape">Champ à compléter</span>
+</span>
+
+</label>
+
 
 
 <!-- ======================================================
@@ -281,8 +300,6 @@ class="type-btn exterieur">
 <div id="mode-verification-indicateur"></div>
 
 </section>
-
-
 
 <!-- ======================================================
 MODULE 6
@@ -346,8 +363,6 @@ SÉLECTION DES PIÈCES
 
 </section>
 
-
-
 <!-- ======================================================
 MODULE 7
 PIÈCES EN VÉRIFICATION
@@ -360,8 +375,6 @@ PIÈCES EN VÉRIFICATION
 <div id="liste-pieces"></div>
 
 </section>
-
-
 
 <!-- ======================================================
 MODULE 8
@@ -409,70 +422,81 @@ Effacer signature consultant
 </section>
 
 
-
 <!-- ======================================================
-MODULE 9
-ENVOI COURRIEL
+MODULE 10
+PANNEAU ADMIN MINUTEUR AVEC MOT DE PASSE
 ====================================================== -->
 
-<section id="envoi-par-courriel">
+<section id="admin-minuteur" class="no-print">
 
-<h2>Envoyer le rapport par courriel</h2>
+<h2>Mode administrateur</h2>
 
-<label>Courriel du propriétaire</label>
+<div id="zone-login-admin">
 
-<input type="email" id="emailProprietaire">
+<label>Mot de passe administrateur</label>
 
-<label>
+<input type="password" id="admin-password">
 
-<input type="checkbox" id="envoyerAuProprietaire" checked>
-
-Envoyer également au propriétaire
-
-</label>
-
-<button type="button" onclick="genererMailto()">
-
-Envoyer le rapport
-
+<button type="button" onclick="activerModeAdmin()">
+Accéder au mode admin
 </button>
+
+</div>
+
+<div id="admin-controles" style="display:none; margin-top:10px;">
+
+<button type="button" onclick="basculerMinuteur()">
+Afficher / Cacher le minuteur
+</button>
+
+<button type="button" onclick="desactiverModeAdmin()">
+Quitter mode admin
+</button>
+
+</div>
 
 </section>
 
-
-
 <!-- ======================================================
-MODULE 10
-MINUTEUR
+MODULE 11
+MINUTEUR DE VÉRIFICATION
 ====================================================== -->
 
 <section id="section-minuteur" class="no-print">
 
 <h2>Minuteur de vérification</h2>
 
-<div id="minuteur-container" style="display:none;">
+<div id="minuteur-container">
 
 <div id="affichage-minuteur">
-<span id="temps-affiche">00:00:00</span>
+Temps : <span id="temps-affiche">00:00:00</span>
 </div>
 
 <div id="affichage-montant">
-Total : <span id="montant-affiche">0.00 $</span>
+Montant : <span id="montant-affiche">0.00 $</span>
 </div>
-
-<button type="button" onclick="demarrerMinuteur()">Démarrer</button>
-<button type="button" onclick="pauseMinuteur()">Pause</button>
-<button type="button" onclick="reinitialiserMinuteur()">Réinitialiser</button>
-<button type="button" onclick="basculerVisibiliteMinuteur()">Voir / Cacher</button>
 
 </div>
 
 </section>
 
+<!-- ======================================================
+MODULE 12
+FIN DE VÉRIFICATION
+====================================================== -->
 
+<section class="no-print">
+
+<button type="button" onclick="verificationComplete()">
+
+VÉRIFICATION COMPLÈTE TERMINÉE
+
+</button>
+
+</section>
 
 <!-- ======================================================
-MODULE 11
+MODULE 13
 IMPRESSION DU RAPPORT
 ====================================================== -->
 
@@ -487,7 +511,7 @@ Imprimer le rapport
 <script>
 
 /* ======================================================
-MODULE 11.1
+MODULE 13.1
 FONCTION IMPRESSION
 ====================================================== */
 
@@ -559,10 +583,8 @@ fenetre.print();
 
 </footer>
 
-
-
 <!-- ======================================================
-MODULE 12
+MODULE 14
 RAPPORT D’IMPRESSION
 ====================================================== -->
 
@@ -601,15 +623,24 @@ RAPPORT D’IMPRESSION
 
 <p>Aucun élément conforme détecté.</p>
 
+<!-- ======================================================
+MODULE 15
+FACTURATION RAPPORT DYNAMIQUE
+====================================================== -->
+
 <h2>Facturation</h2>
 
-<p>Temps travaillé : 0.00 heures</p>
-<p>Taux horaire : 125.00 $ / heure</p>
-<p>Sous-total : 0.00 $</p>
-<p>TPS (5%) : 0.00 $</p>
-<p>TVQ (9.975%) : 0.00 $</p>
+<p>Temps travaillé : <span id="rapport-heures">0.00</span> heures</p>
 
-<h3>Total à payer : 0.00 $</h3>
+<p>Taux horaire : 125.00 $ / heure</p>
+
+<p>Sous-total : <span id="rapport-sous-total">0.00</span> $</p>
+
+<p>TPS (5%) : <span id="rapport-tps">0.00</span> $</p>
+
+<p>TVQ (9.975%) : <span id="rapport-tvq">0.00</span> $</p>
+
+<h3>Total à payer : <span id="rapport-total">0.00</span> $</h3>
 
 <section id="sceau-conformite">
 
@@ -630,10 +661,8 @@ vérification préventive immobilière.
 
 </div>
 
-
-
 <!-- ======================================================
-MODULE 13
+MODULE 16
 LÉGENDE INDICATEURS
 ====================================================== -->
 

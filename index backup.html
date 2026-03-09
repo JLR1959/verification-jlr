@@ -74,16 +74,19 @@ FORMULAIRE CLIENT REPLIABLE
 
 <section id="formulaire-client">
 
-<div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+<h2>
 
-<h2 style="margin:0;">Informations du client</h2>
+Informations du client
 
 <button
 type="button"
 onclick="basculerSectionClient()"
-class="no-print">
+class="no-print"
+style="margin-left:12px;">
 Replier / Déplier
 </button>
+
+</h2>
 
 </div>
 
@@ -437,30 +440,36 @@ Envoyer le rapport
 </section>
 
 
-
 <!-- ======================================================
 MODULE 10
-MINUTEUR
+MINUTEUR DE VÉRIFICATION (ACTIF)
 ====================================================== -->
 
 <section id="section-minuteur" class="no-print">
 
 <h2>Minuteur de vérification</h2>
 
-<div id="minuteur-container" style="display:none;">
+<div id="minuteur-container">
 
 <div id="affichage-minuteur">
-<span id="temps-affiche">00:00:00</span>
+Temps : <span id="temps-affiche">00:00:00</span>
 </div>
 
 <div id="affichage-montant">
-Total : <span id="montant-affiche">0.00 $</span>
+Montant : <span id="montant-affiche">0.00 $</span>
 </div>
 
-<button type="button" onclick="demarrerMinuteur()">Démarrer</button>
-<button type="button" onclick="pauseMinuteur()">Pause</button>
-<button type="button" onclick="reinitialiserMinuteur()">Réinitialiser</button>
-<button type="button" onclick="basculerVisibiliteMinuteur()">Voir / Cacher</button>
+<button type="button" onclick="demarrerMinuteur()">
+Démarrer
+</button>
+
+<button type="button" onclick="pauseMinuteur()">
+Pause
+</button>
+
+<button type="button" onclick="reinitialiserMinuteur()">
+Réinitialiser
+</button>
 
 </div>
 
@@ -600,13 +609,17 @@ RAPPORT D’IMPRESSION
 
 <h2>Facturation</h2>
 
-<p>Temps travaillé : 0.00 heures</p>
-<p>Taux horaire : 125.00 $ / heure</p>
-<p>Sous-total : 0.00 $</p>
-<p>TPS (5%) : 0.00 $</p>
-<p>TVQ (9.975%) : 0.00 $</p>
+<p>Temps travaillé : <span id="rapport-heures">0.00</span> heures</p>
 
-<h3>Total à payer : 0.00 $</h3>
+<p>Taux horaire : 125.00 $ / heure</p>
+
+<p>Sous-total : <span id="rapport-sous-total">0.00</span> $</p>
+
+<p>TPS (5%) : <span id="rapport-tps">0.00</span> $</p>
+
+<p>TVQ (9.975%) : <span id="rapport-tvq">0.00</span> $</p>
+
+<h3>Total à payer : <span id="rapport-total">0.00</span> $</h3>
 
 <section id="sceau-conformite">
 
@@ -646,5 +659,86 @@ Champ complété
 
 </div>
 
-</body>
-</html>
+
+<!-- ======================================================
+MODULE 14
+PANNEAU ADMIN MINUTEUR AVEC MOT DE PASSE
+====================================================== -->
+
+<section id="admin-minuteur" class="no-print">
+
+<h2>Mode administrateur</h2>
+
+<div id="zone-login-admin">
+
+<label>Mot de passe administrateur</label>
+
+<input type="password" id="admin-password">
+
+<button type="button" onclick="activerModeAdmin()">
+Accéder au mode admin
+</button>
+
+</div>
+
+<div id="admin-controles" style="display:none; margin-top:10px;">
+
+<button type="button" onclick="basculerMinuteur()">
+Afficher / Cacher le minuteur
+</button>
+
+<button type="button" onclick="desactiverModeAdmin()">
+Quitter mode admin
+</button>
+
+</div>
+
+</section>
+
+<!-- ======================================================
+MODULE 15
+MINUTEUR DE VÉRIFICATION
+====================================================== -->
+
+<section id="section-minuteur" class="no-print">
+
+<h2>Minuteur de vérification</h2>
+
+<div id="minuteur-container">
+
+<div id="affichage-minuteur">
+Temps : <span id="temps-affiche">00:00:00</span>
+</div>
+
+<div id="affichage-montant">
+Montant : <span id="montant-affiche">0.00 $</span>
+</div>
+
+<button type="button" onclick="demarrerMinuteur()">
+Démarrer
+</button>
+
+<button type="button" onclick="pauseMinuteur()">
+Pause
+</button>
+
+<button type="button" onclick="reinitialiserMinuteur()">
+Réinitialiser
+</button>
+
+</div>
+
+</section>
+
+<!-- ======================================================
+MODULE 16
+BOUTON FIN DE VÉRIFICATION
+====================================================== -->
+
+<section class="no-print">
+
+<button type="button" onclick="terminerVerification()">
+VÉRIFICATION COMPLÈTE TERMINÉE
+</button>
+
+</section>

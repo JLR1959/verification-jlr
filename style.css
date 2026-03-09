@@ -18,7 +18,6 @@ PALETTE
 }
 
 
-
 /* ======================================================
 MODULE CSS 2
 BASE
@@ -36,7 +35,6 @@ font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
 color:var(--texte);
 
 }
-
 
 
 /* ======================================================
@@ -69,7 +67,6 @@ z-index:1000;
 }
 
 
-
 /* ======================================================
 MODULE CSS 4
 COULEURS MODE
@@ -84,7 +81,6 @@ color:#1e40af;
 background:#dcfce7;
 color:#166534;
 }
-
 
 
 /* ======================================================
@@ -115,7 +111,6 @@ box-shadow:
 }
 
 
-
 /* ======================================================
 MODULE CSS 6
 TITRE PRINCIPAL
@@ -129,7 +124,6 @@ font-weight:900;
 color:#ffd700;
 
 text-shadow:
-
 0 1px 0 #b89600,
 0 2px 0 #a38300,
 0 3px 0 #8c6f00,
@@ -137,7 +131,6 @@ text-shadow:
 0 8px 20px rgba(0,0,0,0.6);
 
 }
-
 
 
 /* ======================================================
@@ -153,13 +146,11 @@ font-weight:800;
 color:#ffdf33;
 
 text-shadow:
-
 0 1px 0 #b89600,
 0 2px 0 #8c6f00,
 0 4px 10px rgba(0,0,0,0.6);
 
 }
-
 
 
 /* ======================================================
@@ -174,7 +165,6 @@ color:#e5e7eb;
 font-weight:500;
 
 }
-
 
 
 /* ======================================================
@@ -212,7 +202,6 @@ box-shadow:
 }
 
 
-
 /* ======================================================
 MODULE CSS 10
 TITRES SECTIONS
@@ -226,7 +215,6 @@ padding-bottom:8px;
 border-bottom:2px solid #e5e7eb;
 
 }
-
 
 
 /* ======================================================
@@ -243,7 +231,6 @@ margin-top:12px;
 font-weight:600;
 
 }
-
 
 
 /* ======================================================
@@ -276,7 +263,6 @@ transition:.2s;
 }
 
 
-
 /* ======================================================
 MODULE CSS 13
 EFFETS CHAMPS
@@ -305,7 +291,6 @@ inset 0 2px 4px rgba(0,0,0,0.05);
 }
 
 
-
 /* ======================================================
 MODULE CSS 14
 NUMÉRO DOSSIER
@@ -322,7 +307,6 @@ border:2px dashed #9ca3af;
 cursor:not-allowed;
 
 }
-
 
 
 /* ======================================================
@@ -373,7 +357,6 @@ box-shadow:
 0 6px 10px rgba(0,0,0,0.2);
 
 }
-
 
 
 /* ======================================================
@@ -442,7 +425,6 @@ box-shadow:0 0 0 4px rgba(37,99,235,0.35);
 }
 
 
-
 /* ======================================================
 MODULE CSS 17
 INDICATEUR MODE
@@ -475,7 +457,6 @@ color:#1e40af;
 background:#dcfce7;
 color:#166534;
 }
-
 
 
 /* ======================================================
@@ -516,7 +497,6 @@ margin-bottom:10px;
 }
 
 
-
 /* ======================================================
 MODULE CSS 19
 SIGNATURES
@@ -536,16 +516,56 @@ box-shadow:
 }
 
 
-
 /* ======================================================
 MODULE CSS 20
-MINUTEUR MASQUÉ
+MINUTEUR ACTIF
 ====================================================== */
 
 #section-minuteur{
-display:none !important;
+display:block;
 }
 
+#minuteur-container{
+
+margin-top:10px;
+
+padding:15px;
+
+background:#f8fafc;
+
+border-radius:10px;
+
+border:1px solid #e2e8f0;
+
+display:flex;
+
+flex-direction:column;
+
+gap:10px;
+
+max-width:320px;
+
+}
+
+#affichage-minuteur{
+
+font-size:22px;
+
+font-weight:700;
+
+color:#1e40af;
+
+}
+
+#affichage-montant{
+
+font-size:18px;
+
+font-weight:700;
+
+color:#16a34a;
+
+}
 
 
 /* ======================================================
@@ -558,7 +578,6 @@ RAPPORT IMPRESSION
 display:none;
 
 }
-
 
 
 /* ======================================================
@@ -577,7 +596,6 @@ margin:20px auto;
 opacity:0.9;
 
 }
-
 
 
 /* ======================================================
@@ -607,10 +625,6 @@ left:0;
 
 width:100%;
 
-height:auto;
-
-overflow:visible;
-
 padding:30px;
 
 }
@@ -621,7 +635,6 @@ display:none !important;
 }
 
 }
-
 
 
 /* ======================================================
@@ -635,28 +648,16 @@ header h1{
 
 font-size:28px;
 
-color:#ffd700;
-
-text-shadow:
-0 1px 0 #b89600,
-0 2px 0 #8c6f00,
-0 3px 6px rgba(0,0,0,0.7);
-
 }
 
 header h2{
 
 font-size:22px;
 
-color:#ffd700;
-
-text-shadow:
-0 1px 0 #8c6f00,
-0 3px 8px rgba(0,0,0,0.7);
-
 }
 
 }
+
 
 /* ======================================================
 MODULE CSS 25
@@ -677,8 +678,6 @@ gap:6px;
 
 }
 
-
-
 .indicateur-etape{
 
 width:10px;
@@ -690,29 +689,19 @@ display:inline-block;
 
 }
 
-
-
 .etape-ok{
-
 background:#16a34a;
-
 }
-
-
 
 .etape-ko{
-
 background:#ef4444;
-
 }
-
-
 
 .texte-etape{
-
 font-weight:600;
-
 }
+
+
 /* ======================================================
 MODULE CSS 26
 LÉGENDE INDICATEURS
@@ -732,8 +721,6 @@ align-items:center;
 
 }
 
-
-
 .legende-item{
 
 display:flex;
@@ -744,34 +731,6 @@ gap:6px;
 
 }
 
-/* ======================================================
-MODULE 19
-GESTION IMPRESSION RAPPORT
-====================================================== */
-
-@media print{
-
-body *{
-display:none;
-}
-
-#rapport-impression,
-#rapport-impression *{
-display:block;
-}
-
-#rapport-impression{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-}
-
-.no-print{
-display:none;
-}
-
-}
 
 /* ======================================================
 MODULE CSS 27
@@ -780,4 +739,36 @@ SECTION REPLIABLE
 
 .section-replie{
 display:none;
+}
+
+/* ======================================================
+MODULE CSS 28
+MINUTEUR CACHÉ PAR DÉFAUT
+====================================================== */
+
+#section-minuteur{
+display:none;
+}
+
+.minuteur-visible{
+display:block !important;
+}
+
+/* ======================================================
+MODULE CSS 29
+PANNEAU ADMIN
+====================================================== */
+
+#admin-minuteur{
+
+background:#fff7ed;
+
+border:2px dashed #fb923c;
+
+}
+
+#admin-minuteur h2{
+
+color:#c2410c;
+
 }

@@ -3354,3 +3354,339 @@ if(!section) return;
 section.classList.toggle("section-replie");
 
 }
+
+
+/* ======================================================
+MODULE 27
+AUTHENTIFICATION ADMIN
+====================================================== */
+
+function activerModeAdmin(){
+
+const champ = document.getElementById("admin-password");
+const controles = document.getElementById("admin-controles");
+const login = document.getElementById("zone-login-admin");
+
+if(!champ) return;
+
+if(champ.value === "jlr1959"){
+
+if(controles){
+controles.style.display = "block";
+}
+
+if(login){
+login.style.display = "none";
+}
+
+champ.value = "";
+
+alert("Mode administrateur activé.");
+
+}else{
+
+alert("Mot de passe incorrect.");
+
+}
+
+}
+
+/* ======================================================
+MODULE 28
+GESTION VISIBILITÉ MINUTEUR
+====================================================== */
+
+function basculerMinuteur(){
+
+const section = document.getElementById("section-minuteur");
+
+if(!section) return;
+
+section.classList.toggle("minuteur-visible");
+
+}
+
+/* ======================================================
+MODULE 29
+DÉSACTIVER MODE ADMIN
+====================================================== */
+
+function desactiverModeAdmin(){
+
+const controles = document.getElementById("admin-controles");
+const login = document.getElementById("zone-login-admin");
+const champ = document.getElementById("admin-password");
+const minuteur = document.getElementById("section-minuteur");
+
+if(controles){
+controles.style.display = "none";
+}
+
+if(login){
+login.style.display = "block";
+}
+
+if(champ){
+champ.value = "";
+}
+
+if(minuteur){
+minuteur.classList.remove("minuteur-visible");
+}
+
+alert("Mode administrateur désactivé.");
+
+}
+
+/* ======================================================
+MODULE 30
+DÉMARRAGE AUTOMATIQUE DU MINUTEUR
+====================================================== */
+
+document.addEventListener("DOMContentLoaded", function(){
+
+const champDossier = document.getElementById("numeroDossier");
+
+if(!champDossier) return;
+
+const observer = new MutationObserver(function(){
+
+if(champDossier.value && champDossier.value.trim() !== ""){
+demarrerMinuteur();
+}
+
+});
+
+observer.observe(champDossier, {
+attributes:true,
+attributeFilter:["value"]
+});
+
+});
+
+/* ======================================================
+MODULE 31
+FIN DE VÉRIFICATION
+====================================================== */
+
+function terminerVerification(){
+
+pauseMinuteur();
+
+alert("Vérification complète terminée.");
+
+}
+
+/* ======================================================
+MODULE 32
+CALCUL FACTURATION RAPPORT
+====================================================== */
+
+function calculerFacturationRapport(){
+
+const temps = obtenirTempsTotal();
+
+const heures = temps / 3600000;
+
+const taux = 125;
+
+const sousTotal = heures * taux;
+
+const tps = sousTotal * 0.05;
+
+const tvq = sousTotal * 0.09975;
+
+const total = sousTotal + tps + tvq;
+
+return {
+heures: heures.toFixed(2),
+sousTotal: sousTotal.toFixed(2),
+tps: tps.toFixed(2),
+tvq: tvq.toFixed(2),
+total: total.toFixed(2)
+};
+
+}
+
+/* ======================================================
+MODULE 23
+DÉMARRAGE AUTOMATIQUE MINUTEUR SUR DOSSIER
+====================================================== */
+
+document.addEventListener("DOMContentLoaded", function(){
+
+const champDossier = document.getElementById("numeroDossier");
+
+if(!champDossier) return;
+
+let minuteurDemarre = false;
+
+const verifierDossier = function(){
+
+if(champDossier.value && champDossier.value.trim() !== "" && !minuteurDemarre){
+
+if(typeof demarrerMinuteur === "function"){
+
+demarrerMinuteur();
+
+minuteurDemarre = true;
+
+}
+
+}
+
+};
+
+/* vérifie au chargement */
+verifierDossier();
+
+/* vérifie si la valeur change */
+setInterval(verifierDossier, 500);
+
+});
+
+function verificationComplete(){
+
+/* ===========================
+ARRÊT DU MINUTEUR
+=========================== */
+
+if(typeof pauseMinuteur === "function"){
+pauseMinuteur();
+}
+
+/* ===========================
+GÉNÉRATION RAPPORT
+=========================== */
+
+if(typeof genererRapportImpression === "function"){
+genererRapportImpression();
+}
+
+/* ===========================
+IMPRESSION
+=========================== */
+
+setTimeout(function(){
+
+if(typeof imprimerRapport === "function"){
+imprimerRapport();
+}
+
+},500);
+
+
+/* ===========================
+COURRIEL
+=========================== */
+
+setTimeout(function(){
+
+if(typeof genererMailto === "function"){
+genererMailto();
+}
+
+},1500);
+
+
+/* ===========================
+ARCHIVAGE
+=========================== */
+
+setTimeout(function(){
+
+if(typeof archiverVerification === "function"){
+archiverVerification();
+}
+
+},2000);
+
+
+/* ===========================
+MESSAGE FINAL
+=========================== */
+
+setTimeout(function(){
+
+alert("Vérification complète terminée.");
+
+},2500);
+
+}
+
+/* ======================================================
+MODULE 24
+SAUVEGARDE ENTREPRISE FACTURATION
+====================================================== */
+
+document.addEventListener("DOMContentLoaded", function(){
+
+const entreprise = document.getElementById("entreprise-facturation");
+const courriel = document.getElementById("email-facturation");
+
+if(!entreprise || !courriel) return;
+
+/* restauration */
+
+entreprise.value = localStorage.getItem("entrepriseFacturation") || "";
+courriel.value = localStorage.getItem("emailFacturation") || "";
+
+/* sauvegarde */
+
+entreprise.addEventListener("input", function(){
+localStorage.setItem("entrepriseFacturation", entreprise.value);
+});
+
+courriel.addEventListener("input", function(){
+localStorage.setItem("emailFacturation", courriel.value);
+});
+
+});
+
+/* ======================================================
+MODULE 25
+VÉRIFICATION ENTREPRISE FACTURATION
+====================================================== */
+
+document.addEventListener("DOMContentLoaded", function(){
+
+const entreprise = document.getElementById("entreprise-facturation");
+const email = document.getElementById("email-facturation");
+
+const etatEntreprise = document.getElementById("etat-entreprise-facturation");
+const etatEmail = document.getElementById("etat-email-facturation");
+
+if(!entreprise || !email) return;
+
+function verifierChamp(champ, indicateur){
+
+if(champ.value.trim() !== ""){
+
+indicateur.classList.remove("etape-ko");
+indicateur.classList.add("etape-ok");
+
+}else{
+
+indicateur.classList.remove("etape-ok");
+indicateur.classList.add("etape-ko");
+
+}
+
+}
+
+entreprise.addEventListener("input", function(){
+verifierChamp(entreprise, etatEntreprise);
+});
+
+email.addEventListener("input", function(){
+verifierChamp(email, etatEmail);
+});
+
+/* vérification initiale */
+
+verifierChamp(entreprise, etatEntreprise);
+verifierChamp(email, etatEmail);
+
+});
+
+
