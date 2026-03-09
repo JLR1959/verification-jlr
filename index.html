@@ -99,11 +99,133 @@ FORMULAIRE CLIENT
 <input type="text" id="adresse">
 </label>
 
-<label>5) Ville
-<input type="text" id="ville">
+<label>5) Ville (Québec)
+
+<input list="villes-quebec" id="ville-quebec" name="ville-quebec" placeholder="Sélectionner ou taper une ville">
+
+<datalist id="villes-quebec">
+
+<option value="Montréal">
+<option value="Québec">
+<option value="Laval">
+<option value="Gatineau">
+<option value="Longueuil">
+<option value="Sherbrooke">
+<option value="Saguenay">
+<option value="Trois-Rivières">
+<option value="Lévis">
+<option value="Terrebonne">
+<option value="Saint-Jean-sur-Richelieu">
+<option value="Repentigny">
+<option value="Drummondville">
+<option value="Saint-Jérôme">
+<option value="Granby">
+<option value="Blainville">
+<option value="Boucherville">
+<option value="Mascouche">
+<option value="Rimouski">
+<option value="Rouyn-Noranda">
+<option value="Val-d'Or">
+<option value="Alma">
+<option value="Baie-Comeau">
+<option value="Sept-Îles">
+<option value="La Tuque">
+<option value="Amos">
+<option value="Mont-Tremblant">
+<option value="Sainte-Thérèse">
+<option value="Saint-Eustache">
+<option value="Candiac">
+<option value="Bromont">
+<option value="Sorel-Tracy">
+<option value="Magog">
+<option value="Saint-Georges">
+<option value="Thetford Mines">
+<option value="Victoriaville">
+
+</datalist>
+
 </label>
 
-<label>6) Date de vérification
+<label>6) Code postal
+<input type="text" id="codePostal" placeholder="A1A 1A1">
+</label>
+
+<label>7) Province
+
+<select id="province">
+
+<option value="">Sélectionner</option>
+
+<option value="AB">Alberta</option>
+<option value="BC">Colombie-Britannique</option>
+<option value="PE">Île-du-Prince-Édouard</option>
+<option value="MB">Manitoba</option>
+<option value="NB">Nouveau-Brunswick</option>
+<option value="NS">Nouvelle-Écosse</option>
+<option value="NU">Nunavut</option>
+<option value="ON">Ontario</option>
+<option value="QC">Québec</option>
+<option value="SK">Saskatchewan</option>
+<option value="NL">Terre-Neuve-et-Labrador</option>
+<option value="NT">Territoires du Nord-Ouest</option>
+<option value="YT">Yukon</option>
+
+</select>
+
+</label>
+
+<label>8) Pays
+
+<select id="pays">
+
+<option value="">Sélectionner</option>
+
+<option value="CA">Canada</option>
+<option value="US">États-Unis</option>
+<option value="FR">France</option>
+<option value="BE">Belgique</option>
+<option value="CH">Suisse</option>
+<option value="LU">Luxembourg</option>
+<option value="DE">Allemagne</option>
+<option value="ES">Espagne</option>
+<option value="IT">Italie</option>
+<option value="PT">Portugal</option>
+<option value="GB">Royaume-Uni</option>
+<option value="IE">Irlande</option>
+<option value="NL">Pays-Bas</option>
+<option value="SE">Suède</option>
+<option value="NO">Norvège</option>
+<option value="DK">Danemark</option>
+<option value="FI">Finlande</option>
+<option value="PL">Pologne</option>
+<option value="AU">Australie</option>
+<option value="NZ">Nouvelle-Zélande</option>
+<option value="JP">Japon</option>
+<option value="CN">Chine</option>
+<option value="IN">Inde</option>
+<option value="BR">Brésil</option>
+<option value="MX">Mexique</option>
+<option value="ZA">Afrique du Sud</option>
+
+</select>
+
+</label>
+
+<label>9) Vérificateur
+
+<select id="verificateur">
+
+<option value="">Sélectionner</option>
+
+<option>Jean-Louis Raymond</option>
+<option>Manon Leclerc</option>
+<option>consultant par défaut</option>
+
+</select>
+
+</label>
+
+<label>10) Date de vérification
 <input type="date" id="verification-date">
 </label>
 
@@ -118,7 +240,7 @@ TYPE DE VÉRIFICATION
 
 <section>
 
-<label>7) Choisissez un type de vérification</label>
+<label>11) Choisissez un type de vérification</label>
 
 <div id="choix-verification">
 
@@ -155,7 +277,7 @@ SÉLECTION DES PIÈCES
 
 <section>
 
-<label>8) Sélectionnez les pièces ou éléments</label>
+<label>12) Sélectionnez les pièces ou éléments</label>
 
 <select id="type-piece">
 
@@ -204,7 +326,7 @@ SÉLECTION DES PIÈCES
 
 <button type="button" onclick="ajouterPiece()" class="no-print">
 
-9) Cliquez ici pour ouvrir Pièces ou éléments
+13) Cliquez ici pour ouvrir Pièces ou éléments
 
 </button>
 
@@ -224,6 +346,7 @@ PIÈCES EN VÉRIFICATION
 <div id="liste-pieces"></div>
 
 </section>
+
 
 
 <!-- ======================================================
@@ -255,7 +378,6 @@ Replier signatures
 Effacer signature client
 </button>
 
-
 <br><br>
 
 <label>Signature du consultant</label>
@@ -272,7 +394,7 @@ Effacer signature consultant
 
 </section>
 
-</div>
+
 
 <!-- ======================================================
 MODULE 9
@@ -334,6 +456,7 @@ Total : <span id="montant-affiche">0.00 $</span>
 </section>
 
 
+
 <!-- ======================================================
 MODULE 11
 IMPRESSION DU RAPPORT
@@ -360,9 +483,21 @@ if(typeof genererRapportImpression === "function"){
 genererRapportImpression();
 }
 
-const contenu = document.getElementById("rapport-impression").innerHTML;
+const rapport = document.getElementById("rapport-impression");
+
+if(!rapport){
+alert("Zone de rapport introuvable.");
+return;
+}
+
+const contenu = rapport.innerHTML;
 
 const fenetre = window.open("", "", "width=900,height=1200");
+
+if(!fenetre){
+alert("Impossible d'ouvrir la fenêtre d'impression.");
+return;
+}
 
 fenetre.document.write(`
 <html>
@@ -409,6 +544,7 @@ fenetre.print();
 </script>
 
 </footer>
+
 
 
 <!-- ======================================================
@@ -480,6 +616,8 @@ vérification préventive immobilière.
 
 </div>
 
+
+
 <!-- ======================================================
 MODULE 13
 LÉGENDE INDICATEURS
@@ -496,5 +634,6 @@ Champ à compléter
 Champ complété
 
 </div>
+
 </body>
 </html>

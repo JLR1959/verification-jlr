@@ -3292,3 +3292,37 @@ bouton.innerText = "Déplier signatures";
 }
 
 }
+
+/* ======================================================
+MODULE 25
+INDICATEURS CHAMPS STABLES
+====================================================== */
+
+document.querySelectorAll("#formulaire-client input, #formulaire-client select")
+.forEach(function(champ){
+
+champ.addEventListener("input", function(){
+
+const label = champ.closest("label");
+
+if(!label) return;
+
+const indicateur = label.querySelector(".indicateur-etape");
+
+if(!indicateur) return;
+
+if(champ.value.trim() !== ""){
+
+indicateur.classList.remove("etape-ko");
+indicateur.classList.add("etape-ok");
+
+}else{
+
+indicateur.classList.remove("etape-ok");
+indicateur.classList.add("etape-ko");
+
+}
+
+});
+
+});
