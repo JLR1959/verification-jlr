@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<!-- ======================================================
+MODULE 1
+HEAD / CONFIGURATION
+====================================================== -->
+
+<head>
+
+<meta charset="utf-8">
+
+<title>Vérification Préventive Immobilière - Jean-Louis Raymond</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script defer src="app.js"></script>
+<script defer src="typeVerification.js"></script>
+<script defer src="gestionImpression.js"></script>
+<script defer src="signatureMobile.js"></script>
+<script defer src="autoSauvegarde.js"></script>
+<script defer src="journalSysteme.js"></script>
+<script defer src="gestionPiecesActives.js"></script>
+
+<link href="style.css" rel="stylesheet">
+
+</head>
+
+
+
+<body>
+
+<!-- ======================================================
+MODULE 2
+BANDEAU MODE VÉRIFICATION
+====================================================== -->
+
+<div id="bandeau-mode-verification">
+Mode de vérification : NON SÉLECTIONNÉ
+</div>
+
+
+
+<!-- ======================================================
+MODULE 3
+ENTÊTE ENTREPRISE
+====================================================== -->
+
+<header style="text-align:center;">
+
+<img src="logo_jlr.png" alt="Logo JLR" style="max-height:80px;">
+
+<h1>Vérification Préventive Immobilière</h1>
+
+<h2>Jean-Louis Raymond</h2>
+
+<p>Consultant en vérification préventive</p>
+
+<p>📧 jlouisraymond@hotmail.com | 📞 438-220-6511</p>
+
+<p>NEQ : 2268876952</p>
+
+<p>TPS : 771362471 RT 0001 | TVQ : 1227894560 TQ 0001</p>
+
+</header>
+
+
+
+<!-- ======================================================
+MODULE 4
+FORMULAIRE CLIENT
+====================================================== -->
+
+<section id="formulaire-client">
+
+<h2>Étapes numérotées à suivre pour remplir ce formulaire</h2>
+
+<h2>Informations du client</h2>
+
+<label>***Numéro de dossier automatique***
+<input type="text" id="numeroDossier" readonly>
+</label>
+
+<label>1) Nom du locataire
+<input type="text" id="locataire">
+</label>
+
+<label>2) Téléphone
+<input type="tel" id="telephone">
+</label>
+
+<label>3) Numéro d’appartement
+<input type="text" id="numeroAppartement">
+</label>
+
+<label>4) Adresse
+<input type="text" id="adresse">
+</label>
+
+<label>5) Ville
+<input type="text" id="ville">
+</label>
+
+<label>6) Date de vérification
+<input type="date" id="verification-date">
+</label>
+
+</section>
+
+
+
+<!-- ======================================================
+MODULE 5
+TYPE DE VÉRIFICATION
+====================================================== -->
+
+<section>
+
+<label>7) Choisissez un type de vérification</label>
+
+<div id="choix-verification">
+
+<button type="button" id="btn-interieur"
+onclick="choisirVerification('interieur')"
+class="type-btn interieur">
+
+🏠 Vérification Intérieure
+
+</button>
+
+<button type="button" id="btn-exterieur"
+onclick="choisirVerification('exterieur')"
+class="type-btn exterieur">
+
+🌳 Vérification Extérieure
+
+</button>
+
+<input type="hidden" id="type-verification">
+
+</div>
+
+<div id="mode-verification-indicateur"></div>
+
+</section>
+
+
+
+<!-- ======================================================
+MODULE 6
+SÉLECTION DES PIÈCES
+====================================================== -->
+
+<section>
+
+<label>8) Sélectionnez les pièces ou éléments</label>
+
+<select id="type-piece">
+
+<option value="">Pièces ou éléments</option>
+
+<optgroup label="Intérieur" id="pieces-interieur">
+
+<option>Cuisine</option>
+<option>Salle de bain</option>
+<option>Salle d'eau</option>
+<option>Salle à manger</option>
+<option>Salon</option>
+<option>Chambre</option>
+<option>Bureau</option>
+<option>Corridor</option>
+<option>Escalier</option>
+<option>Hall d'entrée</option>
+<option>Sous-sol</option>
+<option>Salle mécanique</option>
+<option>Salle électrique</option>
+<option>Éclairage</option>
+<option>Salle lavage</option>
+
+</optgroup>
+
+<optgroup label="Extérieur" id="pieces-exterieur">
+
+<option>Garage</option>
+<option>Balcon</option>
+<option>Terrasse</option>
+<option>Piscine</option>
+<option>Verrière</option>
+<option>Climatisation</option>
+<option>Porte patio</option>
+<option>Réservoir eau chaude</option>
+<option>Stationnement</option>
+<option>Borne de recharge</option>
+<option>Clôture</option>
+<option>Cabanon</option>
+<option>Porte</option>
+<option>Vide sanitaire</option>
+
+</optgroup>
+
+</select>
+
+<button type="button" onclick="ajouterPiece()" class="no-print">
+
+9) Cliquez ici pour ouvrir Pièces ou éléments
+
+</button>
+
+</section>
+
+
+
+<!-- ======================================================
+MODULE 7
+PIÈCES EN VÉRIFICATION
+====================================================== -->
+
+<section id="section-pieces-verification" style="display:none;">
+
+<h2>Pièces en cours de vérification</h2>
+
+<div id="liste-pieces"></div>
+
+</section>
+
+
+<!-- ======================================================
+MODULE 8
+SIGNATURES REPLIABLES
+====================================================== -->
+
+<section id="section-signatures">
+
+<h2>Signatures</h2>
+
+<button
+type="button"
+id="bouton-signatures"
+onclick="basculerSectionSignatures()"
+class="no-print">
+Replier signatures
+</button>
+
+<div id="contenu-signatures">
+
+<label>Signature du client</label>
+
+<canvas id="signature-client" width="300" height="100"></canvas>
+
+<br>
+
+<button type="button" onclick="effacerSignatureLocataire()" class="no-print">
+Effacer signature client
+</button>
+
+
+<br><br>
+
+<label>Signature du consultant</label>
+
+<canvas id="signature-verificateur" width="300" height="100"></canvas>
+
+<br>
+
+<button type="button" onclick="effacerSignatureConsultant()" class="no-print">
+Effacer signature consultant
+</button>
+
+</div>
+
+</section>
+
+</div>
+
+<!-- ======================================================
+MODULE 9
+ENVOI COURRIEL
+====================================================== -->
+
+<section id="envoi-par-courriel">
+
+<h2>Envoyer le rapport par courriel</h2>
+
+<label>Courriel du propriétaire</label>
+
+<input type="email" id="emailProprietaire">
+
+<label>
+
+<input type="checkbox" id="envoyerAuProprietaire" checked>
+
+Envoyer également au propriétaire
+
+</label>
+
+<button type="button" onclick="genererMailto()">
+
+Envoyer le rapport
+
+</button>
+
+</section>
+
+
+
+<!-- ======================================================
+MODULE 10
+MINUTEUR
+====================================================== -->
+
+<section id="section-minuteur" class="no-print">
+
+<h2>Minuteur de vérification</h2>
+
+<div id="minuteur-container" style="display:none;">
+
+<div id="affichage-minuteur">
+<span id="temps-affiche">00:00:00</span>
+</div>
+
+<div id="affichage-montant">
+Total : <span id="montant-affiche">0.00 $</span>
+</div>
+
+<button type="button" onclick="demarrerMinuteur()">Démarrer</button>
+<button type="button" onclick="pauseMinuteur()">Pause</button>
+<button type="button" onclick="reinitialiserMinuteur()">Réinitialiser</button>
+<button type="button" onclick="basculerVisibiliteMinuteur()">Voir / Cacher</button>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+MODULE 11
+IMPRESSION DU RAPPORT
+====================================================== -->
+
+<footer class="no-print">
+
+<button type="button" onclick="imprimerRapport()">
+
+Imprimer le rapport
+
+</button>
+
+<script>
+
+/* ======================================================
+MODULE 11.1
+FONCTION IMPRESSION
+====================================================== */
+
+function imprimerRapport(){
+
+if(typeof genererRapportImpression === "function"){
+genererRapportImpression();
+}
+
+const contenu = document.getElementById("rapport-impression").innerHTML;
+
+const fenetre = window.open("", "", "width=900,height=1200");
+
+fenetre.document.write(`
+<html>
+<head>
+<title>Rapport de vérification</title>
+
+<style>
+
+body{
+font-family:Arial, Helvetica, sans-serif;
+padding:40px;
+line-height:1.5;
+}
+
+h1,h2,h3{
+margin-top:20px;
+}
+
+img{
+max-width:350px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+${contenu}
+
+</body>
+
+</html>
+`);
+
+fenetre.document.close();
+
+fenetre.onload = function(){
+fenetre.print();
+};
+
+}
+
+</script>
+
+</footer>
+
+
+<!-- ======================================================
+MODULE 12
+RAPPORT D’IMPRESSION
+====================================================== -->
+
+<div id="rapport-impression">
+
+<header style="text-align:center;">
+
+<img src="logo_jlr.png" alt="Logo JLR" style="max-height:80px;">
+
+<h1>Vérification Préventive Immobilière</h1>
+
+<h2>Jean-Louis Raymond</h2>
+
+<p>Consultant en vérification préventive</p>
+
+<p>📧 jlouisraymond@hotmail.com | 📞 438-220-6511</p>
+
+<p>NEQ : 2268876952</p>
+
+<p>TPS : 771362471 RT 0001 | TVQ : 1227894560 TQ 0001</p>
+
+</header>
+
+<h2>Informations client</h2>
+
+<p>Numéro de dossier : <span id="rapport-dossier"></span></p>
+<p>Locataire : <span id="rapport-locataire"></span></p>
+<p>Téléphone : <span id="rapport-telephone"></span></p>
+<p>Adresse : <span id="rapport-adresse"></span></p>
+
+<h2>Éléments défectueux</h2>
+
+<p>Aucun problème détecté.</p>
+
+<h2>Éléments conformes</h2>
+
+<p>Aucun élément conforme détecté.</p>
+
+<h2>Facturation</h2>
+
+<p>Temps travaillé : 0.00 heures</p>
+<p>Taux horaire : 125.00 $ / heure</p>
+<p>Sous-total : 0.00 $</p>
+<p>TPS (5%) : 0.00 $</p>
+<p>TVQ (9.975%) : 0.00 $</p>
+
+<h3>Total à payer : 0.00 $</h3>
+
+<section id="sceau-conformite">
+
+<h2>Attestation de conformité de vérification</h2>
+
+<img src="sceau certification VPIJLR.png" class="sceau-image">
+
+<p>
+Je soussigné, Jean-Louis Raymond, consultant en vérification préventive immobilière,
+atteste que la présente vérification visuelle a été réalisée conformément aux règles
+de l’art et selon les pratiques généralement reconnues dans le domaine de la
+vérification préventive immobilière.
+</p>
+
+<p><strong>Jean-Louis Raymond</strong></p>
+
+</section>
+
+</div>
+
+<!-- ======================================================
+MODULE 13
+LÉGENDE INDICATEURS
+====================================================== -->
+
+<div id="legende-indicateurs">
+
+<span class="indicateur-etape etape-ko"></span>
+Champ à compléter
+
+&nbsp;&nbsp;
+
+<span class="indicateur-etape etape-ok"></span>
+Champ complété
+
+</div>
+</body>
+</html>

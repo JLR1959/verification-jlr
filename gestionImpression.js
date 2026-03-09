@@ -1,0 +1,5 @@
+function imprimerRapport() {
+
+window.print();
+
+}
