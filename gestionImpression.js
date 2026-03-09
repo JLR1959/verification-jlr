@@ -111,3 +111,55 @@ window.addEventListener("beforeprint", function(){
 genererRapportImpression();
 
 });
+
+/* ======================================================
+MODULE SIGNATURES RAPPORT
+====================================================== */
+
+function injecterSignaturesRapport(){
+
+const canvasClient = document.getElementById("signature-client")
+const canvasConsultant = document.getElementById("signature-verificateur")
+
+const imgClient = document.getElementById("rapport-signature-client")
+const imgConsultant = document.getElementById("rapport-signature-consultant")
+
+if(canvasClient && imgClient){
+
+try{
+
+imgClient.src = canvasClient.toDataURL("image/png")
+
+}catch(e){
+
+console.warn("Signature client non disponible")
+
+}
+
+}
+
+if(canvasConsultant && imgConsultant){
+
+try{
+
+imgConsultant.src = canvasConsultant.toDataURL("image/png")
+
+}catch(e){
+
+console.warn("Signature consultant non disponible")
+
+}
+
+}
+
+}
+
+function genererRapportImpression(){
+
+remplirInformationsRapport()
+
+injecterFacturationRapport()
+
+injecterSignaturesRapport()
+
+}

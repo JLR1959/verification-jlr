@@ -772,3 +772,17 @@ border:2px dashed #fb923c;
 color:#c2410c;
 
 }
+
+/* ======================================================
+MODULE CSS SIGNATURE RAPPORT
+====================================================== */
+
+.signature-rapport{
+
+max-width:300px;
+
+border:1px solid #ccc;
+
+margin-top:10px;
+
+}
