@@ -1,46 +1,113 @@
-
 /* ======================================================
-MODULE 1 IMPRIMER RAPPORT
+MODULE 1
+REMPLIR INFORMATIONS CLIENT DANS LE RAPPORT
 ====================================================== */
 
+function remplirInformationsRapport(){
 
-function imprimerRapport() {
+const dossier = document.getElementById("numeroDossier");
+const locataire = document.getElementById("locataire");
+const telephone = document.getElementById("telephone");
+const adresse = document.getElementById("adresse");
 
-window.print();
+const rDossier = document.getElementById("rapport-dossier");
+const rLocataire = document.getElementById("rapport-locataire");
+const rTelephone = document.getElementById("rapport-telephone");
+const rAdresse = document.getElementById("rapport-adresse");
+
+if(dossier && rDossier){
+rDossier.textContent = dossier.value;
+}
+
+if(locataire && rLocataire){
+rLocataire.textContent = locataire.value;
+}
+
+if(telephone && rTelephone){
+rTelephone.textContent = telephone.value;
+}
+
+if(adresse && rAdresse){
+rAdresse.textContent = adresse.value;
+}
 
 }
+
+
 
 /* ======================================================
 MODULE 2
 INJECTION FACTURATION DANS RAPPORT
 ====================================================== */
 
+function injecterFacturationRapport(){
+
+if(typeof calculerFacturationRapport !== "function"){
+return;
+}
+
+try{
+
 const facture = calculerFacturationRapport();
 
-document.getElementById("rapport-heures").textContent = facture.heures;
-document.getElementById("rapport-sous-total").textContent = facture.sousTotal;
-document.getElementById("rapport-tps").textContent = facture.tps;
-document.getElementById("rapport-tvq").textContent = facture.tvq;
-document.getElementById("rapport-total").textContent = facture.total;
+const heures = document.getElementById("rapport-heures");
+const sousTotal = document.getElementById("rapport-sous-total");
+const tps = document.getElementById("rapport-tps");
+const tvq = document.getElementById("rapport-tvq");
+const total = document.getElementById("rapport-total");
+
+if(heures){
+heures.textContent = facture.heures;
+}
+
+if(sousTotal){
+sousTotal.textContent = facture.sousTotal;
+}
+
+if(tps){
+tps.textContent = facture.tps;
+}
+
+if(tvq){
+tvq.textContent = facture.tvq;
+}
+
+if(total){
+total.textContent = facture.total;
+}
+
+}catch(e){
+
+console.warn("Erreur facturation :", e);
+
+}
+
+}
+
 
 
 /* ======================================================
-MODULE 3 FACTURATION
+MODULE 3
+GÉNÉRATION RAPPORT AVANT IMPRESSION
 ====================================================== */
 
-<h2>Facturation</h2>
+function genererRapportImpression(){
 
-<p>Temps travaillé : <span id="rapport-heures">0.00</span> heures</p>
+remplirInformationsRapport();
 
-<p>Taux horaire : 125.00 $ / heure</p>
+injecterFacturationRapport();
 
-<p>Sous-total : <span id="rapport-sous-total">0.00</span> $</p>
-
-<p>TPS (5%) : <span id="rapport-tps">0.00</span> $</p>
-
-<p>TVQ (9.975%) : <span id="rapport-tvq">0.00</span> $</p>
-
-<h3>Total à payer : <span id="rapport-total">0.00</span> $</h3>
+}
 
 
 
+/* ======================================================
+MODULE 4
+MISE À JOUR AUTOMATIQUE AVANT IMPRESSION
+====================================================== */
+
+window.addEventListener("beforeprint", function(){
+
+genererRapportImpression();
+
+});

@@ -251,7 +251,6 @@ Entreprise responsable de la facturation
 
 </label>
 
-
 <label>
 Courriel responsable facturation
 
@@ -264,7 +263,9 @@ Courriel responsable facturation
 
 </label>
 
+</div>
 
+</section>
 
 <!-- ======================================================
 MODULE 5
@@ -421,7 +422,6 @@ Effacer signature consultant
 
 </section>
 
-
 <!-- ======================================================
 MODULE 10
 PANNEAU ADMIN MINUTEUR AVEC MOT DE PASSE
@@ -503,22 +503,28 @@ IMPRESSION DU RAPPORT
 <footer class="no-print">
 
 <button type="button" onclick="imprimerRapport()">
-
 Imprimer le rapport
-
 </button>
 
 <script>
 
 /* ======================================================
 MODULE 13.1
-FONCTION IMPRESSION
+IMPRESSION RAPPORT STABLE
 ====================================================== */
 
 function imprimerRapport(){
 
 if(typeof genererRapportImpression === "function"){
 genererRapportImpression();
+}
+
+if(typeof remplirInformationsRapport === "function"){
+remplirInformationsRapport();
+}
+
+if(typeof injecterFacturationRapport === "function"){
+injecterFacturationRapport();
 }
 
 const rapport = document.getElementById("rapport-impression");
@@ -528,54 +534,15 @@ alert("Zone de rapport introuvable.");
 return;
 }
 
-const contenu = rapport.innerHTML;
+rapport.style.display = "block";
 
-const fenetre = window.open("", "", "width=900,height=1200");
+setTimeout(function(){
+window.print();
+},300);
 
-if(!fenetre){
-alert("Impossible d'ouvrir la fenêtre d'impression.");
-return;
-}
-
-fenetre.document.write(`
-<html>
-<head>
-<title>Rapport de vérification</title>
-
-<style>
-
-body{
-font-family:Arial, Helvetica, sans-serif;
-padding:40px;
-line-height:1.5;
-}
-
-h1,h2,h3{
-margin-top:20px;
-}
-
-img{
-max-width:350px;
-}
-
-</style>
-
-</head>
-
-<body>
-
-${contenu}
-
-</body>
-
-</html>
-`);
-
-fenetre.document.close();
-
-fenetre.onload = function(){
-fenetre.print();
-};
+setTimeout(function(){
+rapport.style.display = "none";
+},1000);
 
 }
 
@@ -607,6 +574,9 @@ RAPPORT D’IMPRESSION
 <p>TPS : 771362471 RT 0001 | TVQ : 1227894560 TQ 0001</p>
 
 </header>
+<div class="page-break"></div>
+
+<section>
 
 <h2>Informations client</h2>
 
@@ -615,18 +585,34 @@ RAPPORT D’IMPRESSION
 <p>Téléphone : <span id="rapport-telephone"></span></p>
 <p>Adresse : <span id="rapport-adresse"></span></p>
 
+</section>
+<div class="page-break"></div>
+<section>
+
 <h2>Éléments défectueux</h2>
 
+<div id="rapport-defauts">
 <p>Aucun problème détecté.</p>
+</div>
+
+</section>
+<div class="page-break"></div>
+<section>
 
 <h2>Éléments conformes</h2>
 
+<div id="rapport-conformes">
 <p>Aucun élément conforme détecté.</p>
+</div>
+
+</section>
 
 <!-- ======================================================
 MODULE 15
 FACTURATION RAPPORT DYNAMIQUE
 ====================================================== -->
+<div class="page-break"></div>
+<section>
 
 <h2>Facturation</h2>
 
@@ -642,11 +628,25 @@ FACTURATION RAPPORT DYNAMIQUE
 
 <h3>Total à payer : <span id="rapport-total">0.00</span> $</h3>
 
+</section>
+
+<!-- ======================================================
+MODULE 15.1
+SAUT DE PAGE
+====================================================== -->
+
+<div class="page-break"></div>
+
+<!-- ======================================================
+MODULE 15.2
+ATTESTATION DE CONFORMITÉ
+====================================================== -->
+
 <section id="sceau-conformite">
 
 <h2>Attestation de conformité de vérification</h2>
 
-<img src="sceau certification VPIJLR.png" class="sceau-image">
+<img src="sceau certification VPIJLR.png" alt="Sceau de conformité" class="sceau-image">
 
 <p>
 Je soussigné, Jean-Louis Raymond, consultant en vérification préventive immobilière,
@@ -655,7 +655,73 @@ de l’art et selon les pratiques généralement reconnues dans le domaine de la
 vérification préventive immobilière.
 </p>
 
+<p>
+Les observations consignées dans ce rapport reflètent l’état apparent des éléments
+visibles au moment de la vérification.
+</p>
+
 <p><strong>Jean-Louis Raymond</strong></p>
+
+</section>
+
+<!-- ======================================================
+MODULE 15.3
+SAUT DE PAGE
+====================================================== -->
+
+<div class="page-break"></div>
+
+<!-- ======================================================
+MODULE 15.4
+AVIS LÉGAL RAPPORT
+====================================================== -->
+
+<section id="avis-legal-rapport">
+
+<h2>Avis légal</h2>
+
+<p>
+Le présent rapport constitue une vérification visuelle réalisée
+à la date indiquée dans ce document.
+</p>
+
+<p>
+Cette vérification ne constitue pas une inspection exhaustive
+du bâtiment ni une expertise technique complète des systèmes
+et composantes de la propriété.
+</p>
+
+<p>
+Les observations consignées dans ce rapport reflètent uniquement
+l’état apparent des éléments visibles et accessibles au moment
+de la vérification.
+</p>
+
+<p>
+Aucune garantie explicite ou implicite n’est donnée concernant
+l’état futur du bâtiment ou de ses composantes.
+</p>
+
+<p>
+Ce rapport est fourni à titre informatif afin d’aider le client
+à identifier certains éléments pouvant nécessiter une surveillance,
+un entretien ou une intervention.
+</p>
+
+<p>
+Toute reproduction, modification ou diffusion partielle ou totale
+de ce rapport sans l’autorisation écrite du consultant est interdite.
+</p>
+
+<p>
+Rapport généré électroniquement par le système de
+Vérification Préventive Immobilière.
+</p>
+
+<p>
+<strong>Jean-Louis Raymond</strong><br>
+Consultant en vérification préventive immobilière
+</p>
 
 </section>
 
