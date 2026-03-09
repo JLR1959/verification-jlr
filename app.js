@@ -3339,3 +3339,31 @@ indicateur.classList.add("etape-ko");
 });
 
 });
+
+/* ======================================================
+MODULE 26
+SECTION CLIENT REPLIABLE AVEC TEXTE BOUTON
+====================================================== */
+
+function basculerSectionClient(){
+
+const section = document.getElementById("contenu-client");
+const bouton = document.querySelector('#formulaire-client button[onclick="basculerSectionClient()"]');
+
+if(!section) return;
+
+if(section.style.display === "none"){
+
+section.style.display = "block";
+
+if(bouton) bouton.textContent = "Replier";
+
+}else{
+
+section.style.display = "none";
+
+if(bouton) bouton.textContent = "Déplier";
+
+}
+
+}
