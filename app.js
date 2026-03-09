@@ -3189,10 +3189,10 @@ section.classList.remove("etape-complete");
 
 }
 
-// ======================================================
-// MODULE 17
-// INDICATEUR CHAMPS (POINT + TEXTE)
-// ======================================================
+/* ======================================================
+MODULE 17
+INDICATEUR CHAMPS (POINT + TEXTE)
+====================================================== */
 
 document.addEventListener("DOMContentLoaded", function(){
 
@@ -3202,7 +3202,11 @@ const champs = [
 "telephone",
 "numeroAppartement",
 "adresse",
-"ville",
+"ville-quebec",
+"codePostal",
+"province",
+"pays",
+"verificateur",
 "verification-date",
 "type-verification",
 "type-piece",
@@ -3216,29 +3220,39 @@ const champ = document.getElementById(id);
 
 if(!champ) return;
 
-const indicateur = document.createElement("span");
+const label = champ.parentNode;
 
+if(!label) return;
+
+/* ÉVITER DOUBLON SI LE MODULE EST RELANCÉ */
+if(label.querySelector(".etat-champ")) return;
+
+const indicateur = document.createElement("span");
 indicateur.className = "indicateur-etape etape-ko";
 
 const texte = document.createElement("span");
-
 texte.className = "texte-etape";
 texte.innerText = "Non terminé";
 
 const conteneur = document.createElement("span");
-
 conteneur.className = "etat-champ";
 
 conteneur.appendChild(indicateur);
 conteneur.appendChild(texte);
 
-champ.parentNode.appendChild(conteneur);
-
-
+label.appendChild(conteneur);
 
 function verifier(){
 
-if(champ.value && champ.value.trim() !== ""){
+let valeur = "";
+
+if(champ.tagName === "SELECT"){
+valeur = champ.value || "";
+}else{
+valeur = (champ.value || "").trim();
+}
+
+if(valeur !== ""){
 
 indicateur.classList.remove("etape-ko");
 indicateur.classList.add("etape-ok");
@@ -3264,7 +3278,6 @@ verifier();
 });
 
 });
-
 
 
 /* ======================================================
