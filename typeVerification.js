@@ -1,70 +1,105 @@
+/* ======================================================
+MODULE 15
+TYPE DE VÉRIFICATION ANDROID STABLE
+====================================================== */
+
 function choisirVerification(type){
 
-const champType = document.getElementById("type-verification");
+const select = document.getElementById("type-piece");
 
-const boutonInterieur = document.getElementById("btn-interieur");
-const boutonExterieur = document.getElementById("btn-exterieur");
+if(!select) return;
 
-const groupeInterieur = document.getElementById("pieces-interieur");
-const groupeExterieur = document.getElementById("pieces-exterieur");
 
-const indicateur = document.getElementById("mode-verification-indicateur");
-const bandeau = document.getElementById("bandeau-mode-verification");
+/* ======================================================
+LISTE DES PIÈCES
+====================================================== */
 
-const selectPieces = document.getElementById("type-piece");
+const piecesInterieur = [
 
-champType.value = type;
+"Cuisine",
+"Salle de bain",
+"Salle d'eau",
+"Salle à manger",
+"Salon",
+"Chambre",
+"Bureau",
+"Corridor",
+"Escalier",
+"Hall d'entrée",
+"Sous-sol",
+"Salle mécanique",
+"Salle électrique",
+"Éclairage",
+"Salle lavage"
 
-boutonInterieur.classList.remove("actif");
-boutonExterieur.classList.remove("actif");
+];
 
-bandeau.classList.remove("bandeau-interieur");
-bandeau.classList.remove("bandeau-exterieur");
+const piecesExterieur = [
+
+"Garage",
+"Balcon",
+"Terrasse",
+"Piscine",
+"Verrière",
+"Climatisation",
+"Porte patio",
+"Réservoir eau chaude",
+"Stationnement",
+"Borne de recharge",
+"Clôture",
+"Cabanon",
+"Porte",
+"Vide sanitaire"
+
+];
+
+
+/* ======================================================
+VIDER LA LISTE
+====================================================== */
+
+select.innerHTML = '<option value="">Pièces ou éléments</option>';
+
+let liste = [];
+
+
+/* ======================================================
+CHOIX DU TYPE
+====================================================== */
 
 if(type === "interieur"){
-
-boutonInterieur.classList.add("actif");
-
-groupeInterieur.style.display = "block";
-groupeExterieur.style.display = "none";
-
-indicateur.style.display = "block";
-indicateur.className = "mode-interieur";
-indicateur.innerText = "Mode de vérification : INTÉRIEUR";
-
-bandeau.classList.add("bandeau-interieur");
-bandeau.innerText = "🏠 Mode actif : Vérification INTÉRIEURE";
-
+liste = piecesInterieur;
 }
 
 if(type === "exterieur"){
-
-boutonExterieur.classList.add("actif");
-
-groupeInterieur.style.display = "none";
-groupeExterieur.style.display = "block";
-
-indicateur.style.display = "block";
-indicateur.className = "mode-exterieur";
-indicateur.innerText = "Mode de vérification : EXTÉRIEUR";
-
-bandeau.classList.add("bandeau-exterieur");
-bandeau.innerText = "🌳 Mode actif : Vérification EXTÉRIEURE";
-
-}
-
-selectPieces.value = "";
-
+liste = piecesExterieur;
 }
 
 
+/* ======================================================
+RECONSTRUCTION DE LA LISTE
+====================================================== */
 
-document.addEventListener("DOMContentLoaded", function(){
+liste.forEach(function(piece){
 
-const groupeInterieur = document.getElementById("pieces-interieur");
-const groupeExterieur = document.getElementById("pieces-exterieur");
+const option = document.createElement("option");
 
-groupeInterieur.style.display = "none";
-groupeExterieur.style.display = "none";
+option.value = piece;
+option.textContent = piece;
+
+select.appendChild(option);
 
 });
+
+
+/* ======================================================
+ENREGISTRER LE TYPE
+====================================================== */
+
+const champType = document.getElementById("type-verification");
+
+if(champType){
+champType.value = type;
+}
+
+}
