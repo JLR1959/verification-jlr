@@ -1,11 +1,12 @@
 /* ======================================================
-MODULE 15
-TYPE DE VÉRIFICATION ANDROID STABLE
+MODULE 1
+TYPE DE VÉRIFICATION + BANDEAU SYNCHRONISÉ
 ====================================================== */
 
 function choisirVerification(type){
 
 const select = document.getElementById("type-piece");
+const bandeau = document.getElementById("bandeau-mode-verification");
 
 if(!select) return;
 
@@ -55,7 +56,7 @@ const piecesExterieur = [
 
 
 /* ======================================================
-VIDER LA LISTE
+VIDER LISTE
 ====================================================== */
 
 select.innerHTML = '<option value="">Pièces ou éléments</option>';
@@ -64,20 +65,34 @@ let liste = [];
 
 
 /* ======================================================
-CHOIX DU TYPE
+CHOIX TYPE
 ====================================================== */
 
 if(type === "interieur"){
 liste = piecesInterieur;
+
+if(bandeau){
+bandeau.textContent = "Mode de vérification : INTÉRIEURE";
+bandeau.classList.remove("bandeau-exterieur");
+bandeau.classList.add("bandeau-interieur");
+}
+
 }
 
 if(type === "exterieur"){
 liste = piecesExterieur;
+
+if(bandeau){
+bandeau.textContent = "Mode de vérification : EXTÉRIEURE";
+bandeau.classList.remove("bandeau-interieur");
+bandeau.classList.add("bandeau-exterieur");
+}
+
 }
 
 
 /* ======================================================
-RECONSTRUCTION DE LA LISTE
+RECONSTRUCTION LISTE
 ====================================================== */
 
 liste.forEach(function(piece){
@@ -93,7 +108,7 @@ select.appendChild(option);
 
 
 /* ======================================================
-ENREGISTRER LE TYPE
+ENREGISTRER TYPE
 ====================================================== */
 
 const champType = document.getElementById("type-verification");
