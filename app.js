@@ -2315,16 +2315,44 @@ function previewImage(event, input) {
 
 /* ======================================================
 MODULE 7
-GÉNÉRATION DU RAPPORT COMPLET AVEC FACTURE (VERSION STABLE)
+ANALYSE DES ÉLÉMENTS CONFORMES / DÉFECTUEUX (STABLE)
 ====================================================== */
 
 function genererRapportImpression(){
 
 const valeursConformes = [
 "Bon","Bonne","Bons","Bonnes",
-"Fonctionnel","Fonctionnelle","Fonctionnels","Fonctionnelles",
-"Présent","Présente","Présents","Présentes",
-"Oui","Conforme"
+"Correct","Correcte",
+"Stable","Stables",
+"Fonctionnel","Fonctionnelle",
+"Fonctionnels","Fonctionnelles",
+"Présent","Présente",
+"Présents","Présentes",
+"Oui",
+"Conforme",
+"Esthétique OK",
+"Normal"
+];
+
+const valeursDefectueuses = [
+"Défectueux","Défectueuse",
+"Endommagé","Endommagée",
+"Usé","Usée",
+"Fissuré","Fissurée",
+"Taché","Tachée",
+"Instable",
+"Rouille",
+"Humidité",
+"Moisissure",
+"Condensation",
+"Air",
+"Infiltration",
+"Fuite",
+"Brisé","Brisée",
+"Obstrué","Obstruée",
+"Non conforme",
+"À réparer",
+"Bloqué"
 ];
 
 let defectueux = "";
@@ -2332,22 +2360,24 @@ let conformes = "";
 
 const pieces = document.querySelectorAll(".piece-container");
 
+/* ===========================
+ANALYSE DES PIÈCES
+=========================== */
+
 pieces.forEach(function(piece){
 
 const titreElement = piece.querySelector(".piece-titre");
 const titre = titreElement ? titreElement.textContent.trim() : "Pièce";
 
 /* ===========================
-LECTURE SELECT
+LECTURE DES SELECT
 =========================== */
 
-piece.querySelectorAll("label").forEach(function(label){
-
-const select = label.querySelector("select");
-if(!select) return;
+piece.querySelectorAll("label select").forEach(function(select){
 
 if(!select.value || select.value === "Sélectionnez") return;
 
+const label = select.closest("label");
 const nomChamp = label.childNodes[0].textContent.trim();
 
 const ligne =
@@ -2356,21 +2386,31 @@ const ligne =
 nomChamp + " : " + select.value +
 "</div>";
 
-if(valeursConformes.includes(select.value)){
+const valeur = select.value.trim();
+
+if(valeursConformes.includes(valeur)){
+
 conformes += ligne;
-}else{
+
+}else if(valeursDefectueuses.includes(valeur)){
+
 defectueux += ligne;
+
+}else{
+
+defectueux += ligne;
+
 }
 
 });
 
 /* ===========================
-LECTURE COMMENTAIRES
+LECTURE DES COMMENTAIRES
 =========================== */
 
 piece.querySelectorAll("textarea").forEach(function(txt){
 
-if(!txt.value) return;
+if(!txt.value.trim()) return;
 
 const nomChamp = txt.parentNode.childNodes[0].textContent.trim();
 
@@ -2383,7 +2423,7 @@ nomChamp + " : " + txt.value +
 });
 
 /* ===========================
-LECTURE PHOTOS
+LECTURE DES PHOTOS
 =========================== */
 
 piece.querySelectorAll("img").forEach(function(img){
@@ -2422,7 +2462,7 @@ const tvq = sousTotal * 0.09975;
 const total = sousTotal + tps + tvq;
 
 /* ===========================
-ZONE IMPRESSION
+ZONE RAPPORT
 =========================== */
 
 const zone = document.getElementById("rapport-impression");
@@ -2430,46 +2470,25 @@ if(!zone) return;
 
 zone.innerHTML =
 
-"<div style='text-align:center;margin-bottom:20px'>" +
-"<img src='logo_jlr.png' style='max-height:80px'><br>" +
-"<h1>Vérification Préventive Immobilière</h1>" +
-"<h2>Jean-Louis Raymond</h2>" +
-"<p>Consultant en vérification préventive</p>" +
-"<p>📧 jlouisraymond@hotmail.com | 📞 438-220-6511</p>" +
-"<p>NEQ : 2268876952</p>" +
-"<p>TPS : 771362471 RT 0001 | TVQ : 1227894560 TQ 0001</p>" +
-"</div>" +
-
-"<div style='margin-bottom:20px'>" +
-"<h2>Informations client</h2>" +
-"<p><strong>Dossier :</strong> " + dossier + "</p>" +
-"<p><strong>Locataire :</strong> " + locataire + "</p>" +
-"<p><strong>Téléphone :</strong> " + telephone + "</p>" +
-"<p><strong>Adresse :</strong> " + adresse + " " + appartement + " " + ville + "</p>" +
-"</div>" +
-
-"<div style='page-break-after:always'>" +
 "<h2>Éléments défectueux</h2>" +
 (defectueux || "<p>Aucun problème détecté</p>") +
-"</div>" +
 
-"<div style='page-break-after:always'>" +
+"<hr style='margin:30px 0'>" +
+
 "<h2>Éléments conformes</h2>" +
 (conformes || "<p>Aucun élément conforme</p>") +
-"</div>" +
 
-"<div>" +
+"<hr style='margin:30px 0'>" +
+
 "<h2>Facturation</h2>" +
 "<p>Temps travaillé : " + heures.toFixed(2) + " heures</p>" +
 "<p>Taux horaire : " + tauxHoraire.toFixed(2) + " $</p>" +
 "<p>Sous-total : " + sousTotal.toFixed(2) + " $</p>" +
 "<p>TPS : " + tps.toFixed(2) + " $</p>" +
 "<p>TVQ : " + tvq.toFixed(2) + " $</p>" +
-"<h3>Total : " + total.toFixed(2) + " $</h3>" +
-"</div>";
+"<h3>Total : " + total.toFixed(2) + " $</h3>";
 
 }
-
 /* ======================================================
 MODULE 7.1
 IMPRESSION DU RAPPORT (STABLE)
