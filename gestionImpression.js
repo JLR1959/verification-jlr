@@ -363,3 +363,49 @@ window.addEventListener("beforeprint", function(){
 genererRapportImpression()
 
 })
+
+/* ======================================================
+MODULE 30
+IMPRESSION DIRECTE ANDROID ULTRA STABLE
+====================================================== */
+
+function imprimerRapport(){
+
+if(typeof genererRapportImpression === "function"){
+genererRapportImpression();
+}
+
+if(typeof remplirInformationsRapport === "function"){
+remplirInformationsRapport();
+}
+
+if(typeof injecterFacturationRapport === "function"){
+injecterFacturationRapport();
+}
+
+const rapport = document.getElementById("rapport-impression");
+
+if(!rapport){
+alert("Zone de rapport introuvable.");
+return;
+}
+
+/* afficher rapport */
+
+rapport.style.display = "block";
+
+/* délai pour laisser le DOM se mettre à jour */
+
+setTimeout(function(){
+
+window.print();
+
+setTimeout(function(){
+
+rapport.style.display = "none";
+
+},1000);
+
+},300);
+
+}
