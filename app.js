@@ -3851,12 +3851,8 @@ URL.revokeObjectURL(url);
 }
 /* ======================================================
 MODULE 34
-CONFIGURATION GITHUB CLOUD (CORRIGÉ)
+CONFIGURATION GITHUB CLOUD
 ====================================================== */
-
-// ⚠️ IMPORTANT :
-// AUCUN TOKEN NI CONFIG GITHUB ICI
-// Tout est géré dans github.js
 
 // ======================================================
 // ENCODAGE / DÉCODAGE
@@ -3871,13 +3867,12 @@ function decoderBase64Unicode(texte){
 }
 
 // ======================================================
-// EXTRACTION DONNÉES CLIENT
+// EXTRACTION DES DONNÉES CLIENT
 // ======================================================
 
 function obtenirDonneesClientCloud(){
 
     return {
-
         numeroDossier: document.getElementById("numeroDossier")?.value || "",
         locataire: document.getElementById("locataire")?.value || "",
         telephone: document.getElementById("telephone")?.value || "",
@@ -3891,75 +3886,87 @@ function obtenirDonneesClientCloud(){
         dateVerification: document.getElementById("verification-date")?.value || "",
         entrepriseFacturation: document.getElementById("entreprise-facturation")?.value || "",
         emailFacturation: document.getElementById("email-facturation")?.value || ""
-
     };
 
 }
 
-return {
-numeroDossier: document.getElementById("numeroDossier")?.value || "",
-locataire: document.getElementById("locataire")?.value || "",
-telephone: document.getElementById("telephone")?.value || "",
-numeroAppartement: document.getElementById("numeroAppartement")?.value || "",
-adresse: document.getElementById("adresse")?.value || "",
-ville: document.getElementById("ville-quebec")?.value || "",
-codePostal: document.getElementById("codePostal")?.value || "",
-province: document.getElementById("province")?.value || "",
-pays: document.getElementById("pays")?.value || "",
-verificateur: document.getElementById("verificateur")?.value || "",
-dateVerification: document.getElementById("verification-date")?.value || "",
-entrepriseFacturation: document.getElementById("entreprise-facturation")?.value || "",
-emailFacturation: document.getElementById("email-facturation")?.value || "",
-typeVerification: document.getElementById("type-verification")?.value || "",
-dateSauvegardeCloud: new Date().toISOString()
-};
+// ======================================================
+// CRÉATION / MISE À JOUR DU CLIENT ACTIF
+// ======================================================
 
+function creerClientActuel(){
+
+    const donnees = obtenirDonneesClientCloud();
+
+    const client = {
+        id: donnees.numeroDossier || ("VPIJLR-" + Date.now()),
+        ...donnees
+    };
+
+    localStorage.setItem("clientActuel", JSON.stringify(client));
+
+    return client;
 }
 
-function obtenirDonneesRapportCloud(){
+// ======================================================
+// GÉNÉRATION DU NUMÉRO DE DOSSIER
+// ======================================================
 
-return {
-numeroDossier: document.getElementById("numeroDossier")?.value || "",
-locataire: document.getElementById("locataire")?.value || "",
-telephone: document.getElementById("telephone")?.value || "",
-adresse: document.getElementById("adresse")?.value || "",
-ville: document.getElementById("ville-quebec")?.value || "",
-dateVerification: document.getElementById("verification-date")?.value || "",
-typeVerification: document.getElementById("type-verification")?.value || "",
-contenuRapport: document.getElementById("rapport-impression")?.innerText || "",
-dateSauvegardeCloud: new Date().toISOString()
-};
+function genererNumeroDossier(){
 
+    const champ = document.getElementById("numeroDossier");
+
+    if(!champ){
+        return;
+    }
+
+    if(!champ.value || champ.value.trim() === ""){
+        const datePart = new Date().toISOString().slice(0,10).replace(/-/g, "");
+        champ.value = "VPIJLR-" + datePart + "-" + Date.now();
+    }
 }
 
-async function githubUpload(chemin, data, messageCommit){
+// ======================================================
+// BASCULE SECTION CLIENT
+// ======================================================
 
-const content = encoderBase64Unicode(JSON.stringify(data, null, 2));
+function basculerSectionClient(){
 
-const response = await fetch(
-`https://api.github.com/repos/${GITHUB_REPO}/contents/${chemin}`,
-{
-method: "PUT",
-headers: {
-"Authorization": "token " + GITHUB_TOKEN,
-"Content-Type": "application/json"
-},
-body: JSON.stringify({
-message: messageCommit,
-content: content
-})
-}
-);
+    const section = document.getElementById("contenu-client");
 
-if(!response.ok){
-const erreur = await response.json().catch(() => ({}));
-console.error("Erreur GitHub PUT :", erreur);
-alert("Erreur GitHub");
-return false;
+    if(!section){
+        return;
+    }
+
+    if(section.style.display === "none"){
+        section.style.display = "block";
+    } else {
+        section.style.display = "none";
+    }
 }
 
-return true;
-}
+// ======================================================
+// INITIALISATION
+// ======================================================
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    genererNumeroDossier();
+    creerClientActuel();
+
+    document.querySelectorAll("input, select, textarea").forEach(function(el){
+
+        el.addEventListener("input", function(){
+            creerClientActuel();
+        });
+
+        el.addEventListener("change", function(){
+            creerClientActuel();
+        });
+
+    });
+
+});
 
 /* ======================================================
 MODULE 34.1
