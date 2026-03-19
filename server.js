@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json({ limit: "20mb" }));
 
 // ======================================================
-// CONFIG GITHUB (RENDER ENV)
+// CONFIG GITHUB
 // ======================================================
 
 const OWNER = process.env.GITHUB_OWNER;
@@ -14,13 +14,14 @@ const REPO = process.env.GITHUB_REPO;
 const TOKEN = process.env.GITHUB_TOKEN;
 
 // ======================================================
-// SERVIR LE FRONTEND (TON LOGICIEL)
+// SERVIR LE FRONTEND (RACINE DU PROJET)
 // ======================================================
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(__dirname));
 
+// page principale
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
+    res.sendFile(path.join(__dirname, "index.html"));
 });
 
 // ======================================================
@@ -43,7 +44,6 @@ app.post("/github/save-client", async (req, res) => {
 
     try {
 
-        // vérifier si fichier existe (pour update)
         let sha = undefined;
 
         const check = await fetch(
@@ -60,7 +60,6 @@ app.post("/github/save-client", async (req, res) => {
             sha = exist.sha;
         }
 
-        // sauvegarde
         const response = await fetch(
             `https://api.github.com/repos/${OWNER}/${REPO}/contents/${pathFile}`,
             {
@@ -138,11 +137,11 @@ app.get("/github/client", async (req, res) => {
 });
 
 // ======================================================
-// PORT RENDER
+// PORT
 // ======================================================
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log("Serveur VPI complet actif sur port", PORT);
+    console.log("Serveur VPI actif sur port", PORT);
 });
