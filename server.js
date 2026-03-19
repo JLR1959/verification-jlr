@@ -1,13 +1,12 @@
 const express = require("express");
-const nodemailer = require("nodemailer");
-const bodyParser = require("body-parser");
 const fetch = require("node-fetch");
+const path = require("path");
 
 const app = express();
-app.use(bodyParser.json({ limit: "20mb" }));
+app.use(express.json({ limit: "20mb" }));
 
 // ======================================================
-// CONFIG
+// CONFIG GITHUB (RENDER ENV)
 // ======================================================
 
 const OWNER = process.env.GITHUB_OWNER;
@@ -15,58 +14,13 @@ const REPO = process.env.GITHUB_REPO;
 const TOKEN = process.env.GITHUB_TOKEN;
 
 // ======================================================
-// ROUTE TEST
+// SERVIR LE FRONTEND (TON LOGICIEL)
 // ======================================================
+
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-    res.send("Serveur VPI actif");
-});
-
-// ======================================================
-// EMAIL (SMTP)
-// ======================================================
-
-const transporter = nodemailer.createTransport({
-  host: "smtp.office365.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: "jlouisraymond@hotmail.com",
-    pass: process.env.EMAIL_PASS
-  }
-});
-
-app.post("/send-report", async (req, res) => {
-
-  if (req.body.secret !== "Imagine2026") {
-    return res.status(403).json({ message: "Unauthorized" });
-  }
-
-  try {
-
-    const info = await transporter.sendMail({
-      from: "jlouisraymond@hotmail.com",
-      to: req.body.destinataire,
-      subject: "Rapport de Vérification Préventive",
-      text: "Veuillez trouver le rapport en pièce jointe.",
-      attachments: [
-        {
-          filename: "Rapport_Verification_Preventive.pdf",
-          content: req.body.pdfBase64,
-          encoding: "base64"
-        }
-      ]
-    });
-
-    console.log("Email envoyé :", info.response);
-
-    res.json({ message: "Email envoyé" });
-
-  } catch (error) {
-    console.error("Erreur SMTP :", error);
-    res.status(500).json({ message: "Erreur envoi" });
-  }
-
+    res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // ======================================================
@@ -85,12 +39,30 @@ app.post("/github/save-client", async (req, res) => {
         JSON.stringify(client, null, 2)
     ).toString("base64");
 
-    const path = `clients/${client.id}.json`;
+    const pathFile = `clients/${client.id}.json`;
 
     try {
 
+        // vérifier si fichier existe (pour update)
+        let sha = undefined;
+
+        const check = await fetch(
+            `https://api.github.com/repos/${OWNER}/${REPO}/contents/${pathFile}`,
+            {
+                headers: {
+                    "Authorization": `token ${TOKEN}`
+                }
+            }
+        );
+
+        if (check.ok) {
+            const exist = await check.json();
+            sha = exist.sha;
+        }
+
+        // sauvegarde
         const response = await fetch(
-            `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`,
+            `https://api.github.com/repos/${OWNER}/${REPO}/contents/${pathFile}`,
             {
                 method: "PUT",
                 headers: {
@@ -99,7 +71,8 @@ app.post("/github/save-client", async (req, res) => {
                 },
                 body: JSON.stringify({
                     message: "Sauvegarde client",
-                    content: contenu
+                    content: contenu,
+                    sha: sha
                 })
             }
         );
@@ -142,16 +115,16 @@ app.get("/github/clients", async (req, res) => {
 
 app.get("/github/client", async (req, res) => {
 
-    const path = req.query.path;
+    const pathFile = req.query.path;
 
-    if (!path) {
+    if (!pathFile) {
         return res.status(400).json({ error: "path manquant" });
     }
 
     try {
 
         const response = await fetch(
-            `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`
+            `https://api.github.com/repos/${OWNER}/${REPO}/contents/${pathFile}`
         );
 
         const data = await response.json();
@@ -171,5 +144,5 @@ app.get("/github/client", async (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log("Serveur VPI actif sur port", PORT);
+    console.log("Serveur VPI complet actif sur port", PORT);
 });
