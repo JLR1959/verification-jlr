@@ -1,34 +1,16 @@
-const express = require("express");
-const path = require("path");
+const express = require("express")
+const path = require("path")
 
-const app = express();
+const app = express()
 
-app.use(express.json());
+app.use(express.static(__dirname))
 
-// ======================================================
-// SERVIR LE SITE
-// ======================================================
+app.get("/", (req,res)=>{
+  res.sendFile(path.join(__dirname,"VPIJLR.html"))
+})
 
-app.use(express.static(__dirname));
+const PORT = process.env.PORT || 3000
 
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "index.html"));
-});
-
-// ======================================================
-// TEST
-// ======================================================
-
-app.get("/ping", (req, res) => {
-    res.json({ status: "ok" });
-});
-
-// ======================================================
-// PORT
-// ======================================================
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-    console.log("SERVER OK");
-});
+app.listen(PORT,()=>{
+  console.log("Serveur VPIJLR actif")
+})
