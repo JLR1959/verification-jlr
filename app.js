@@ -3962,6 +3962,76 @@ return true;
 }
 
 /* ======================================================
+MODULE 34.1
+CLIENT ACTIF AUTOMATIQUE (LIEN FORMULAIRE ↔ CLOUD)
+====================================================== */
+
+// ======================================================
+// CRÉATION CLIENT ACTIF
+// ======================================================
+
+function creerClientActuel(){
+
+    const client = {
+
+        id: document.getElementById("numeroDossier")?.value || ("VPIJLR-" + Date.now()),
+
+        numeroDossier: document.getElementById("numeroDossier")?.value || "",
+        locataire: document.getElementById("locataire")?.value || "",
+        telephone: document.getElementById("telephone")?.value || "",
+        numeroAppartement: document.getElementById("numeroAppartement")?.value || "",
+        adresse: document.getElementById("adresse")?.value || "",
+        ville: document.getElementById("ville-quebec")?.value || "",
+        codePostal: document.getElementById("codePostal")?.value || "",
+        province: document.getElementById("province")?.value || "",
+        pays: document.getElementById("pays")?.value || "",
+        verificateur: document.getElementById("verificateur")?.value || "",
+        dateVerification: document.getElementById("verification-date")?.value || "",
+        entrepriseFacturation: document.getElementById("entreprise-facturation")?.value || "",
+        emailFacturation: document.getElementById("email-facturation")?.value || ""
+
+    };
+
+    localStorage.setItem("clientActuel", JSON.stringify(client));
+
+    console.log("CLIENT ACTIF MIS À JOUR", client);
+}
+
+// ======================================================
+// GÉNÉRATION NUMÉRO DOSSIER
+// ======================================================
+
+function genererNumeroDossier(){
+
+    const champ = document.getElementById("numeroDossier");
+
+    if(champ && !champ.value){
+
+        const id = "VPIJLR-" + new Date().toISOString().slice(0,10).replace(/-/g,"") + "-" + Date.now();
+
+        champ.value = id;
+    }
+
+}
+
+// ======================================================
+// INITIALISATION AUTOMATIQUE
+// ======================================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    genererNumeroDossier();
+
+    document.querySelectorAll("input, select, textarea").forEach(el => {
+
+        el.addEventListener("input", creerClientActuel);
+        el.addEventListener("change", creerClientActuel);
+
+    });
+
+});
+
+/* ======================================================
 MODULE 35
 SAUVEGARDE CLIENT + RAPPORT VERS GITHUB
 ====================================================== */
