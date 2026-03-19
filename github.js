@@ -3,7 +3,7 @@
 // ======================================================
 
 // CONFIG
-const GITHUB_TOKEN = "COLLE_TON_TOKEN_ICI";
+const GITHUB_TOKEN = "";
 const GITHUB_OWNER = "JLR1959";
 const GITHUB_REPO = "verification-jlr";
 const GITHUB_BRANCH = "main";
