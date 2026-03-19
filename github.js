@@ -29,14 +29,22 @@ async function envoyerClientGitHub(){
             body: JSON.stringify(client)
         });
 
-        const data = await response.json();
+        const text = await response.text(); // 🔴 IMPORTANT
 
-        console.log(data);
+        console.log("RESPONSE:", text);
+
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch {
+            alert("Erreur serveur (pas JSON)");
+            return;
+        }
 
         if(response.ok){
             alert("Client sauvegardé");
         } else {
-            alert("Erreur : " + (data.error || "échec"));
+            alert("Erreur : " + (data.error || text));
         }
 
     } catch(e){
@@ -51,15 +59,16 @@ async function envoyerClientGitHub(){
 
 async function chargerListeClientsCloud(){
 
-    console.log("CLICK liste");
-
     try {
 
         const response = await fetch(API_URL + "/github/clients");
-        const data = await response.json();
+
+        const text = await response.text();
+        console.log(text);
+
+        const data = JSON.parse(text);
 
         const container = document.getElementById("liste-clients-cloud");
-
         container.innerHTML = "";
 
         data.forEach(file => {
@@ -85,12 +94,14 @@ async function chargerListeClientsCloud(){
 
 async function chargerClientDepuisCloud(path){
 
-    console.log("CLICK charger", path);
-
     try {
 
         const response = await fetch(API_URL + "/github/client?path=" + encodeURIComponent(path));
-        const file = await response.json();
+
+        const text = await response.text();
+        console.log(text);
+
+        const file = JSON.parse(text);
 
         const contenu = JSON.parse(atob(file.content));
 
@@ -101,7 +112,7 @@ async function chargerClientDepuisCloud(path){
 
     } catch(e){
         console.error(e);
-        alert("Erreur chargement");
+        alert("Erreur chargement client");
     }
 }
 
