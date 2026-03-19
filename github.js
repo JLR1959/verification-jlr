@@ -3,7 +3,6 @@
 // ======================================================
 
 // CONFIG
-const GITHUB_TOKEN = "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";
 const GITHUB_OWNER = "JLR1959";
 const GITHUB_REPO = "verification-jlr";
 const GITHUB_BRANCH = "main";
