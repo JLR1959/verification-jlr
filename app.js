@@ -4213,118 +4213,30 @@ alert("Client supprimé");
 }
 
 
-/* ======================================================
-MODULE 37
-IMPORT CLIENT JSON LOCAL (COMPATIBLE EXPORT MODULE 33)
-VERSION STABLE + SYNCHRO UI
-====================================================== */
+async function chargerListeClientsCloud() {
 
-function importerDonneesClientLocal(){
+    const data = await githubRequest("contents/clients");
 
-const input = document.createElement("input");
-input.type = "file";
-input.accept = "application/json";
+    if (!data || !Array.isArray(data)) {
+        alert("Dossier clients vide ou introuvable");
+        return;
+    }
 
-input.onchange = function(event){
+    const container = document.getElementById("liste-clients-cloud");
+    container.innerHTML = "";
 
-const file = event.target.files[0];
+    data
+        .filter(file => file.name.endsWith(".json"))
+        .forEach(file => {
 
-if(!file){
-alert("Aucun fichier sélectionné.");
-return;
-}
+            const div = document.createElement("div");
+            div.textContent = file.name;
+            div.style.cursor = "pointer";
 
-const reader = new FileReader();
+            div.onclick = () => chargerClientDepuisCloud(file.path);
 
-reader.onload = function(e){
-
-try{
-
-const data = JSON.parse(e.target.result);
-
-/* ===========================
-VALIDATION MINIMALE
-=========================== */
-
-if(!data.numeroDossier){
-alert("Fichier invalide : numéro de dossier manquant.");
-return;
-}
-
-/* ===========================
-INJECTION DONNÉES
-=========================== */
-
-function setValue(id, value){
-const champ = document.getElementById(id);
-if(champ){
-champ.value = value || "";
-champ.dispatchEvent(new Event("input"));
-champ.dispatchEvent(new Event("change"));
-}
-}
-
-setValue("numeroDossier", data.numeroDossier);
-setValue("locataire", data.locataire);
-setValue("telephone", data.telephone);
-setValue("numeroAppartement", data.numeroAppartement);
-setValue("adresse", data.adresse);
-
-/* compatibilité ville */
-setValue("ville-quebec", data.ville || data.villeQuebec);
-
-/* autres champs */
-setValue("codePostal", data.codePostal);
-setValue("province", data.province);
-setValue("pays", data.pays);
-setValue("verificateur", data.verificateur);
-setValue("verification-date", data.dateVerification);
-setValue("entreprise-facturation", data.entrepriseFacturation);
-setValue("email-facturation", data.emailFacturation);
-setValue("type-verification", data.typeVerification);
-
-/* ===========================
-RAFRAÎCHISSEMENT NUMÉRO DOSSIER
-=========================== */
-
-if(typeof genererNumeroDossier === "function"){
-genererNumeroDossier();
-}
-
-/* ===========================
-RAFRAÎCHISSEMENT UI
-=========================== */
-
-if(typeof verifierEtape === "function"){
-verifierEtape();
-}
-
-/* module indicateurs champs */
-document.querySelectorAll("input, select, textarea").forEach(function(el){
-el.dispatchEvent(new Event("input"));
-});
-
-/* ===========================
-FIN
-=========================== */
-
-alert("Client importé avec succès.");
-
-}catch(err){
-
-console.error(err);
-alert("Erreur lors de la lecture du fichier JSON.");
-
-}
-
-};
-
-reader.readAsText(file);
-
-};
-
-input.click();
-
+            container.appendChild(div);
+        });
 }
 
 /* ======================================================
@@ -4338,3 +4250,15 @@ importerDonneesClientLocal();
 
 }
 
+function basculerSectionClient(){
+
+    const section = document.getElementById("contenu-client");
+
+    if(!section) return;
+
+    if(section.style.display === "none"){
+        section.style.display = "block";
+    } else {
+        section.style.display = "none";
+    }
+}
