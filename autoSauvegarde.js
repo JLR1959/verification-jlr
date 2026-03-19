@@ -1,29 +1,70 @@
-<!-- ======================================================
-MODULE 1
-HEAD / CONFIGURATION (SAUVEGARDE AUTOMATIQUE DÉSACTIVÉE)
-====================================================== -->
+// ======================================================
+// MODULE 25 — SAUVEGARDE AUTO + RESTAURATION
+// ======================================================
 
-<head>
+const CLE_STORAGE = "VPIJLR_AUTO_SAVE";
 
-<meta charset="utf-8">
+// ======================================================
+// SAUVEGARDE
+// ======================================================
 
-<title>Vérification Préventive Immobilière - Jean-Louis Raymond</title>
+function sauvegarderAutomatiquement() {
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    const data = {};
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    document.querySelectorAll("input, select, textarea").forEach(el => {
 
-<script defer src="app.js"></script>
-<script defer src="typeVerification.js"></script>
-<script defer src="gestionImpression.js"></script>
-<script defer src="signatureMobile.js"></script>
+        if (el.type === "checkbox" || el.type === "radio") {
+            data[el.id] = el.checked;
+        } else {
+            data[el.id] = el.value;
+        }
 
-<!-- SAUVEGARDE AUTOMATIQUE DÉSACTIVÉE -->
-<!-- <script defer src="autoSauvegarde.js"></script> -->
+    });
 
-<script defer src="journalSysteme.js"></script>
-<script defer src="gestionPiecesActives.js"></script>
+    localStorage.setItem(CLE_STORAGE, JSON.stringify(data));
 
-<link href="style.css" rel="stylesheet">
+    console.log("AUTO SAVE OK");
+}
 
-</head>
+// ======================================================
+// RESTAURATION
+// ======================================================
+
+function restaurerDonnees() {
+
+    const data = JSON.parse(localStorage.getItem(CLE_STORAGE));
+
+    if (!data) return;
+
+    Object.keys(data).forEach(id => {
+
+        const el = document.getElementById(id);
+
+        if (!el) return;
+
+        if (el.type === "checkbox" || el.type === "radio") {
+            el.checked = data[id];
+        } else {
+            el.value = data[id];
+        }
+
+    });
+
+    console.log("RESTORE OK");
+}
+
+// ======================================================
+// ÉCOUTEURS AUTO
+// ======================================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    restaurerDonnees();
+
+    document.querySelectorAll("input, select, textarea").forEach(el => {
+        el.addEventListener("input", sauvegarderAutomatiquement);
+        el.addEventListener("change", sauvegarderAutomatiquement);
+    });
+
+});
