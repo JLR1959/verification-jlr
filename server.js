@@ -14,14 +14,14 @@ const REPO = process.env.GITHUB_REPO;
 const TOKEN = process.env.GITHUB_TOKEN;
 
 // ======================================================
-// SERVIR LE FRONTEND (RACINE DU PROJET)
+// SERVIR LE SITE (RACINE)
 // ======================================================
 
 app.use(express.static(__dirname));
 
-// page principale
+// PAGE PRINCIPALE
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "index.html"));
+    res.sendFile(path.resolve(__dirname, "index.html"));
 });
 
 // ======================================================
@@ -44,7 +44,7 @@ app.post("/github/save-client", async (req, res) => {
 
     try {
 
-        let sha = undefined;
+        let sha;
 
         const check = await fetch(
             `https://api.github.com/repos/${OWNER}/${REPO}/contents/${pathFile}`,
