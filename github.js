@@ -1,9 +1,9 @@
 // ======================================================
-// MODULE 11 — GITHUB CLOUD FONCTIONNEL
+// GITHUB CLOUD COMPLET (VERSION STABLE)
 // ======================================================
 
 // CONFIG
-const GITHUB_TOKEN = "";
+const GITHUB_TOKEN = "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";
 const GITHUB_OWNER = "JLR1959";
 const GITHUB_REPO = "verification-jlr";
 const GITHUB_BRANCH = "main";
@@ -33,13 +33,15 @@ async function githubRequest(path, method = "GET", body = null) {
         const data = await response.json();
 
         if (!response.ok) {
-            alert("Erreur GitHub : " + JSON.stringify(data));
+            console.error("Erreur GitHub :", data);
+            alert("Erreur GitHub : " + data.message);
             return null;
         }
 
         return data;
 
     } catch (e) {
+        console.error("Erreur réseau :", e);
         alert("Erreur réseau GitHub");
         return null;
     }
@@ -61,8 +63,9 @@ async function envoyerClientGitHub() {
     const contenu = btoa(unescape(encodeURIComponent(JSON.stringify(client, null, 2))));
     const path = `clients/${client.id}.json`;
 
+    // Vérifier si fichier existe
     const existant = await githubRequest(`contents/${path}`);
-    const sha = existant ? existant.sha : undefined;
+    const sha = existant && existant.sha ? existant.sha : undefined;
 
     const result = await githubRequest(`contents/${path}`, "PUT", {
         message: "Sauvegarde client",
@@ -71,7 +74,9 @@ async function envoyerClientGitHub() {
         sha: sha
     });
 
-    if (result) alert("Client sauvegardé");
+    if (result) {
+        alert("Client sauvegardé sur GitHub");
+    }
 }
 
 // ======================================================
@@ -99,7 +104,9 @@ async function envoyerRapportGitHub() {
         branch: GITHUB_BRANCH
     });
 
-    if (result) alert("Rapport sauvegardé");
+    if (result) {
+        alert("Rapport sauvegardé");
+    }
 }
 
 // ======================================================
@@ -110,21 +117,26 @@ async function chargerListeClientsCloud() {
 
     const data = await githubRequest("contents/clients");
 
-    if (!data) return;
+    if (!data || !Array.isArray(data)) {
+        alert("Dossier clients vide ou introuvable");
+        return;
+    }
 
     const container = document.getElementById("liste-clients-cloud");
     container.innerHTML = "";
 
-    data.forEach(file => {
+    data
+        .filter(file => file.name.endsWith(".json"))
+        .forEach(file => {
 
-        const div = document.createElement("div");
-        div.textContent = file.name;
-        div.style.cursor = "pointer";
+            const div = document.createElement("div");
+            div.textContent = file.name;
+            div.style.cursor = "pointer";
 
-        div.onclick = () => chargerClientDepuisCloud(file.path);
+            div.onclick = () => chargerClientDepuisCloud(file.path);
 
-        container.appendChild(div);
-    });
+            container.appendChild(div);
+        });
 }
 
 // ======================================================
@@ -135,13 +147,24 @@ async function chargerClientDepuisCloud(path) {
 
     const file = await githubRequest(`contents/${path}`);
 
-    if (!file) return;
+    if (!file || !file.content) {
+        alert("Fichier vide ou introuvable");
+        return;
+    }
 
-    const contenu = JSON.parse(atob(file.content));
+    try {
+        const contenuDecode = atob(file.content.replace(/\n/g, ""));
+        const contenu = JSON.parse(contenuDecode);
 
-    localStorage.setItem("clientActuel", JSON.stringify(contenu));
+        localStorage.setItem("clientActuel", JSON.stringify(contenu));
 
-    alert("Client chargé");
+        alert("Client chargé");
+        location.reload();
+
+    } catch (e) {
+        console.error("Erreur parsing :", e);
+        alert("Erreur lecture du fichier JSON");
+    }
 }
 
 // ======================================================
@@ -152,15 +175,22 @@ async function chargerDernierClient() {
 
     const data = await githubRequest("contents/clients");
 
-    if (!data || data.length === 0) return;
+    if (!data || data.length === 0) {
+        alert("Aucun client trouvé");
+        return;
+    }
 
-    const dernier = data[data.length - 1];
+    const dernier = data
+        .filter(file => file.name.endsWith(".json"))
+        .sort((a, b) => b.name.localeCompare(a.name))[0];
 
-    chargerClientDepuisCloud(dernier.path);
+    if (dernier) {
+        chargerClientDepuisCloud(dernier.path);
+    }
 }
 
 // ======================================================
-// RECHERCHE
+// RECHERCHE CLIENT
 // ======================================================
 
 function rechercherClientCloud() {
