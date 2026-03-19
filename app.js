@@ -3849,24 +3849,52 @@ document.body.removeChild(a);
 URL.revokeObjectURL(url);
 
 }
-
 /* ======================================================
 MODULE 34
-CONFIGURATION GITHUB CLOUD
+CONFIGURATION GITHUB CLOUD (CORRIGÉ)
 ====================================================== */
 
-const GITHUB_TOKEN = "";
-const GITHUB_REPO = "JLR1959/verification-jlr";
+// ⚠️ IMPORTANT :
+// AUCUN TOKEN NI CONFIG GITHUB ICI
+// Tout est géré dans github.js
+
+// ======================================================
+// ENCODAGE / DÉCODAGE
+// ======================================================
 
 function encoderBase64Unicode(texte){
-return btoa(unescape(encodeURIComponent(texte)));
+    return btoa(unescape(encodeURIComponent(texte)));
 }
 
 function decoderBase64Unicode(texte){
-return decodeURIComponent(escape(atob(texte)));
+    return decodeURIComponent(escape(atob(texte)));
 }
 
+// ======================================================
+// EXTRACTION DONNÉES CLIENT
+// ======================================================
+
 function obtenirDonneesClientCloud(){
+
+    return {
+
+        numeroDossier: document.getElementById("numeroDossier")?.value || "",
+        locataire: document.getElementById("locataire")?.value || "",
+        telephone: document.getElementById("telephone")?.value || "",
+        numeroAppartement: document.getElementById("numeroAppartement")?.value || "",
+        adresse: document.getElementById("adresse")?.value || "",
+        ville: document.getElementById("ville-quebec")?.value || "",
+        codePostal: document.getElementById("codePostal")?.value || "",
+        province: document.getElementById("province")?.value || "",
+        pays: document.getElementById("pays")?.value || "",
+        verificateur: document.getElementById("verificateur")?.value || "",
+        dateVerification: document.getElementById("verification-date")?.value || "",
+        entrepriseFacturation: document.getElementById("entreprise-facturation")?.value || "",
+        emailFacturation: document.getElementById("email-facturation")?.value || ""
+
+    };
+
+}
 
 return {
 numeroDossier: document.getElementById("numeroDossier")?.value || "",
