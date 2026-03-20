@@ -3014,7 +3014,8 @@ return "";
 
 // ======================================================
 // MODULE 14
-// ARCHIVAGE DES DOSSIERS DE VÉRIFICATION (VERSION UNIQUE)
+// ARCHIVAGE DES DOSSIERS DE VÉRIFICATION
+// Enregistre la vérification complète dans localStorage
 // ======================================================
 
 function archiverVerification(){
@@ -3050,9 +3051,10 @@ localStorage.setItem("VPI_DOSSIERS", JSON.stringify(dossiers));
 alert("La vérification a été archivée avec succès.");
 
 }
+
 // ======================================================
 // MODULE 15
-// CONSULTATION + OUVERTURE DOSSIERS ARCHIVÉS (FUSION)
+// CONSULTATION DES DOSSIERS ARCHIVÉS
 // ======================================================
 
 function afficherDossiersArchives(){
@@ -3084,53 +3086,14 @@ ligne.innerHTML =
 "<strong>Adresse :</strong> " + (dossier.adresse || "") + "<br>" +
 "<strong>Ville :</strong> " + (dossier.ville || "") + "<br>";
 
-ligne.style.cursor = "pointer";
-
-ligne.onclick = function(){
-ouvrirDossier(dossier.numeroDossier);
-};
-
 zone.appendChild(ligne);
 
 });
 
 }
 
-function ouvrirDossier(numero){
-
-const dossiers = JSON.parse(localStorage.getItem("VPI_DOSSIERS") || "[]");
-
-const dossier = dossiers.find(d => d.numeroDossier === numero);
-
-if(!dossier){
-alert("Dossier introuvable");
-return;
-}
-
-Object.keys(dossier).forEach(function(id){
-
-const champ = document.getElementById(id);
-
-if(!champ) return;
-
-if(champ.type === "checkbox"){
-champ.checked = dossier[id];
-}else{
-champ.value = dossier[id];
-}
-
-});
-
-if(typeof genererNumeroDossier === "function"){
-genererNumeroDossier();
-}
-
-alert("Dossier chargé");
-
-}
-
 // ======================================================
-// MODULE 16
+// MODULE 14
 // SAUVEGARDE DOSSIER CLIENT
 // ======================================================
 
@@ -3161,7 +3124,7 @@ alert("Dossier client enregistré.");
 }
 
 // ======================================================
-// MODULE 17
+// MODULE 15
 // OUVRIR DOSSIER CLIENT
 // ======================================================
 
@@ -3193,7 +3156,7 @@ champ.value = dossier[id];
 }
 
 // ======================================================
-// MODULE 18
+// MODULE 16
 // CONFIRMATION VISUELLE DES ÉTAPES DU FORMULAIRE
 // ======================================================
 
@@ -3364,32 +3327,23 @@ bouton.innerText = "Déplier signatures";
 
 /* ======================================================
 MODULE 25
-INDICATEURS CHAMPS STABLES (UNIFIÉ)
+INDICATEURS CHAMPS STABLES
 ====================================================== */
 
-document.addEventListener("DOMContentLoaded", function(){
+document.querySelectorAll("#formulaire-client input, #formulaire-client select")
+.forEach(function(champ){
 
-const champs = document.querySelectorAll("#formulaire-client input, #formulaire-client select");
-
-champs.forEach(function(champ){
+champ.addEventListener("input", function(){
 
 const label = champ.closest("label");
+
 if(!label) return;
 
-let indicateur = label.querySelector(".indicateur-etape");
+const indicateur = label.querySelector(".indicateur-etape");
 
-if(!indicateur){
+if(!indicateur) return;
 
-indicateur = document.createElement("span");
-indicateur.className = "indicateur-etape etape-ko";
-
-label.appendChild(indicateur);
-
-}
-
-function verifier(){
-
-if(champ.value && champ.value.trim() !== ""){
+if(champ.value.trim() !== ""){
 
 indicateur.classList.remove("etape-ko");
 indicateur.classList.add("etape-ok");
@@ -3400,13 +3354,6 @@ indicateur.classList.remove("etape-ok");
 indicateur.classList.add("etape-ko");
 
 }
-
-}
-
-champ.addEventListener("input", verifier);
-champ.addEventListener("change", verifier);
-
-verifier();
 
 });
 
@@ -3512,7 +3459,7 @@ alert("Mode administrateur désactivé.");
 
 /* ======================================================
 MODULE 30
-DÉMARRAGE AUTOMATIQUE MINUTEUR (VERSION STABLE UNIQUE)
+DÉMARRAGE AUTOMATIQUE DU MINUTEUR
 ====================================================== */
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -3521,34 +3468,21 @@ const champDossier = document.getElementById("numeroDossier");
 
 if(!champDossier) return;
 
-let minuteurDemarre = false;
+const observer = new MutationObserver(function(){
 
-function verifier(){
-
-if(
-champDossier.value &&
-champDossier.value.trim() !== "" &&
-!minuteurDemarre
-){
-
-if(typeof demarrerMinuteur === "function"){
-
+if(champDossier.value && champDossier.value.trim() !== ""){
 demarrerMinuteur();
-minuteurDemarre = true;
-
 }
-
-}
-
-}
-
-/* vérification initiale */
-verifier();
-
-/* surveillance */
-setInterval(verifier, 500);
 
 });
+
+observer.observe(champDossier, {
+attributes:true,
+attributeFilter:["value"]
+});
+
+});
+
 /* ======================================================
 MODULE 31
 FIN DE VÉRIFICATION
@@ -3805,467 +3739,3 @@ window.effacerSignatureLocataire = effacerSignatureLocataire;
 window.effacerSignatureConsultant = effacerSignatureConsultant;
 
 
-/* ======================================================
-MODULE 33
-EXPORT DONNÉES CLIENT JSON
-====================================================== */
-
-function exporterDonneesClient(){
-
-const data = {
-numeroDossier: document.getElementById("numeroDossier")?.value || "",
-locataire: document.getElementById("locataire")?.value || "",
-telephone: document.getElementById("telephone")?.value || "",
-numeroAppartement: document.getElementById("numeroAppartement")?.value || "",
-adresse: document.getElementById("adresse")?.value || "",
-ville: document.getElementById("ville-quebec")?.value || "",
-codePostal: document.getElementById("codePostal")?.value || "",
-province: document.getElementById("province")?.value || "",
-pays: document.getElementById("pays")?.value || "",
-verificateur: document.getElementById("verificateur")?.value || "",
-dateVerification: document.getElementById("verification-date")?.value || "",
-entrepriseFacturation: document.getElementById("entreprise-facturation")?.value || "",
-emailFacturation: document.getElementById("email-facturation")?.value || "",
-typeVerification: document.getElementById("type-verification")?.value || "",
-dateSauvegarde: new Date().toISOString()
-};
-
-if(!data.numeroDossier){
-alert("Numéro de dossier manquant.");
-return;
-}
-
-const json = JSON.stringify(data, null, 2);
-const blob = new Blob([json], { type: "application/json" });
-const url = URL.createObjectURL(blob);
-
-const a = document.createElement("a");
-a.href = url;
-a.download = "client_" + data.numeroDossier + ".json";
-document.body.appendChild(a);
-a.click();
-document.body.removeChild(a);
-
-URL.revokeObjectURL(url);
-
-}
-/* ======================================================
-MODULE 34
-CONFIGURATION GITHUB CLOUD
-====================================================== */
-
-// ======================================================
-// ENCODAGE / DÉCODAGE
-// ======================================================
-
-function encoderBase64Unicode(texte){
-    return btoa(unescape(encodeURIComponent(texte)));
-}
-
-function decoderBase64Unicode(texte){
-    return decodeURIComponent(escape(atob(texte)));
-}
-
-// ======================================================
-// EXTRACTION DES DONNÉES CLIENT
-// ======================================================
-
-function obtenirDonneesClientCloud(){
-
-    return {
-        numeroDossier: document.getElementById("numeroDossier")?.value || "",
-        locataire: document.getElementById("locataire")?.value || "",
-        telephone: document.getElementById("telephone")?.value || "",
-        numeroAppartement: document.getElementById("numeroAppartement")?.value || "",
-        adresse: document.getElementById("adresse")?.value || "",
-        ville: document.getElementById("ville-quebec")?.value || "",
-        codePostal: document.getElementById("codePostal")?.value || "",
-        province: document.getElementById("province")?.value || "",
-        pays: document.getElementById("pays")?.value || "",
-        verificateur: document.getElementById("verificateur")?.value || "",
-        dateVerification: document.getElementById("verification-date")?.value || "",
-        entrepriseFacturation: document.getElementById("entreprise-facturation")?.value || "",
-        emailFacturation: document.getElementById("email-facturation")?.value || ""
-    };
-
-}
-
-// ======================================================
-// CRÉATION / MISE À JOUR DU CLIENT ACTIF
-// ======================================================
-
-function creerClientActuel(){
-
-    const donnees = obtenirDonneesClientCloud();
-
-    const client = {
-        id: donnees.numeroDossier || ("VPIJLR-" + Date.now()),
-        ...donnees
-    };
-
-    localStorage.setItem("clientActuel", JSON.stringify(client));
-
-    return client;
-}
-
-// ======================================================
-// GÉNÉRATION DU NUMÉRO DE DOSSIER
-// ======================================================
-
-function genererNumeroDossier(){
-
-    const champ = document.getElementById("numeroDossier");
-
-    if(!champ){
-        return;
-    }
-
-    if(!champ.value || champ.value.trim() === ""){
-        const datePart = new Date().toISOString().slice(0,10).replace(/-/g, "");
-        champ.value = "VPIJLR-" + datePart + "-" + Date.now();
-    }
-}
-
-// ======================================================
-// BASCULE SECTION CLIENT
-// ======================================================
-
-function basculerSectionClient(){
-
-    const section = document.getElementById("contenu-client");
-
-    if(!section){
-        return;
-    }
-
-    if(section.style.display === "none"){
-        section.style.display = "block";
-    } else {
-        section.style.display = "none";
-    }
-}
-
-// ======================================================
-// INITIALISATION
-// ======================================================
-
-document.addEventListener("DOMContentLoaded", function(){
-
-    genererNumeroDossier();
-    creerClientActuel();
-
-    document.querySelectorAll("input, select, textarea").forEach(function(el){
-
-        el.addEventListener("input", function(){
-            creerClientActuel();
-        });
-
-        el.addEventListener("change", function(){
-            creerClientActuel();
-        });
-
-    });
-
-});
-
-/* ======================================================
-MODULE 34.1
-CLIENT ACTIF AUTOMATIQUE (LIEN FORMULAIRE ↔ CLOUD)
-====================================================== */
-
-// ======================================================
-// CRÉATION CLIENT ACTIF
-// ======================================================
-
-function creerClientActuel(){
-
-    const client = {
-
-        id: document.getElementById("numeroDossier")?.value || ("VPIJLR-" + Date.now()),
-
-        numeroDossier: document.getElementById("numeroDossier")?.value || "",
-        locataire: document.getElementById("locataire")?.value || "",
-        telephone: document.getElementById("telephone")?.value || "",
-        numeroAppartement: document.getElementById("numeroAppartement")?.value || "",
-        adresse: document.getElementById("adresse")?.value || "",
-        ville: document.getElementById("ville-quebec")?.value || "",
-        codePostal: document.getElementById("codePostal")?.value || "",
-        province: document.getElementById("province")?.value || "",
-        pays: document.getElementById("pays")?.value || "",
-        verificateur: document.getElementById("verificateur")?.value || "",
-        dateVerification: document.getElementById("verification-date")?.value || "",
-        entrepriseFacturation: document.getElementById("entreprise-facturation")?.value || "",
-        emailFacturation: document.getElementById("email-facturation")?.value || ""
-
-    };
-
-    localStorage.setItem("clientActuel", JSON.stringify(client));
-
-    console.log("CLIENT ACTIF MIS À JOUR", client);
-}
-
-// ======================================================
-// GÉNÉRATION NUMÉRO DOSSIER
-// ======================================================
-
-function genererNumeroDossier(){
-
-    const champ = document.getElementById("numeroDossier");
-
-    if(champ && !champ.value){
-
-        const id = "VPIJLR-" + new Date().toISOString().slice(0,10).replace(/-/g,"") + "-" + Date.now();
-
-        champ.value = id;
-    }
-
-}
-
-// ======================================================
-// INITIALISATION AUTOMATIQUE
-// ======================================================
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    genererNumeroDossier();
-
-    document.querySelectorAll("input, select, textarea").forEach(el => {
-
-        el.addEventListener("input", creerClientActuel);
-        el.addEventListener("change", creerClientActuel);
-
-    });
-
-});
-
-/* ======================================================
-MODULE 35
-SAUVEGARDE CLIENT + RAPPORT VERS GITHUB
-====================================================== */
-
-function envoyerClientGitHub(){
-
-const data = obtenirDonneesClientCloud();
-
-if(!data.numeroDossier){
-alert("Numéro de dossier manquant.");
-return;
-}
-
-if(!data.locataire){
-alert("Nom du locataire manquant.");
-return;
-}
-
-const chemin = "data/clients/client_" + data.numeroDossier + ".json";
-const messageCommit = "Ajout client " + data.numeroDossier;
-
-githubUpload(chemin, data, messageCommit).then(function(ok){
-if(ok){
-alert("Client sauvegardé dans le cloud GitHub");
-}
-});
-
-}
-
-function envoyerRapportGitHub(){
-
-const data = obtenirDonneesRapportCloud();
-
-if(!data.numeroDossier){
-alert("Numéro de dossier manquant pour le rapport.");
-return;
-}
-
-const chemin = "data/rapports/rapport_" + data.numeroDossier + ".json";
-const messageCommit = "Ajout rapport " + data.numeroDossier;
-
-githubUpload(chemin, data, messageCommit).then(function(ok){
-if(ok){
-alert("Rapport sauvegardé dans le cloud GitHub");
-}
-});
-
-}
-
-/* ======================================================
-MODULE 36
-LECTURE ET GESTION CLOUD GITHUB (CORRIGÉ)
-====================================================== */
-
-let cacheClientsCloud = [];
-
-async function listerClientsGitHub(){
-
-const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/data/clients`;
-
-const response = await fetch(url, {
-headers: {
-"Authorization": "token " + GITHUB_TOKEN
-}
-});
-
-if(!response.ok){
-alert("Erreur lecture GitHub");
-return;
-}
-
-const files = await response.json();
-
-cacheClientsCloud = Array.isArray(files) ? files : [];
-
-cacheClientsCloud.sort(function(a, b){
-return b.name.localeCompare(a.name);
-});
-
-afficherListeClientsCloud(cacheClientsCloud);
-
-}
-
-function afficherListeClientsCloud(files){
-
-const container = document.getElementById("liste-clients-cloud");
-if(!container) return;
-
-container.innerHTML = "";
-
-if(!Array.isArray(files) || files.length === 0){
-container.innerHTML = "<p>Aucun client trouvé.</p>";
-return;
-}
-
-files.forEach(function(file){
-
-const wrapper = document.createElement("div");
-wrapper.style.marginBottom = "6px";
-
-const btnLoad = document.createElement("button");
-btnLoad.type = "button";
-btnLoad.textContent = file.name;
-btnLoad.onclick = function(){
-chargerClientDepuisGitHub(file.path);
-};
-
-const btnDelete = document.createElement("button");
-btnDelete.type = "button";
-btnDelete.textContent = "Supprimer";
-btnDelete.style.marginLeft = "8px";
-btnDelete.onclick = function(){
-supprimerClientGitHub(file);
-};
-
-wrapper.appendChild(btnLoad);
-wrapper.appendChild(btnDelete);
-
-container.appendChild(wrapper);
-
-});
-
-}
-
-async function chargerClientDepuisGitHub(path){
-
-const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}`;
-
-const response = await fetch(url, {
-headers: {
-"Authorization": "token " + GITHUB_TOKEN
-}
-});
-
-if(!response.ok){
-alert("Erreur chargement client");
-return;
-}
-
-const file = await response.json();
-
-const contenu = JSON.parse(
-decoderBase64Unicode((file.content || "").replace(/\n/g, ""))
-);
-
-injecterClientDansFormulaire(contenu);
-
-alert("Client chargé depuis le cloud");
-
-}
-
-async function supprimerClientGitHub(file){
-
-if(!confirm("Supprimer ce client ?")) return;
-
-const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${file.path}`;
-
-const response = await fetch(url, {
-method: "DELETE",
-headers: {
-"Authorization": "token " + GITHUB_TOKEN,
-"Content-Type": "application/json"
-},
-body: JSON.stringify({
-message: "Suppression client " + file.name,
-sha: file.sha
-})
-});
-
-if(!response.ok){
-alert("Erreur suppression GitHub");
-return;
-}
-
-await listerClientsGitHub();
-
-alert("Client supprimé");
-
-}
-
-
-async function chargerListeClientsCloud() {
-
-    const data = await githubRequest("contents/clients");
-
-    if (!data || !Array.isArray(data)) {
-        alert("Dossier clients vide ou introuvable");
-        return;
-    }
-
-    const container = document.getElementById("liste-clients-cloud");
-    container.innerHTML = "";
-
-    data
-        .filter(file => file.name.endsWith(".json"))
-        .forEach(file => {
-
-            const div = document.createElement("div");
-            div.textContent = file.name;
-            div.style.cursor = "pointer";
-
-            div.onclick = () => chargerClientDepuisCloud(file.path);
-
-            container.appendChild(div);
-        });
-}
-
-/* ======================================================
-MODULE 37.1
-BOUTON GLOBAL IMPORT CLIENT
-====================================================== */
-
-function boutonImporterClient(){
-
-importerDonneesClientLocal();
-
-}
-
-function basculerSectionClient(){
-
-    const section = document.getElementById("contenu-client");
-
-    if(!section) return;
-
-    if(section.style.display === "none"){
-        section.style.display = "block";
-    } else {
-        section.style.display = "none";
-    }
-}

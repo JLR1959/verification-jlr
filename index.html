@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 
+<!-- ======================================================
+MODULE 1
+HEAD / CONFIGURATION
+====================================================== -->
+
 <head>
 
 <meta charset="utf-8">
@@ -9,17 +14,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ANTI CACHE -->
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<!-- LIB -->
-<script src="html2pdf.bundle.min.js"></script>
-
-<!-- JS (RELATIF - COMPATIBLE RENDER + GITHUB) -->
-
-<script defer src="cloud-sync.js"></script>
 <script defer src="app.js"></script>
 <script defer src="typeVerification.js"></script>
 <script defer src="gestionImpression.js"></script>
@@ -28,8 +24,6 @@
 <script defer src="journalSysteme.js"></script>
 <script defer src="gestionPiecesActives.js"></script>
 
-
-<!-- CSS -->
 <link href="style.css" rel="stylesheet">
 
 </head>
@@ -501,62 +495,6 @@ VÉRIFICATION COMPLÈTE TERMINÉE
 
 </section>
 
-
-<!-- ======================================================
-MODULE 12.1
-CLOUD GITHUB UNIFIÉ (FINAL STABLE)
-====================================================== -->
-
-<section class="no-print" id="cloud-github">
-
-<h2>☁️ Cloud GitHub</h2>
-
-<!-- ACTIONS PRINCIPALES -->
-<div style="margin-bottom:15px;">
-
-<button type="button" onclick="envoyerClientGitHub()">
-💾 Sauvegarder client
-</button>
-
-<button type="button" onclick="envoyerRapportGitHub()">
-📄 Sauvegarder rapport
-</button>
-
-<button type="button" onclick="chargerListeClientsCloud()">
-🔄 Actualiser la liste
-</button>
-
-<button type="button" onclick="chargerDernierClient()">
-⚡ Charger dernier client
-</button>
-
-</div>
-
-<!-- RECHERCHE -->
-<div style="margin-bottom:10px;">
-
-<input 
-type="text"
-id="recherche-client-cloud"
-placeholder="Rechercher un client..."
-oninput="rechercherClientCloud()"
-style="width:100%; padding:8px;"
->
-
-</div>
-
-<!-- LISTE -->
-<div 
-id="liste-clients-cloud"
-style="max-height:300px; overflow:auto; border:1px solid #ccc; padding:10px; background:#fff;">
-
-Aucun client chargé
-
-</div>
-
-</section>
-
-
 <!-- ======================================================
 MODULE 13
 IMPRESSION DU RAPPORT
@@ -824,8 +762,6 @@ Champ à compléter
 
 <span class="indicateur-etape etape-ok"></span>
 Champ complété
-
-
 
 </div>
 

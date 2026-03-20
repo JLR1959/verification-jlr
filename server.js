@@ -1,32 +1,53 @@
 const express = require("express");
-const path = require("path");
+const nodemailer = require("nodemailer");
+const bodyParser = require("body-parser");
 
 const app = express();
+app.use(bodyParser.json({ limit: "20mb" }));
 
-app.use(express.json());
-
-// ======================================================
-// SERVIR LE SITE
-// ======================================================
-
-app.use(express.static(__dirname));
-
-// PAGE PRINCIPALE
-app.get("/", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "index.html"));
+const transporter = nodemailer.createTransport({
+  host: "smtp.office365.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: "jlouisraymond@hotmail.com",
+    pass: "MOT_DE_PASSE_APPLICATION"
+  }
 });
 
-// TEST
-app.get("/ping", (req, res) => {
-    res.send("OK");
+app.post("/send-report", async (req, res) => {
+
+  if (req.body.secret !== "Imagine2026") {
+    return res.status(403).json({ message: "Unauthorized" });
+  }
+
+  try {
+
+    const info = await transporter.sendMail({
+      from: "jlouisraymond@hotmail.com",
+      to: req.body.destinataire,
+      subject: "Rapport de Vérification Préventive",
+      text: "Veuillez trouver le rapport en pièce jointe.",
+      attachments: [
+        {
+          filename: "Rapport_Verification_Preventive.pdf",
+          content: req.body.pdfBase64,
+          encoding: "base64"
+        }
+      ]
+    });
+
+    console.log("Email envoyé :", info.response);
+
+    res.json({ message: "Email envoyé" });
+
+  } catch (error) {
+    console.error("Erreur SMTP :", error);
+    res.status(500).json({ message: "Erreur envoi" });
+  }
+
 });
 
-// ======================================================
-// PORT
-// ======================================================
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-    console.log("SERVEUR DEMARRÉ");
+app.listen(3000, () => {
+  console.log("Serveur actif sur port 3000");
 });
