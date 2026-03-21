@@ -1,271 +1,190 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-<!-- ======================================================
-MODULE 1
-HEAD / CONFIGURATION
-====================================================== -->
-
 <head>
 
 <meta charset="utf-8">
-
-<title>Vérification Préventive Immobilière - Jean-Louis Raymond</title>
+<title>Vérification Préventive Immobilière VPIJLR 2026</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1f3a60">
+
+<link rel="icon" href="favicon.ico">
+
+<link href="style.css" rel="stylesheet">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+<script defer src="cloud-sync.js"></script>
 <script defer src="app.js"></script>
 <script defer src="typeVerification.js"></script>
 <script defer src="gestionImpression.js"></script>
 <script defer src="signatureMobile.js"></script>
 <script defer src="autoSauvegarde.js"></script>
-<script defer src="journalSysteme.js"></script>
 <script defer src="gestionPiecesActives.js"></script>
-
-<link href="style.css" rel="stylesheet">
 
 </head>
 
 <body>
 
+<div id="info-licence" style="margin-top:10px;font-weight:bold;"></div>
+
 <!-- ======================================================
-MODULE 2
-BANDEAU MODE VÉRIFICATION
+MODULE 2 - BANDEAU MODE VÉRIFICATION
 ====================================================== -->
 
 <div id="bandeau-mode-verification">
-Mode de vérification : NON SÉLECTIONNÉ
+    Mode de vérification : NON SÉLECTIONNÉ
 </div>
 
 <!-- ======================================================
-MODULE 3
-ENTÊTE ENTREPRISE
+MODULE 3 - ENTÊTE ENTREPRISE
 ====================================================== -->
 
 <header style="text-align:center;">
-
-<img src="logo_jlr.png" alt="Logo JLR" style="max-height:80px;">
-
-<h1>Vérification Préventive Immobilière</h1>
-
-<h2>Jean-Louis Raymond</h2>
-
-<p>Consultant en vérification préventive</p>
-
-<p>📧 jlouisraymond@hotmail.com | 📞 438-220-6511</p>
-
-<p>NEQ : 2268876952</p>
-
-<p>TPS : 771362471 RT 0001 | TVQ : 1227894560 TQ 0001</p>
-
+    <img src="logo_jlr.png" alt="Logo JLR" style="max-height:80px;">
+    <h1>Vérification Préventive Immobilière VPIJLR 2026</h1>
 </header>
 
 <!-- ======================================================
-MODULE 4
-FORMULAIRE CLIENT REPLIABLE
+MODULE 4 - FORMULAIRE CLIENT REPLIABLE
 ====================================================== -->
 
 <section id="formulaire-client">
+    <h2>Informations du client
+        <button type="button" onclick="basculerSectionClient()" class="no-print" style="margin-left:12px;">
+            Replier / Déplier
+        </button>
+    </h2>
 
-<h2>
+    <div id="contenu-client">
+        <label>***Numéro de dossier automatique***
+            <input type="text" id="numeroDossier" readonly>
+        </label>
 
-Informations du client
+        <label>1) Nom du locataire
+            <input type="text" id="locataire">
+        </label>
 
-<button
-type="button"
-onclick="basculerSectionClient()"
-class="no-print"
-style="margin-left:12px;">
-Replier / Déplier
-</button>
+        <label>2) Téléphone
+            <input type="tel" id="telephone">
+        </label>
 
-</h2>
+        <label>3) Numéro d’appartement
+            <input type="text" id="numeroAppartement">
+        </label>
 
-<div id="contenu-client">
+        <label>4) Adresse
+            <input type="text" id="adresse">
+        </label>
 
-<label>***Numéro de dossier automatique***
-<input type="text" id="numeroDossier" readonly>
-</label>
+        <label>5) Ville (Québec)
+            <input list="villes-quebec" id="ville-quebec" name="ville-quebec" placeholder="Sélectionner ou taper une ville">
+            <datalist id="villes-quebec">
+                <option value="Montréal">
+                <option value="Québec">
+                <option value="Laval">
+                <option value="Gatineau">
+                <option value="Longueuil">
+                <option value="Sherbrooke">
+                <option value="Saguenay">
+                <option value="Trois-Rivières">
+                <option value="Lévis">
+                <option value="Terrebonne">
+                <option value="Saint-Jean-sur-Richelieu">
+                <option value="Repentigny">
+                <option value="Drummondville">
+                <option value="Saint-Jérôme">
+                <option value="Granby">
+                <option value="Blainville">
+                <option value="Boucherville">
+                <option value="Mascouche">
+                <option value="Rimouski">
+                <option value="Rouyn-Noranda">
+                <option value="Val-d'Or">
+                <option value="Alma">
+                <option value="Baie-Comeau">
+                <option value="Sept-Îles">
+                <option value="La Tuque">
+                <option value="Amos">
+                <option value="Mont-Tremblant">
+                <option value="Sainte-Thérèse">
+                <option value="Saint-Eustache">
+                <option value="Candiac">
+                <option value="Bromont">
+                <option value="Sorel-Tracy">
+                <option value="Magog">
+                <option value="Saint-Georges">
+                <option value="Thetford Mines">
+                <option value="Victoriaville">
+            </datalist>
+        </label>
 
-<label>1) Nom du locataire
-<input type="text" id="locataire">
-</label>
+        <label>6) Code postal
+            <input type="text" id="codePostal" placeholder="A1A 1A1">
+        </label>
 
-<label>2) Téléphone
-<input type="tel" id="telephone">
-</label>
+        <label>7) Province
+            <select id="province">
+                <option value="">Sélectionner</option>
+                <option value="AB">Alberta</option>
+                <option value="BC">Colombie-Britannique</option>
+                <option value="PE">Île-du-Prince-Édouard</option>
+                <option value="MB">Manitoba</option>
+                <option value="NB">Nouveau-Brunswick</option>
+                <option value="NS">Nouvelle-Écosse</option>
+                <option value="NU">Nunavut</option>
+                <option value="ON">Ontario</option>
+                <option value="QC">Québec</option>
+                <option value="SK">Saskatchewan</option>
+                <option value="NL">Terre-Neuve-et-Labrador</option>
+                <option value="NT">Territoires du Nord-Ouest</option>
+                <option value="YT">Yukon</option>
+            </select>
+        </label>
 
-<label>3) Numéro d’appartement
-<input type="text" id="numeroAppartement">
-</label>
+        <label>8) Pays
+            <select id="pays">
+                <option value="">Sélectionner</option>
+                <option value="CA">Canada</option>
+            </select>
+        </label>
 
-<label>4) Adresse
-<input type="text" id="adresse">
-</label>
+        <label>9) Vérificateur
+            <select id="verificateur">
+                <option value="">Sélectionner</option>
+                <option>Vérificateur 1</option>
+                <option>Vérificateur 2</option>
+                <option>Vérificateur 3</option>
+                <option>Vérificateur 4</option>
+                <option>consultant par défaut</option>
+           </select>   
+        </label>      
+                
+            <label>10) Suppport logiciel client VPIJLR 2026
+                <select id="support clientvpijlr">
+                <option value="">Répertoires</option>
+                 <option value="Courriel">Courriel : jlouisraymond@hotmail.com</option>
+                 <option value="Téléphone">Service à la clientèle : 438-220-6511</option>
+                 <option value="Service technique">Service technique : 438-220-6511</option>
+            </select>
+            
+      </label>
 
-<label>5) Ville (Québec)
+        <label>11) Date de vérification
+            <input type="date" id="verification-date">
+            
+      </select>  
+      
+      </label>
 
-<input list="villes-quebec" id="ville-quebec" name="ville-quebec" placeholder="Sélectionner ou taper une ville">
-
-<datalist id="villes-quebec">
-
-<option value="Montréal">
-<option value="Québec">
-<option value="Laval">
-<option value="Gatineau">
-<option value="Longueuil">
-<option value="Sherbrooke">
-<option value="Saguenay">
-<option value="Trois-Rivières">
-<option value="Lévis">
-<option value="Terrebonne">
-<option value="Saint-Jean-sur-Richelieu">
-<option value="Repentigny">
-<option value="Drummondville">
-<option value="Saint-Jérôme">
-<option value="Granby">
-<option value="Blainville">
-<option value="Boucherville">
-<option value="Mascouche">
-<option value="Rimouski">
-<option value="Rouyn-Noranda">
-<option value="Val-d'Or">
-<option value="Alma">
-<option value="Baie-Comeau">
-<option value="Sept-Îles">
-<option value="La Tuque">
-<option value="Amos">
-<option value="Mont-Tremblant">
-<option value="Sainte-Thérèse">
-<option value="Saint-Eustache">
-<option value="Candiac">
-<option value="Bromont">
-<option value="Sorel-Tracy">
-<option value="Magog">
-<option value="Saint-Georges">
-<option value="Thetford Mines">
-<option value="Victoriaville">
-
-</datalist>
-
-</label>
-
-<label>6) Code postal
-<input type="text" id="codePostal" placeholder="A1A 1A1">
-</label>
-
-<label>7) Province
-
-<select id="province">
-
-<option value="">Sélectionner</option>
-
-<option value="AB">Alberta</option>
-<option value="BC">Colombie-Britannique</option>
-<option value="PE">Île-du-Prince-Édouard</option>
-<option value="MB">Manitoba</option>
-<option value="NB">Nouveau-Brunswick</option>
-<option value="NS">Nouvelle-Écosse</option>
-<option value="NU">Nunavut</option>
-<option value="ON">Ontario</option>
-<option value="QC">Québec</option>
-<option value="SK">Saskatchewan</option>
-<option value="NL">Terre-Neuve-et-Labrador</option>
-<option value="NT">Territoires du Nord-Ouest</option>
-<option value="YT">Yukon</option>
-
-</select>
-
-</label>
-
-<label>8) Pays
-
-<select id="pays">
-
-<option value="">Sélectionner</option>
-
-<option value="CA">Canada</option>
-<option value="US">États-Unis</option>
-<option value="FR">France</option>
-<option value="BE">Belgique</option>
-<option value="CH">Suisse</option>
-<option value="LU">Luxembourg</option>
-<option value="DE">Allemagne</option>
-<option value="ES">Espagne</option>
-<option value="IT">Italie</option>
-<option value="PT">Portugal</option>
-<option value="GB">Royaume-Uni</option>
-<option value="IE">Irlande</option>
-<option value="NL">Pays-Bas</option>
-<option value="SE">Suède</option>
-<option value="NO">Norvège</option>
-<option value="DK">Danemark</option>
-<option value="FI">Finlande</option>
-<option value="PL">Pologne</option>
-<option value="AU">Australie</option>
-<option value="NZ">Nouvelle-Zélande</option>
-<option value="JP">Japon</option>
-<option value="CN">Chine</option>
-<option value="IN">Inde</option>
-<option value="BR">Brésil</option>
-<option value="MX">Mexique</option>
-<option value="ZA">Afrique du Sud</option>
-
-</select>
-
-</label>
-
-<label>9) Vérificateur
-
-<select id="verificateur">
-
-<option value="">Sélectionner</option>
-
-<option>Jean-Louis Raymond</option>
-<option>Manon Leclerc</option>
-<option>consultant par défaut</option>
-
-</select>
-
-</label>
-
-<label>10) Date de vérification
-<input type="date" id="verification-date">
-</label>
-
-<!-- ======================================================
-INDICATEURS ENTREPRISE FACTURATION
-====================================================== -->
-
-<label>
-Entreprise responsable de la facturation
-
-<input type="text" id="entreprise-facturation">
-
-<span class="etat-champ">
-<span id="etat-entreprise-facturation" class="indicateur-etape etape-ko"></span>
-<span class="texte-etape">Champ à compléter</span>
-</span>
-
-</label>
-
-<label>
-Courriel responsable facturation
-
-<input type="email" id="email-facturation">
-
-<span class="etat-champ">
-<span id="etat-email-facturation" class="indicateur-etape etape-ko"></span>
-<span class="texte-etape">Champ à compléter</span>
-</span>
-
-</label>
-
-</div>
-
+    </div>
 </section>
+
+
+
 
 <!-- ======================================================
 MODULE 5
@@ -274,7 +193,7 @@ TYPE DE VÉRIFICATION
 
 <section>
 
-<label>11) Choisissez un type de vérification</label>
+<label>12) Choisissez votre type de vérification</label>
 
 <div id="choix-verification">
 
@@ -302,9 +221,10 @@ class="type-btn exterieur">
 
 </section>
 
+
+
 <!-- ======================================================
-MODULE 6
-SÉLECTION DES PIÈCES
+MODULE 6 - SÉLECTION DES PIÈCES
 ====================================================== -->
 
 <section>
@@ -332,6 +252,7 @@ SÉLECTION DES PIÈCES
 <option>Salle électrique</option>
 <option>Éclairage</option>
 <option>Salle lavage</option>
+<option>Réservoir eau chaude</option>
 
 </optgroup>
 
@@ -344,7 +265,6 @@ SÉLECTION DES PIÈCES
 <option>Verrière</option>
 <option>Climatisation</option>
 <option>Porte patio</option>
-<option>Réservoir eau chaude</option>
 <option>Stationnement</option>
 <option>Borne de recharge</option>
 <option>Clôture</option>
@@ -357,16 +277,15 @@ SÉLECTION DES PIÈCES
 </select>
 
 <button type="button" onclick="ajouterPiece()" class="no-print">
-
-13) Cliquez ici pour ouvrir Pièces ou éléments
-
+13) Cliquez ici pour ouvrir
 </button>
 
 </section>
 
+
+
 <!-- ======================================================
-MODULE 7
-PIÈCES EN VÉRIFICATION
+MODULE 7 - PIÈCES EN VÉRIFICATION
 ====================================================== -->
 
 <section id="section-pieces-verification" style="display:none;">
@@ -378,8 +297,7 @@ PIÈCES EN VÉRIFICATION
 </section>
 
 <!-- ======================================================
-MODULE 8
-SIGNATURES REPLIABLES
+MODULE 8 - SIGNATURES REPLIABLES
 ====================================================== -->
 
 <section id="section-signatures">
@@ -423,8 +341,7 @@ Effacer signature consultant
 </section>
 
 <!-- ======================================================
-MODULE 10
-PANNEAU ADMIN MINUTEUR AVEC MOT DE PASSE
+MODULE 10 - PANNEAU ADMIN MINUTEUR + CONTRÔLES ADMIN
 ====================================================== -->
 
 <section id="admin-minuteur" class="no-print">
@@ -449,6 +366,10 @@ Accéder au mode admin
 Afficher / Cacher le minuteur
 </button>
 
+<button type="button" onclick="basculerFacturationAdmin()">
+Afficher / Cacher Facturation
+</button>
+
 <button type="button" onclick="desactiverModeAdmin()">
 Quitter mode admin
 </button>
@@ -458,8 +379,7 @@ Quitter mode admin
 </section>
 
 <!-- ======================================================
-MODULE 11
-MINUTEUR DE VÉRIFICATION
+MODULE 11 - MINUTEUR DE VÉRIFICATION
 ====================================================== -->
 
 <section id="section-minuteur" class="no-print">
@@ -481,8 +401,7 @@ Montant : <span id="montant-affiche">0.00 $</span>
 </section>
 
 <!-- ======================================================
-MODULE 12
-FIN DE VÉRIFICATION
+MODULE 12 - FIN DE VÉRIFICATION
 ====================================================== -->
 
 <section class="no-print">
@@ -496,8 +415,7 @@ VÉRIFICATION COMPLÈTE TERMINÉE
 </section>
 
 <!-- ======================================================
-MODULE 13
-IMPRESSION DU RAPPORT
+MODULE 13 - IMPRESSION DU RAPPORT
 ====================================================== -->
 
 <footer class="no-print">
@@ -509,8 +427,7 @@ Imprimer le rapport
 <script>
 
 /* ======================================================
-MODULE 13.1
-IMPRESSION RAPPORT STABLE
+MODULE 13.1 - IMPRESSION RAPPORT STABLE
 ====================================================== */
 
 function imprimerRapport(){
@@ -526,8 +443,6 @@ remplirInformationsRapport();
 if(typeof injecterFacturationRapport === "function"){
 injecterFacturationRapport();
 }
-
-
 
 const rapport = document.getElementById("rapport-impression");
 
@@ -553,8 +468,7 @@ rapport.style.display = "none";
 </footer>
 
 <!-- ======================================================
-MODULE 14
-RAPPORT D’IMPRESSION
+MODULE 14 - RAPPORT D’IMPRESSION
 ====================================================== -->
 
 <div id="rapport-impression">
@@ -563,17 +477,8 @@ RAPPORT D’IMPRESSION
 
 <img src="logo_jlr.png" alt="Logo JLR" style="max-height:80px;">
 
-<h1>Vérification Préventive Immobilière</h1>
 
-<h2>Jean-Louis Raymond</h2>
-
-<p>Consultant en vérification préventive</p>
-
-<p>📧 jlouisraymond@hotmail.com | 📞 438-220-6511</p>
-
-<p>NEQ : 2268876952</p>
-
-<p>TPS : 771362471 RT 0001 | TVQ : 1227894560 TQ 0001</p>
+<h1>Vérification Préventive Immobilière VPIJLR 2026</h1>
 
 </header>
 <div class="page-break"></div>
@@ -610,11 +515,11 @@ RAPPORT D’IMPRESSION
 </section>
 
 <!-- ======================================================
-MODULE 15
-FACTURATION RAPPORT DYNAMIQUE
+MODULE 15 - FACTURATION RAPPORT DYNAMIQUE
 ====================================================== -->
 <div class="page-break"></div>
-<section>
+
+<section id="section-facturation">
 
 <h2>Facturation</h2>
 
@@ -631,8 +536,6 @@ FACTURATION RAPPORT DYNAMIQUE
 <h3>Total à payer : <span id="rapport-total">0.00</span> $</h3>
 
 </section>
-
-
 
 <!-- ======================================================
 MODULE SIGNATURES RAPPORT
@@ -652,15 +555,13 @@ MODULE SIGNATURES RAPPORT
 
 </section>
 <!-- ======================================================
-MODULE 15.1
-SAUT DE PAGE
+MODULE 15.1 - SAUT DE PAGE
 ====================================================== -->
 
 <div class="page-break"></div>
 
 <!-- ======================================================
-MODULE 15.2
-ATTESTATION DE CONFORMITÉ
+MODULE 15.2 - ATTESTATION DE CONFORMITÉ
 ====================================================== -->
 
 <section id="sceau-conformite">
@@ -670,10 +571,11 @@ ATTESTATION DE CONFORMITÉ
 <img src="sceau certification VPIJLR.png" alt="Sceau de conformité" class="sceau-image">
 
 <p>
-Je soussigné, Jean-Louis Raymond, consultant en vérification préventive immobilière,
+Je soussigné, Jean-Louis Raymond PDG et consultant de l'entreprise 
+en vérification préventive immobilière VPIJLR 2026,
 atteste que la présente vérification visuelle a été réalisée conformément aux règles
 de l’art et selon les pratiques généralement reconnues dans le domaine de la
-vérification préventive immobilière.
+vérification préventive immobilière par la personne qui utilise ce logiciel.
 </p>
 
 <p>
@@ -681,20 +583,19 @@ Les observations consignées dans ce rapport reflètent l’état apparent des �
 visibles au moment de la vérification.
 </p>
 
-<p><strong>Jean-Louis Raymond</strong></p>
+<p><strong>Jean-Louis Raymond PDG de VPIJLR 2026</strong></p>
+<p><strong>VPIJLR 2026</strong></p>
 
 </section>
 
 <!-- ======================================================
-MODULE 15.3
-SAUT DE PAGE
+MODULE 15.3 - SAUT DE PAGE
 ====================================================== -->
 
 <div class="page-break"></div>
 
 <!-- ======================================================
-MODULE 15.4
-AVIS LÉGAL RAPPORT
+MODULE 15.4 - AVIS LÉGAL RAPPORT
 ====================================================== -->
 
 <section id="avis-legal-rapport">
@@ -736,32 +637,16 @@ de ce rapport sans l’autorisation écrite du consultant est interdite.
 
 <p>
 Rapport généré électroniquement par le système de
-Vérification Préventive Immobilière.
+Vérification Préventive Immobilière VPIJLR 2026.
 </p>
 
 <p>
-<strong>Jean-Louis Raymond</strong><br>
+<strong>Jean-Louis Raymond PDG de PVIJLR 2026</strong><br>
 Consultant en vérification préventive immobilière
 </p>
 
 </section>
 
-</div>
-
-<!-- ======================================================
-MODULE 16
-LÉGENDE INDICATEURS
-====================================================== -->
-
-<div id="legende-indicateurs">
-
-<span class="indicateur-etape etape-ko"></span>
-Champ à compléter
-
-&nbsp;&nbsp;
-
-<span class="indicateur-etape etape-ok"></span>
-Champ complété
 
 </div>
 

@@ -1,7 +1,7 @@
-// ======================================================
-// MODULE 1
-// NUMÉRO DOSSIER AUTOMATIQUE
-// ======================================================
+/* ======================================================
+MODULE 1
+NUMÉRO DOSSIER AUTOMATIQUE AVEC HEURE (FINAL STABLE)
+====================================================== */
 
 function genererNumeroDossier() {
 
@@ -17,56 +17,52 @@ function genererNumeroDossier() {
     return;
   }
 
-  const aujourdHui = new Date();
+  const maintenant = new Date();
 
   const dateActive =
-    aujourdHui.getFullYear().toString() +
-    String(aujourdHui.getMonth() + 1).padStart(2, "0") +
-    String(aujourdHui.getDate()).padStart(2, "0");
+    maintenant.getFullYear().toString() +
+    String(maintenant.getMonth() + 1).padStart(2, "0") +
+    String(maintenant.getDate()).padStart(2, "0");
+
+  const heureMinute =
+    String(maintenant.getHours()).padStart(2, "0") +
+    String(maintenant.getMinutes()).padStart(2, "0");
 
   const nomFormate = nom
-    .toLowerCase()
+    .toUpperCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/\s+/g, "");
 
   const telephoneFormate = tel.replace(/\D/g, "");
-  const appartementFormate = apt.toLowerCase().replace(/\s+/g, "");
+  const appartementFormate = apt.toUpperCase().replace(/\s+/g, "");
 
   champ.value =
     "VPIJLR-" +
     dateActive + "-" +
+    heureMinute + "-" +
     nomFormate + "-" +
     telephoneFormate + "-" +
     appartementFormate;
 
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function(){
 
-  const champs = [
-    "locataire",
-    "telephone",
-    "numeroAppartement"
-  ];
-
-  champs.forEach(id => {
-
-    const element = document.getElementById(id);
-    if (!element) return;
-
-    element.addEventListener("input", genererNumeroDossier);
-    element.addEventListener("change", genererNumeroDossier);
-
+  ["locataire","telephone","numeroAppartement"].forEach(id=>{
+    const champ = document.getElementById(id);
+    if(champ){
+      champ.addEventListener("input", genererNumeroDossier);
+    }
   });
-
-  genererNumeroDossier();
 
 });
 
+
+
 // ======================================================
 // MODULE 2
-// OUTILS GÉNÉRIQUES
+// OUTILS GÉNÉRIQUES (UNIQUE)
 // ======================================================
 
 function champ(label, options) {
@@ -92,6 +88,7 @@ function texte(label) {
   </label>`;
 
 }
+
 
 // ======================================================
 // MODULE 3
@@ -187,6 +184,46 @@ function ajouterEquipement(pieceId) {
   select.value = "";
 
 }
+
+// ======================================================
+// MODULE 4
+// CHOISIR TYPE DE VÉRIFICATION (FINAL STABLE)
+// ======================================================
+
+function choisirVerification(type) {
+
+    const bandeau = document.getElementById("bandeau-mode-verification");
+    const piecesInterieur = document.getElementById("pieces-interieur");
+    const piecesExterieur = document.getElementById("pieces-exterieur");
+    const champType = document.getElementById("type-verification");
+
+    if (!bandeau) return;
+
+    if (type === "interieur") {
+
+        bandeau.textContent = "Mode de vérification : INTÉRIEURE";
+
+        if(piecesInterieur) piecesInterieur.style.display = "block";
+        if(piecesExterieur) piecesExterieur.style.display = "none";
+        if(champType) champType.value = "interieur";
+
+    }
+
+    if (type === "exterieur") {
+
+        bandeau.textContent = "Mode de vérification : EXTÉRIEURE";
+
+        if(piecesExterieur) piecesExterieur.style.display = "block";
+        if(piecesInterieur) piecesInterieur.style.display = "none";
+        if(champType) champType.value = "exterieur";
+
+    }
+
+}
+
+
+
+
 
 // ======================================================
 // MODULE 5.1
@@ -2489,22 +2526,52 @@ zone.innerHTML =
 "<h3>Total : " + total.toFixed(2) + " $</h3>";
 
 }
+
 /* ======================================================
 MODULE 7.1
-IMPRESSION DU RAPPORT (STABLE)
+IMPRESSION RAPPORT PROPRE (SANS JAVASCRIPT)
 ====================================================== */
 
 function imprimerRapport(){
 
+if(typeof genererRapportImpression === "function"){
 genererRapportImpression();
+}
 
-const contenu = document.getElementById("rapport-impression").innerHTML;
+if(typeof remplirInformationsRapport === "function"){
+remplirInformationsRapport();
+}
+
+const zone = document.getElementById("rapport-impression");
+
+if(!zone){
+alert("Zone rapport introuvable");
+return;
+}
+
+/* clone propre du rapport */
+
+const clone = zone.cloneNode(true);
+
+/* supprimer scripts */
+
+clone.querySelectorAll("script").forEach(function(s){
+s.remove();
+});
+
+/* fenêtre impression */
 
 const fenetre = window.open("", "_blank");
 
+/* structure HTML propre */
+
+fenetre.document.open();
+
 fenetre.document.write(`
+<!DOCTYPE html>
 <html>
 <head>
+
 <title>Rapport de vérification</title>
 
 <style>
@@ -2515,21 +2582,13 @@ padding:40px;
 line-height:1.5;
 }
 
-h1,h2,h3{
-margin-top:20px;
-}
-
 img{
 max-width:300px;
 margin-top:10px;
 }
 
-@media print{
-
 .page-break{
-page-break-after:always;
-}
-
+page-break-before:always;
 }
 
 </style>
@@ -2538,20 +2597,27 @@ page-break-after:always;
 
 <body>
 
-${contenu}
-
-<script>
-window.onload=function(){
-window.print();
-window.close();
-}
-</script>
+<div id="zone-rapport-print"></div>
 
 </body>
+
 </html>
 `);
 
 fenetre.document.close();
+
+/* injecter uniquement le rapport */
+
+fenetre.document.getElementById("zone-rapport-print").appendChild(clone);
+
+/* impression */
+
+setTimeout(function(){
+
+fenetre.print();
+fenetre.close();
+
+},300);
 
 }
 
@@ -2808,7 +2874,7 @@ let tempsTotalSecondes = 0;
 let intervalMinuteur = null;
 let minuteurEnCours = false;
 
-const tauxHoraire = 125;
+let tauxHoraire = 125;
 
 function formaterTemps(secondes) {
 
@@ -2921,15 +2987,13 @@ function genererMailto() {
 
   // 🟢 À GARDER
   contenu += "VÉRIFICATION PRÉVENTIVE IMMOBILIÈRE\n";
-  contenu += "Jean-Louis Raymond\n";
-  contenu += "Consultant en vérification préventive\n\n";
-
-  contenu += "Courriel : jlouisraymond@hotmail.com\n";
-  contenu += "Téléphone : 438-220-6511\n";
-  contenu += "NEQ : 2268876952\n";
-  contenu += "TPS : 771362471 RT 0001\n";
-  contenu += "TVQ : 1227894560 TQ 0001\n";
-  contenu += "====================================================\n\n";
+  contenu += profilEntreprise.entreprise + "\n";
+  contenu += "Consultant : " + profilEntreprise.nom + "\n\n";
+  contenu += "Courriel : " + profilEntreprise.courriel + "\n";
+  contenu += "Téléphone : " + profilEntreprise.telephone + "\n";
+  contenu += "NEQ : " + profilEntreprise.neq + "\n";
+  contenu += "TPS : " + profilEntreprise.tps + "\n";
+  contenu += "TVQ : " + profilEntreprise.tvq + "\n";
 
   contenu += "Numéro de dossier : " + dossier + "\n";
   contenu += "Locataire : " + locataire + "\n";
@@ -3092,39 +3156,10 @@ zone.appendChild(ligne);
 
 }
 
-// ======================================================
-// MODULE 14
-// SAUVEGARDE DOSSIER CLIENT
-// ======================================================
 
-function sauvegarderDossierClient(){
-
-const dossier = {};
-
-document.querySelectorAll("input, select, textarea").forEach(function(champ){
-
-if(!champ.id) return;
-
-if(champ.type === "checkbox"){
-dossier[champ.id] = champ.checked;
-}else{
-dossier[champ.id] = champ.value;
-}
-
-});
-
-let dossiers = JSON.parse(localStorage.getItem("VPI_DOSSIERS") || "[]");
-
-dossiers.push(dossier);
-
-localStorage.setItem("VPI_DOSSIERS", JSON.stringify(dossiers));
-
-alert("Dossier client enregistré.");
-
-}
 
 // ======================================================
-// MODULE 15
+// MODULE 15.1
 // OUVRIR DOSSIER CLIENT
 // ======================================================
 
@@ -3370,10 +3405,17 @@ const section = document.getElementById("contenu-client");
 
 if(!section) return;
 
-section.classList.toggle("section-replie");
+if(section.classList.contains("section-replie")){
+
+section.classList.remove("section-replie");
+
+}else{
+
+section.classList.add("section-replie");
 
 }
 
+}
 
 /* ======================================================
 MODULE 27
@@ -3737,5 +3779,1261 @@ function effacerSignatureConsultant() {
 
 window.effacerSignatureLocataire = effacerSignatureLocataire;
 window.effacerSignatureConsultant = effacerSignatureConsultant;
+
+/* ======================================================
+MODULE 201
+MODE LOCATAIRE / PROPRIETAIRE
+====================================================== */
+
+async function verifierModeLogiciel(){
+
+try{
+
+const reponse = await fetch("licence.json");
+
+const licence = await reponse.json();
+
+if(licence.mode === "locataire"){
+
+activerModeLocataire();
+
+}
+
+}catch(e){
+
+console.log("Licence non trouvée");
+
+}
+
+}
+
+
+/* ======================================================
+ACTIVER MODE LOCATAIRE
+====================================================== */
+
+function activerModeLocataire(){
+
+const elements = document.querySelectorAll(".infos-proprietaire");
+
+elements.forEach(el => {
+
+el.style.display = "none";
+
+});
+
+}
+
+
+/* ======================================================
+INITIALISATION
+====================================================== */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+verifierModeLogiciel();
+
+});
+
+/* ======================================================
+MODULE 202
+MODE ESSAI 30 JOURS
+====================================================== */
+
+function verifierModeEssai(){
+
+const licence = localStorage.getItem("dateInstallation");
+
+if(!licence){
+
+const aujourdHui = new Date();
+
+localStorage.setItem("dateInstallation", aujourdHui.toISOString());
+
+return;
+
+}
+
+const dateInstallation = new Date(licence);
+
+const aujourdHui = new Date();
+
+const joursUtilisation =
+Math.floor((aujourdHui - dateInstallation) / (1000 * 60 * 60 * 24));
+
+const dureeEssai = 30;
+
+if(joursUtilisation > dureeEssai){
+
+bloquerLogicielEssai();
+
+}
+
+}
+
+
+/* ======================================================
+BLOCAGE ESSAI
+====================================================== */
+
+function bloquerLogicielEssai(){
+
+document.body.innerHTML = `
+<div style="
+font-family:Arial;
+text-align:center;
+margin-top:120px;
+">
+
+<h1>Période d'essai expirée</h1>
+
+<p>
+La période d'essai de ce logiciel est terminée.
+Veuillez acheter une licence.
+</p>
+
+</div>
+`;
+
+}
+
+
+/* ======================================================
+INITIALISATION
+====================================================== */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+verifierModeEssai();
+
+});
+
+/* ======================================================
+MODULE 203
+PROTECTION CONTRE MODIFICATION DATE SYSTEME
+====================================================== */
+
+function verifierDateSysteme(){
+
+const aujourdHui = new Date();
+
+const derniereUtilisation = localStorage.getItem("derniereUtilisation");
+
+if(!derniereUtilisation){
+
+localStorage.setItem("derniereUtilisation", aujourdHui.toISOString());
+
+return;
+
+}
+
+const dateEnregistree = new Date(derniereUtilisation);
+
+/* si la date système est reculée */
+
+if(aujourdHui < dateEnregistree){
+
+bloquerLogicielDate();
+
+return;
+
+}
+
+/* mise à jour date utilisation */
+
+localStorage.setItem("derniereUtilisation", aujourdHui.toISOString());
+
+}
+
+
+/* ======================================================
+BLOCAGE LOGICIEL
+====================================================== */
+
+function bloquerLogicielDate(){
+
+document.body.innerHTML = `
+<div style="
+font-family:Arial;
+text-align:center;
+margin-top:120px;
+">
+
+<h1>Erreur système</h1>
+
+<p>
+Une modification anormale de la date système a été détectée.
+Le logiciel est bloqué.
+</p>
+
+</div>
+`;
+
+}
+
+
+/* ======================================================
+INITIALISATION
+====================================================== */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+verifierDateSysteme();
+
+});
+
+/* ======================================================
+MODULE 205
+CONTROLE NOMBRE UTILISATEURS
+====================================================== */
+
+async function verifierNombreUtilisateurs(){
+
+try{
+
+const reponse = await fetch("licence.json");
+
+const licence = await reponse.json();
+
+/* limite utilisateurs */
+
+let limite = licence.utilisateurs || 1;
+
+/* licence illimitée */
+
+if(limite === "illimite"){
+return;
+}
+
+let compteur = localStorage.getItem("compteurUtilisateurs");
+
+/* première utilisation */
+
+if(!compteur){
+
+localStorage.setItem("compteurUtilisateurs",1);
+
+return;
+
+}
+
+compteur = parseInt(compteur);
+
+/* dépassement licence */
+
+if(compteur > limite){
+
+bloquerLogicielUtilisateurs();
+
+}
+
+}catch(e){
+
+console.log("Licence non trouvée");
+
+}
+
+}
+
+
+/* ======================================================
+BLOCAGE UTILISATEURS
+====================================================== */
+
+function bloquerLogicielUtilisateurs(){
+
+document.body.innerHTML = `
+<div style="
+font-family:Arial;
+text-align:center;
+margin-top:120px;
+">
+
+<h1>Licence dépassée</h1>
+
+<p>
+Le nombre d'utilisateurs autorisés pour cette licence est dépassé.
+</p>
+
+</div>
+`;
+
+}
+
+
+/* ======================================================
+INITIALISATION
+====================================================== */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+verifierNombreUtilisateurs();
+
+});
+
+
+/* ======================================================
+BLOCAGE UTILISATEURS
+====================================================== */
+
+function bloquerLogicielUtilisateurs(){
+
+document.body.innerHTML = `
+<div style="
+font-family:Arial;
+text-align:center;
+margin-top:120px;
+">
+
+<h1>Licence dépassée</h1>
+
+<p>
+Le nombre d'utilisateurs autorisés pour cette licence est dépassé.
+</p>
+
+</div>
+`;
+
+}
+
+
+/* ======================================================
+INITIALISATION
+====================================================== */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+verifierNombreUtilisateurs();
+
+});
+
+
+/* ======================================================
+MODULE 206
+PANNEAU ADMINISTRATEUR LICENCE
+====================================================== */
+
+async function afficherInfosLicence(){
+
+try{
+
+const reponse = await fetch("licence.json");
+const licence = await reponse.json();
+
+const machine = localStorage.getItem("machineAutorisee") || "non enregistré";
+
+const panneau = document.createElement("div");
+
+panneau.id = "panneau-admin-licence";
+
+panneau.style.position = "fixed";
+panneau.style.bottom = "20px";
+panneau.style.right = "20px";
+panneau.style.background = "#ffffff";
+panneau.style.border = "1px solid #ccc";
+panneau.style.padding = "15px";
+panneau.style.fontSize = "14px";
+panneau.style.zIndex = "9999";
+panneau.style.display = "none";
+
+panneau.innerHTML = `
+<strong>Informations licence</strong><br><br>
+
+Logiciel : ${licence.logiciel || ""}<br>
+Type : ${licence.type || ""}<br>
+Client : ${licence.client || ""}<br>
+Expiration : ${licence.expiration || ""}<br>
+Utilisateurs : ${licence.utilisateurs || ""}<br>
+Machine ID : ${machine}<br>
+
+<br>
+<button onclick="document.getElementById('panneau-admin-licence').style.display='none'">
+Fermer
+</button>
+`;
+
+document.body.appendChild(panneau);
+
+}catch(e){
+
+console.log("Licence non trouvée");
+
+}
+
+}
+
+
+/* ======================================================
+OUVERTURE PANNEAU ADMIN
+CTRL + SHIFT + L
+====================================================== */
+
+document.addEventListener("keydown",function(e){
+
+if(e.ctrlKey && e.shiftKey && e.key === "L"){
+
+const panneau = document.getElementById("panneau-admin-licence");
+
+if(panneau){
+
+panneau.style.display = "block";
+
+}
+
+}
+
+});
+
+
+/* ======================================================
+INITIALISATION
+====================================================== */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+afficherInfosLicence();
+
+});
+
+/* ======================================================
+MODULE 300
+CHARGER PROFIL ENTREPRISE
+====================================================== */
+
+let profilEntreprise = {};
+
+async function chargerProfilEntreprise(){
+
+try{
+
+const reponse = await fetch("entreprise.json");
+
+profilEntreprise = await reponse.json();
+
+}catch(e){
+
+console.log("Profil entreprise introuvable");
+
+}
+
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+
+chargerProfilEntreprise();
+
+});
+
+/* ======================================================
+MODULE 301
+GESTION VISIBILITÉ FACTURATION
+====================================================== */
+
+let facturationVisible = true;
+
+function masquerFacturation(){
+
+facturationVisible = false;
+
+localStorage.setItem("facturationVisible","false");
+
+alert("Facturation masquée dans les rapports.");
+
+}
+
+function afficherFacturation(){
+
+facturationVisible = true;
+
+localStorage.setItem("facturationVisible","true");
+
+alert("Facturation visible dans les rapports.");
+
+}
+
+/* restauration état */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+const etat = localStorage.getItem("facturationVisible");
+
+if(etat === "false"){
+facturationVisible = false;
+}
+
+});
+
+
+/* ======================================================
+MODULE 302
+TAUX HORAIRE ADMINISTRATEUR
+====================================================== */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+const tauxSauvegarde = localStorage.getItem("tauxHoraire");
+
+if(tauxSauvegarde){
+tauxHoraire = parseFloat(tauxSauvegarde);
+}
+
+});
+
+function modifierTauxHoraire(){
+
+const champ = document.getElementById("admin-taux-horaire");
+
+if(!champ) return;
+
+const nouveauTaux = parseFloat(champ.value);
+
+if(isNaN(nouveauTaux) || nouveauTaux <= 0){
+
+alert("Taux invalide");
+return;
+
+}
+
+tauxHoraire = nouveauTaux;
+
+localStorage.setItem("tauxHoraire",tauxHoraire);
+
+alert("Taux horaire modifié : " + tauxHoraire + " $");
+
+}
+
+
+/* ======================================================
+MODULE 304
+REMPLACER INFORMATIONS ENTREPRISE DANS RAPPORT
+====================================================== */
+
+function remplirInformationsRapport(){
+
+if(!profilEntreprise) return;
+
+/* nom entreprise */
+
+const nom = document.getElementById("rapport-entreprise-nom");
+if(nom){
+nom.textContent = profilEntreprise.nom || "";
+}
+
+/* titre */
+
+const titre = document.getElementById("rapport-entreprise-titre");
+if(titre){
+titre.textContent = profilEntreprise.titre || "";
+}
+
+/* contact */
+
+const contact = document.getElementById("rapport-entreprise-contact");
+if(contact){
+contact.textContent =
+"📧 " + (profilEntreprise.courriel || "") +
+" | 📞 " + (profilEntreprise.telephone || "");
+}
+
+/* NEQ */
+
+const neq = document.getElementById("rapport-entreprise-neq");
+if(neq){
+neq.textContent = "NEQ : " + (profilEntreprise.neq || "");
+}
+
+/* taxes */
+
+const taxes = document.getElementById("rapport-entreprise-taxes");
+if(taxes){
+taxes.textContent =
+"TPS : " + (profilEntreprise.tps || "") +
+" | TVQ : " + (profilEntreprise.tvq || "");
+}
+
+}
+
+/* ======================================================
+MODULE 304
+AFFICHAGE ENTREPRISE CLIENT DANS ENTÊTE
+====================================================== */
+
+function afficherInfosEntreprise(){
+
+if(!profilEntreprise) return;
+
+/* nom entreprise */
+
+const nom = document.getElementById("entreprise-nom");
+if(nom){
+nom.textContent = profilEntreprise.nom || "";
+}
+
+/* titre */
+
+const titre = document.getElementById("entreprise-titre");
+if(titre){
+titre.textContent = profilEntreprise.titre || "";
+}
+
+/* contact */
+
+const contact = document.getElementById("entreprise-contact");
+if(contact){
+contact.textContent =
+"📧 " + (profilEntreprise.courriel || "") +
+" | 📞 " + (profilEntreprise.telephone || "");
+}
+
+/* NEQ */
+
+const neq = document.getElementById("entreprise-neq");
+if(neq){
+neq.textContent = "NEQ : " + (profilEntreprise.neq || "");
+}
+
+/* taxes */
+
+const taxes = document.getElementById("entreprise-taxes");
+if(taxes){
+taxes.textContent =
+"TPS : " + (profilEntreprise.tps || "") +
+" | TVQ : " + (profilEntreprise.tvq || "");
+}
+
+}
+
+/* ======================================================
+MODULE 306
+INDICATEUR ÉTAT VÉRIFICATION
+POINT ROUGE / VERT + COLORATION CHAMP
+====================================================== */
+
+function verifierEtat(piece, champ){
+
+const indicateur = document.getElementById("etat-"+piece);
+
+if(!champ.value){
+
+if(indicateur){
+indicateur.className = "point-etat point-attente";
+}
+
+champ.classList.remove("champ-ok");
+champ.classList.remove("champ-probleme");
+
+return;
+
+}
+
+/* logique simple : si "ok" écrit → conforme */
+
+if(champ.value.toLowerCase().includes("ok")){
+
+if(indicateur){
+indicateur.className = "point-etat point-ok";
+}
+
+champ.classList.add("champ-ok");
+
+}else{
+
+if(indicateur){
+indicateur.className = "point-etat point-probleme";
+}
+
+champ.classList.add("champ-probleme");
+
+}
+
+}
+
+/* ======================================================
+MODULE 307
+INDICATEUR CHAMP VÉRIFICATION
+VERT / ROUGE / À COMPLÉTER
+====================================================== */
+
+function verifierChamp(idChamp){
+
+const champ = document.getElementById(idChamp);
+const indicateur = document.getElementById("etat-"+idChamp);
+
+if(!champ || !indicateur) return;
+
+/* champ vide */
+
+if(champ.value.trim() === ""){
+
+indicateur.className = "point-etat point-attente";
+return;
+
+}
+
+/* mots indiquant défaut */
+
+const motsProbleme = [
+"brisé",
+"fissure",
+"défectueux",
+"endommagé",
+"cassé",
+"usé",
+"tache",
+"fuite",
+"moisissure"
+];
+
+const valeur = champ.value.toLowerCase();
+
+let probleme = false;
+
+motsProbleme.forEach(function(mot){
+
+if(valeur.includes(mot)){
+probleme = true;
+}
+
+});
+
+/* état final */
+
+if(probleme){
+
+indicateur.className = "point-etat point-probleme";
+
+}else{
+
+indicateur.className = "point-etat point-ok";
+
+}
+
+}
+
+/* ======================================================
+MODULE 309
+VERROU BANDEAU OBLIGATOIRE
+====================================================== */
+
+function verificationAutorisee(){
+
+const type = document.getElementById("type-verification");
+
+if(!type || type.value === ""){
+
+alert("Veuillez d'abord sélectionner un type de vérification avec les bandeaux.");
+
+return false;
+
+}
+
+return true;
+
+}
+
+/* ======================================================
+MODULE 310
+BANDEAU CLIQUABLE OUVERTURE PIÈCES
+====================================================== */
+
+document.addEventListener("DOMContentLoaded", function(){
+
+const bandeau = document.getElementById("bandeau-mode-verification");
+const interieur = document.getElementById("pieces-interieur");
+const exterieur = document.getElementById("pieces-exterieur");
+
+if(!bandeau) return;
+
+/* clic sur le bandeau */
+
+bandeau.addEventListener("click", function(){
+
+const texte = bandeau.textContent;
+
+/* ouvrir intérieur */
+
+if(texte.includes("INTÉRIEURE")){
+
+if(interieur){
+interieur.style.display = "block";
+}
+
+if(exterieur){
+exterieur.style.display = "none";
+}
+
+}
+
+/* ouvrir extérieur */
+
+if(texte.includes("EXTÉRIEURE")){
+
+if(exterieur){
+exterieur.style.display = "block";
+}
+
+if(interieur){
+interieur.style.display = "none";
+}
+
+}
+
+});
+
+});
+/* ======================================================
+MODULE 130
+GENERATION MACHINE ID
+====================================================== */
+
+function genererMachineID(){
+
+let id = localStorage.getItem("vpijlr_machine_id");
+
+if(!id){
+
+const base = navigator.userAgent + screen.width + screen.height + Date.now();
+
+let hash = 0;
+
+for(let i=0;i<base.length;i++){
+
+hash = ((hash << 5) - hash) + base.charCodeAt(i);
+hash = hash & hash;
+
+}
+
+id = Math.abs(hash).toString(36).toUpperCase();
+
+localStorage.setItem("vpijlr_machine_id",id);
+
+}
+
+return id;
+
+}
+
+
+
+/* ======================================================
+MODULE 131
+CALCUL SIGNATURE LICENCE
+====================================================== */
+
+function calculerSignature(licence){
+
+const texte = licence.client + licence.expiration + licence.cle;
+
+let hash = 0;
+
+for(let i=0;i<texte.length;i++){
+
+hash = ((hash << 5) - hash) + texte.charCodeAt(i);
+hash = hash & hash;
+
+}
+
+return Math.abs(hash).toString(36).toUpperCase();
+
+}
+
+
+
+/* ======================================================
+MODULE 132
+VERIFICATION LICENCE
+====================================================== */
+
+async function verifierLicence(){
+
+try{
+
+const reponse = await fetch("licence.json");
+
+if(!reponse.ok){
+return false;
+}
+
+const licence = await reponse.json();
+
+
+/* verification champs obligatoires */
+
+if(!licence.cle || !licence.client || !licence.expiration){
+
+console.log("Licence invalide : champs manquants");
+
+return false;
+
+}
+
+
+/* verification signature */
+
+const signatureCalculee = calculerSignature(licence);
+
+if(signatureCalculee !== licence.signature){
+
+document.body.innerHTML = `
+<div style="text-align:center;margin-top:120px;font-family:Arial;">
+
+<h1>Licence invalide</h1>
+
+<p>La signature de licence est invalide.</p>
+
+</div>
+`;
+
+return false;
+
+}
+
+
+/* verification machine */
+
+const machineID = genererMachineID();
+
+if(licence.machine && licence.machine !== machineID){
+
+document.body.innerHTML = `
+<div style="text-align:center;margin-top:120px;font-family:Arial;">
+
+<h1>Licence utilisée sur un autre ordinateur</h1>
+
+<p>Cette licence est déjà activée sur un autre appareil.</p>
+
+</div>
+`;
+
+return false;
+
+}
+
+
+/* verification expiration */
+
+if(licence.expiration !== "illimite"){
+
+const aujourd = new Date();
+const expiration = new Date(licence.expiration);
+
+if(aujourd > expiration){
+
+document.body.innerHTML = `
+<div style="text-align:center;margin-top:120px;font-family:Arial;">
+
+<h1>Licence expirée</h1>
+
+<p>Votre licence VPIJLR est expirée.</p>
+
+</div>
+`;
+
+return false;
+
+}
+
+}
+
+
+/* verification installations */
+
+if(typeof verifierInstallation === "function"){
+
+if(!verifierInstallation(licence)){
+return false;
+}
+
+}
+
+return true;
+
+}catch(e){
+
+console.log("Licence non trouvée");
+
+return false;
+
+}
+
+}
+
+/* ======================================================
+MODULE 133
+DEMARRAGE CONTROLE LICENCE
+====================================================== */
+
+document.addEventListener("DOMContentLoaded", async function(){
+
+const licenceValide = await verifierLicence();
+
+if(!licenceValide){
+
+const demoValide = verifierDemo();
+
+if(!demoValide){
+return;
+}
+
+}
+
+});
+
+/* ======================================================
+MODULE 134
+CONTROLE INSTALLATIONS LICENCE
+====================================================== */
+
+function verifierInstallation(licence){
+
+let installations = JSON.parse(localStorage.getItem("vpijlr_installations")) || [];
+
+const machineID = genererMachineID();
+
+/* machine déjà enregistrée */
+
+if(installations.includes(machineID)){
+return true;
+}
+
+/* nombre max installations */
+
+const maxInstallations = licence.utilisateurs || 1;
+
+if(installations.length >= maxInstallations){
+
+document.body.innerHTML = `
+<div style="text-align:center;margin-top:120px;font-family:Arial;">
+
+<h1>Licence déjà utilisée</h1>
+
+<p>
+Le nombre maximal d'installations pour cette licence est atteint.
+</p>
+
+</div>
+`;
+
+return false;
+
+}
+
+/* enregistrer nouvelle installation */
+
+installations.push(machineID);
+
+localStorage.setItem("vpijlr_installations",JSON.stringify(installations));
+
+return true;
+
+}
+
+/* ======================================================
+MODULE 400
+CONFIGURATION ENTREPRISE (ENREGISTREMENT LOCAL)
+====================================================== */
+
+function validerEntreprise(){
+
+const entreprise = {
+
+nom: document.getElementById("entreprise-nom")?.value || "",
+adresse: document.getElementById("entreprise-adresse")?.value || "",
+licence: document.getElementById("entreprise-licence")?.value || "",
+tps: document.getElementById("entreprise-tps")?.value || "",
+tvq: document.getElementById("entreprise-tvq")?.value || ""
+
+};
+
+localStorage.setItem(
+"vpijlr_entreprise",
+JSON.stringify(entreprise)
+);
+
+alert("Informations de l'entreprise enregistrées");
+
+const fenetre = document.getElementById("fenetre-entreprise");
+
+if(fenetre){
+fenetre.style.display = "none";
+}
+
+}
+
+/* ======================================================
+MODULE 350
+ADMIN – FACTURATION VISIBLE / CACHÉE
+====================================================== */
+
+function basculerFacturationAdmin(){
+
+const section = document.getElementById("section-facturation");
+
+if(!section) return;
+
+let etat = localStorage.getItem("vpijlr_facturation_visible");
+
+if(etat === "false"){
+
+section.style.display = "block";
+
+localStorage.setItem("vpijlr_facturation_visible","true");
+
+alert("Facturation visible dans l'impression du rapport");
+
+}else{
+
+section.style.display = "none";
+
+localStorage.setItem("vpijlr_facturation_visible","false");
+
+alert("Facturation cachée dans l'impression du rapport");
+
+}
+
+}
+
+
+/* ======================================================
+MODULE 351
+CHARGEMENT VISIBILITÉ FACTURATION
+====================================================== */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+const section = document.getElementById("section-facturation");
+
+if(!section) return;
+
+let etat = localStorage.getItem("vpijlr_facturation_visible");
+
+if(etat === "false"){
+
+section.style.display = "none";
+
+}
+
+});
+
+/* ======================================================
+MODULE 400
+BASE DE DONNÉES INDEXEDDB
+====================================================== */
+
+let db;
+
+const request = indexedDB.open("VPIJLR_DATABASE",1);
+
+request.onupgradeneeded = function(e){
+
+db = e.target.result;
+
+if(!db.objectStoreNames.contains("rapports")){
+
+db.createObjectStore("rapports",{keyPath:"id"});
+
+}
+
+};
+
+request.onsuccess = function(e){
+
+db = e.target.result;
+
+};
+
+request.onerror = function(){
+
+console.log("Erreur base de données");
+
+};
+
+/* ======================================================
+MODULE 401
+SAUVEGARDE RAPPORT
+====================================================== */
+
+function sauvegarderRapport(){
+
+if(!db) return;
+
+const transaction = db.transaction(["rapports"],"readwrite");
+
+const store = transaction.objectStore("rapports");
+
+const rapport = {
+
+id:"rapport-courant",
+
+locataire: document.getElementById("locataire")?.value || "",
+telephone: document.getElementById("telephone")?.value || "",
+adresse: document.getElementById("adresse")?.value || "",
+ville: document.getElementById("ville-quebec")?.value || "",
+codePostal: document.getElementById("codePostal")?.value || "",
+province: document.getElementById("province")?.value || "",
+pays: document.getElementById("pays")?.value || "",
+verificateur: document.getElementById("verificateur")?.value || "",
+date: document.getElementById("verification-date")?.value || "",
+
+facturationVisible: localStorage.getItem("vpijlr_facturation_visible")
+
+};
+
+store.put(rapport);
+
+console.log("Sauvegarde effectuée");
+
+}
+
+/* ======================================================
+MODULE 402
+SAUVEGARDE AUTOMATIQUE
+====================================================== */
+
+setInterval(function(){
+
+sauvegarderRapport();
+
+},120000);
+
+/* ======================================================
+MODULE 403
+RESTAURATION AUTOMATIQUE
+====================================================== */
+
+function chargerRapport(){
+
+if(!db) return;
+
+const transaction = db.transaction(["rapports"],"readonly");
+
+const store = transaction.objectStore("rapports");
+
+const request = store.get("rapport-courant");
+
+request.onsuccess = function(){
+
+const data = request.result;
+
+if(!data) return;
+
+document.getElementById("locataire").value = data.locataire || "";
+document.getElementById("telephone").value = data.telephone || "";
+document.getElementById("adresse").value = data.adresse || "";
+document.getElementById("ville-quebec").value = data.ville || "";
+document.getElementById("codePostal").value = data.codePostal || "";
+
+};
+
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+
+setTimeout(chargerRapport,1000);
+
+});
+
+
+
 
 
