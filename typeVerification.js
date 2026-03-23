@@ -32,6 +32,7 @@ const piecesInterieur = [
 "Salle électrique",
 "Éclairage",
 "Salle lavage"
+"Réservoir eau chaude",
 
 ];
 
@@ -44,7 +45,6 @@ const piecesExterieur = [
 "Verrière",
 "Climatisation",
 "Porte patio",
-"Réservoir eau chaude",
 "Stationnement",
 "Borne de recharge",
 "Clôture",
