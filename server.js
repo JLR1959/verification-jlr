@@ -48,6 +48,50 @@ app.post("/send-report", async (req, res) => {
 
 });
 
-app.listen(3000, () => {
-  console.log("Serveur actif sur port 3000");
+/* ======================================================
+MODULE 11
+COMPTEUR JOURNALIER (FINAL STABLE)
+====================================================== */
+
+let statsJournalieres = {};
+
+function dateAujourdhui(){
+  const d = new Date();
+  return d.getFullYear() + "-" +
+         String(d.getMonth()+1).padStart(2,"0") + "-" +
+         String(d.getDate()).padStart(2,"0");
+}
+
+// ➜ incrémenter
+app.post("/stats/increment", (req,res)=>{
+
+  const date = dateAujourdhui();
+
+  if(!statsJournalieres[date]){
+    statsJournalieres[date] = 0;
+  }
+
+  statsJournalieres[date]++;
+
+  console.log("📊 Vérification comptabilisée :", date, statsJournalieres[date]);
+
+  res.json({
+    ok:true,
+    date,
+    total:statsJournalieres[date]
+  });
+});
+
+// ➜ toutes les stats
+app.get("/stats", (req,res)=>{
+  res.json(statsJournalieres);
+});
+
+// ➜ stats du jour
+app.get("/stats/today", (req,res)=>{
+  const date = dateAujourdhui();
+  res.json({
+    date,
+    total: statsJournalieres[date] || 0
+  });
 });

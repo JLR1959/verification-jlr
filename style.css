@@ -786,3 +786,37 @@ border:1px solid #ccc;
 margin-top:10px;
 
 }
+
+/* ======================================================
+MODULE — CONTROLE FACTURATION ADMIN
+====================================================== */
+
+body.hide-facturation .facturation {
+  display: none !important;
+}
+
+/* impression */
+@media print {
+  body.hide-facturation .facturation {
+    display: none !important;
+  }
+}
+
+/* ======================================================
+MODULE — BULLES + ERREURS CHAMPS CRITIQUES
+====================================================== */
+
+.erreur-bulle{
+  display:block;
+  background:#d32f2f;
+  color:#fff;
+  padding:6px 10px;
+  border-radius:6px;
+  font-size:12px;
+  margin-top:5px;
+  max-width:320px;
+}
+
+input.erreur{
+  border:2px solid red !important;
+}

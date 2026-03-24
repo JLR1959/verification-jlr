@@ -1,18 +1,130 @@
 // ======================================================
-// MODULE 1
-// NUMÉRO DOSSIER AUTOMATIQUE
+// MODULE 01
+// NUMÉRO DOSSIER + VALIDATION UX COMPLETE
 // ======================================================
 
-function genererNumeroDossier() {
+function afficherErreur(inputId, erreurId, message){
 
-  const nom = document.getElementById("locataire")?.value.trim() || "";
-  const tel = document.getElementById("telephone")?.value.trim() || "";
-  const apt = document.getElementById("numeroAppartement")?.value.trim() || "";
+  const input = document.getElementById(inputId);
+  const erreur = document.getElementById(erreurId);
+
+  if(!input || !erreur) return;
+
+  if(message){
+    input.classList.add("erreur");
+    erreur.textContent = message;
+  }else{
+    input.classList.remove("erreur");
+    erreur.textContent = "";
+  }
+}
+
+function validerNomComplet(nom){
+  const propre = nom.trim();
+  return /^[A-Za-zÀ-ÿ' -]+$/.test(propre) && propre.split(/\s+/).length >= 2;
+}
+
+function nettoyerTelephone(valeur){
+  return valeur.replace(/\D/g,"").slice(0,10);
+}
+
+function telephoneValide(valeur){
+  return /^\d{10}$/.test(valeur);
+}
+
+function formaterTelephone(valeur){
+
+  const digits = nettoyerTelephone(valeur);
+
+  if(digits.length === 0) return "";
+  if(digits.length < 4) return `(${digits}`;
+  if(digits.length < 7) return `(${digits.slice(0,3)}) ${digits.slice(3)}`;
+  return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6,10)}`;
+}
+
+function validerNumeroAppartement(valeur){
+  return /^\d+$/.test(valeur.trim());
+}
+
+function validerSuffixeAppartement(valeur){
+  return valeur.trim() === "" || /^[A-Za-z]$/.test(valeur.trim());
+}
+
+function setChampEtat(idInput, idEtat, valide){
+
+  const input = document.getElementById(idInput);
+  const etat = document.getElementById(idEtat);
+
+  if(!input) return;
+
+  input.style.border = valide ? "" : "2px solid red";
+
+  if(etat){
+    etat.classList.remove("etape-ok","etape-ko");
+    etat.classList.add(valide ? "etape-ok" : "etape-ko");
+  }
+}
+
+function genererNumeroDossier(){
+
+  const nomInput = document.getElementById("locataire");
+  const telInput = document.getElementById("telephone");
+  const aptInput = document.getElementById("numeroAppartement");
+  const suffixeInput = document.getElementById("suffixeAppartement");
   const champ = document.getElementById("numeroDossier");
 
-  if (!champ) return;
+  if(!champ || !nomInput || !telInput || !aptInput) return;
 
-  if (!nom || !tel || !apt) {
+  const nom = nomInput.value.trim();
+  const telDigits = nettoyerTelephone(telInput.value);
+  const appartement = aptInput.value.trim();
+  const suffixe = suffixeInput ? suffixeInput.value.trim().toUpperCase() : "";
+
+  if(suffixeInput){
+    suffixeInput.value = suffixe.replace(/[^A-Z]/g,"").slice(0,1);
+  }
+
+  const nomOK = validerNomComplet(nom);
+  const telOK = telephoneValide(telDigits);
+  const aptOK = validerNumeroAppartement(appartement);
+  const suffixeOK = validerSuffixeAppartement(suffixe);
+
+  // 🔴 ERREURS VISUELLES + BULLES
+
+  if(!nomOK){
+    afficherErreur("locataire","erreur-locataire",
+      "Nom complet requis (ex: Jean Dupont)");
+  }else{
+    afficherErreur("locataire","erreur-locataire","");
+  }
+
+  if(!telOK){
+    afficherErreur("telephone","erreur-telephone",
+      "Format requis : (514) 123-4567");
+  }else{
+    afficherErreur("telephone","erreur-telephone","");
+  }
+
+  if(!aptOK){
+    afficherErreur("numeroAppartement","erreur-appartement",
+      "Chiffres seulement (ex: 301)");
+  }else{
+    afficherErreur("numeroAppartement","erreur-appartement","");
+  }
+
+  // 🔴 INDICATEURS
+
+  setChampEtat("locataire","etat-locataire",nomOK);
+  setChampEtat("telephone","etat-telephone",telOK);
+  setChampEtat("numeroAppartement","etat-numeroAppartement",aptOK);
+
+  if(suffixeInput){
+    suffixeInput.style.border = suffixeOK ? "" : "2px solid red";
+  }
+
+  telInput.value = formaterTelephone(telInput.value);
+
+  if(!nomOK || !telOK || !aptOK || !suffixeOK){
     champ.value = "";
     return;
   }
@@ -21,47 +133,62 @@ function genererNumeroDossier() {
 
   const dateActive =
     aujourdHui.getFullYear().toString() +
-    String(aujourdHui.getMonth() + 1).padStart(2, "0") +
-    String(aujourdHui.getDate()).padStart(2, "0");
+    String(aujourdHui.getMonth()+1).padStart(2,"0") +
+    String(aujourdHui.getDate()).padStart(2,"0");
 
   const nomFormate = nom
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/\s+/g, "");
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z\s'-]/g,"")
+    .replace(/\s+/g,"");
 
-  const telephoneFormate = tel.replace(/\D/g, "");
-  const appartementFormate = apt.toLowerCase().replace(/\s+/g, "");
+  const appartementFinal = suffixe ? `${appartement}${suffixe}` : appartement;
 
   champ.value =
     "VPIJLR-" +
     dateActive + "-" +
     nomFormate + "-" +
-    telephoneFormate + "-" +
-    appartementFormate;
-
+    telDigits + "-" +
+    appartementFinal;
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function(){
 
-  const champs = [
-    "locataire",
-    "telephone",
-    "numeroAppartement"
-  ];
+  const nomInput = document.getElementById("locataire");
+  const telInput = document.getElementById("telephone");
+  const aptInput = document.getElementById("numeroAppartement");
+  const suffixeInput = document.getElementById("suffixeAppartement");
 
-  champs.forEach(id => {
+  if(nomInput){
+    nomInput.addEventListener("input", function(){
+      this.value = this.value.replace(/[^A-Za-zÀ-ÿ' -]/g,"");
+      genererNumeroDossier();
+    });
+  }
 
-    const element = document.getElementById(id);
-    if (!element) return;
+  if(telInput){
+    telInput.addEventListener("input", function(){
+      this.value = formaterTelephone(this.value);
+      genererNumeroDossier();
+    });
+  }
 
-    element.addEventListener("input", genererNumeroDossier);
-    element.addEventListener("change", genererNumeroDossier);
+  if(aptInput){
+    aptInput.addEventListener("input", function(){
+      this.value = this.value.replace(/\D/g,"");
+      genererNumeroDossier();
+    });
+  }
 
-  });
+  if(suffixeInput){
+    suffixeInput.addEventListener("input", function(){
+      this.value = this.value.replace(/[^A-Za-z]/g,"").toUpperCase().slice(0,1);
+      genererNumeroDossier();
+    });
+  }
 
   genererNumeroDossier();
-
 });
 
 // ======================================================
@@ -2897,7 +3024,7 @@ function basculerVisibiliteMinuteur() {
 
 // ======================================================
 // MODULE 12
-// ENVOI DU RAPPORT PAR COURRIEL
+// ENVOI MAIL + RESET COMPLET
 // ======================================================
 
 function genererMailto() {
@@ -2919,7 +3046,6 @@ function genererMailto() {
 
   let contenu = "";
 
-  // 🟢 À GARDER
   contenu += "VÉRIFICATION PRÉVENTIVE IMMOBILIÈRE\n";
   contenu += "Jean-Louis Raymond\n";
   contenu += "Consultant en vérification préventive\n\n";
@@ -2964,7 +3090,6 @@ function genererMailto() {
 
   });
 
-  // 🟢 À GARDER
   contenu += "FACTURATION\n";
   contenu += "----------------------------------------\n";
   contenu += "Temps travaillé : " + heures.toFixed(2) + " heures\n";
@@ -2983,15 +3108,100 @@ function genererMailto() {
     "&body=" + encodeURIComponent(contenu);
 
   window.location.href = mailtoUrl;
-
 }
 
-// 🟢 À GARDER
+
+// ======================================================
+// RESET COMPLET (AJOUT SÉCURISÉ)
+// ======================================================
+
+function verificationComplete(){
+
+  const confirmation = confirm("Terminer et repartir une nouvelle vérification ?");
+
+  if(!confirmation) return;
+
+  // RESET INPUTS
+  document.querySelectorAll("input").forEach(input=>{
+    if(input.type !== "button" && input.type !== "submit"){
+      input.value = "";
+    }
+    input.classList.remove("erreur");
+    input.style.border = "";
+  });
+
+  // RESET SELECT
+  document.querySelectorAll("select").forEach(select=>{
+    select.selectedIndex = 0;
+  });
+
+  // RESET TEXTAREA
+  document.querySelectorAll("textarea").forEach(t=>{
+    t.value = "";
+  });
+
+  // RESET INDICATEURS
+  document.querySelectorAll(".indicateur-etape").forEach(el=>{
+    el.classList.remove("etape-ok");
+    el.classList.add("etape-ko");
+  });
+
+  // RESET BULLES
+  document.querySelectorAll(".erreur-bulle").forEach(el=>{
+    el.textContent = "";
+  });
+
+  // RESET SIGNATURES
+  const canvases = ["signature-client","signature-verificateur"];
+
+  canvases.forEach(id=>{
+    const canvas = document.getElementById(id);
+    if(canvas){
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+    }
+  });
+
+  // RESET PIECES
+  const liste = document.getElementById("liste-pieces");
+  if(liste) liste.innerHTML = "";
+
+  const sectionPieces = document.getElementById("section-pieces-verification");
+  if(sectionPieces) sectionPieces.style.display = "none";
+
+  // RESET TYPE VERIFICATION
+  const type = document.getElementById("type-verification");
+  if(type) type.value = "";
+
+  const indicateur = document.getElementById("mode-verification-indicateur");
+  if(indicateur) indicateur.textContent = "";
+
+  const bandeau = document.getElementById("bandeau-mode-verification");
+  if(bandeau) bandeau.textContent = "Mode de vérification : NON SÉLECTIONNÉ";
+
+  // RESET DOSSIER
+  const dossier = document.getElementById("numeroDossier");
+  if(dossier) dossier.value = "";
+
+  // RELANCE VALIDATION
+  if(typeof genererNumeroDossier === "function"){
+    genererNumeroDossier();
+  }
+
+  alert("Nouvelle vérification prête.");
+}
+
+
+// ======================================================
+// INIT EXISTANT (CONSERVÉ)
+// ======================================================
+
 document.addEventListener("DOMContentLoaded", function() {
 
   mettreAJourAffichage();
 
 });
+
 
 /* ======================================================
 MODULE 13
@@ -3739,3 +3949,126 @@ window.effacerSignatureLocataire = effacerSignatureLocataire;
 window.effacerSignatureConsultant = effacerSignatureConsultant;
 
 
+/* ======================================================
+MODULE — FACTURATION + DOUBLE SORTIE (FINAL)
+====================================================== */
+
+/* ======================================================
+ETAT FACTURATION
+====================================================== */
+
+function appliquerEtatFacturation(){
+
+  const etat = localStorage.getItem("facturation_visible");
+
+  if(etat === "false"){
+    document.body.classList.add("hide-facturation");
+  }else{
+    document.body.classList.remove("hide-facturation");
+  }
+}
+
+function toggleFacturation(){
+
+  const isHidden = document.body.classList.contains("hide-facturation");
+
+  if(isHidden){
+    document.body.classList.remove("hide-facturation");
+    localStorage.setItem("facturation_visible", "true");
+  }else{
+    document.body.classList.add("hide-facturation");
+    localStorage.setItem("facturation_visible", "false");
+  }
+}
+
+/* ======================================================
+MODULE — FACTURATION + DOUBLE SORTIE (CORRIGÉ GLOBAL)
+====================================================== */
+
+(function(){
+
+/* ======================================================
+ETAT FACTURATION
+====================================================== */
+
+function appliquerEtatFacturation(){
+
+  const etat = localStorage.getItem("facturation_visible");
+
+  if(etat === "false"){
+    document.body.classList.add("hide-facturation");
+  }else{
+    document.body.classList.remove("hide-facturation");
+  }
+}
+
+function toggleFacturation(){
+
+  const isHidden = document.body.classList.contains("hide-facturation");
+
+  if(isHidden){
+    document.body.classList.remove("hide-facturation");
+    localStorage.setItem("facturation_visible", "true");
+  }else{
+    document.body.classList.add("hide-facturation");
+    localStorage.setItem("facturation_visible", "false");
+  }
+}
+
+/* ======================================================
+IMPRESSION CLIENT
+====================================================== */
+
+function imprimerClient(){
+
+  const etatAvant = document.body.classList.contains("hide-facturation");
+
+  document.body.classList.add("hide-facturation");
+
+  setTimeout(()=>{
+    window.print();
+
+    if(!etatAvant){
+      document.body.classList.remove("hide-facturation");
+    }
+
+  }, 300);
+}
+
+/* ======================================================
+IMPRESSION INTERNE
+====================================================== */
+
+function imprimerInterne(){
+
+  const etatAvant = document.body.classList.contains("hide-facturation");
+
+  document.body.classList.remove("hide-facturation");
+
+  setTimeout(()=>{
+    window.print();
+
+    if(etatAvant){
+      document.body.classList.add("hide-facturation");
+    }
+
+  }, 300);
+}
+
+/* ======================================================
+EXPOSE GLOBAL (FIX CRITIQUE)
+====================================================== */
+
+window.toggleFacturation = toggleFacturation;
+window.imprimerClient = imprimerClient;
+window.imprimerInterne = imprimerInterne;
+
+/* ======================================================
+INIT
+====================================================== */
+
+document.addEventListener("DOMContentLoaded", function(){
+  appliquerEtatFacturation();
+});
+
+})();
