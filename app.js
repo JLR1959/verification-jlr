@@ -4072,3 +4072,52 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 })();
+
+/* ======================================================
+MODULE 16
+DASHBOARD AUTO LIVE
+====================================================== */
+
+let statsInterval = null;
+
+function chargerStatsLive(){
+
+  fetch("https://licence-server-jlr-0jex.onrender.com/stats/today")
+  .then(res=>res.json())
+  .then(data=>{
+
+    if(!data || !data.data) return;
+
+    const count = data.data.count || 0;
+    const revenue = data.data.revenue || 0;
+
+    const elCount = document.getElementById("stats-count");
+    const elRevenue = document.getElementById("stats-revenue");
+
+    if(elCount) elCount.textContent = count;
+    if(elRevenue) elRevenue.textContent = revenue.toFixed(2);
+
+  })
+  .catch(()=>{
+    console.log("stats offline");
+  });
+
+}
+
+function demarrerStatsLive(){
+
+  chargerStatsLive();
+
+  if(statsInterval) clearInterval(statsInterval);
+
+  statsInterval = setInterval(()=>{
+    chargerStatsLive();
+  }, 5000);
+
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+
+  demarrerStatsLive();
+
+});
