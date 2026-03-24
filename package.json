@@ -1,20 +1,13 @@
 {
-  "name": "vpijlr",
+  "name": "vpijlr-personal-server",
   "version": "1.0.0",
-  "main": "main.js",
+  "main": "server.js",
   "scripts": {
-    "start": "electron .",
-    "build": "electron-builder --win"
+    "start": "node server.js"
   },
-  "build": {
-    "appId": "com.vpijlr.app",
-    "productName": "VPI JLR",
-    "win": {
-      "target": "nsis"
-    }
-  },
-  "devDependencies": {
-    "electron": "^30.0.0",
-    "electron-builder": "^24.0.0"
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "nodemailer": "^6.9.8"
   }
 }
