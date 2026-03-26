@@ -1,78 +1,61 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-<!-- ======================================================
-MODULE 1
-HEAD / CONFIGURATION
-====================================================== -->
-
 <head>
 
 <meta charset="utf-8">
-
-<title>Vérification Préventive Immobilière - Jean-Louis Raymond</title>
+<title>Vérification Préventive Immobilière VPIJLR 2026</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1f3a60">
+
+<link rel="icon" href="favicon.ico">
+
+<link href="style.css" rel="stylesheet">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<script defer src="app.js"></script>
+<script defer src="cloud-sync.js"></script>
+<script defer src="autoSauvegarde.js"></script>
 <script defer src="typeVerification.js"></script>
 <script defer src="gestionImpression.js"></script>
 <script defer src="signatureMobile.js"></script>
 <script defer src="autoSauvegarde.js"></script>
-<script defer src="journalSysteme.js"></script>
 <script defer src="gestionPiecesActives.js"></script>
-
-<link href="style.css" rel="stylesheet">
-
+<script defer src="app.js"></script>
 </head>
 
 <body>
 
+<div id="info-licence" style="margin-top:10px;font-weight:bold;"></div>
+
 <!-- ======================================================
-MODULE 2
-BANDEAU MODE VÉRIFICATION
+MODULE 2 - BANDEAU MODE VÉRIFICATION
 ====================================================== -->
 
 <div id="bandeau-mode-verification">
-Mode de vérification : NON SÉLECTIONNÉ
+    Mode de vérification : NON SÉLECTIONNÉ
 </div>
 
 <!-- ======================================================
-MODULE 3
-ENTÊTE ENTREPRISE
+MODULE 3 - ENTÊTE ENTREPRISE
 ====================================================== -->
 
 <header style="text-align:center;">
-
-<img src="logo_jlr.png" alt="Logo JLR" style="max-height:80px;">
-
-<h1>Vérification Préventive Immobilière</h1>
-
-<h2>Jean-Louis Raymond</h2>
-
-<p>Consultant en vérification préventive</p>
-
-<p>📧 jlouisraymond@hotmail.com | 📞 438-220-6511</p>
-
-<p>NEQ : 2268876952</p>
-
-<p>TPS : 771362471 RT 0001 | TVQ : 1227894560 TQ 0001</p>
-
+    <img src="logo_jlr.png" alt="Logo JLR" style="max-height:80px;">
+    <h1>Vérification Préventive Immobilière VPIJLR 2026</h1>
 </header>
 
 
-
 <!-- ======================================================
-MODULE 4
-FORMULAIRE CLIENT REPLIABLE (FINAL CORRIGÉ)
+MODULE 4 - FORMULAIRE CLIENT (VALIDATION STRICTE + DATE AUTO)
 ====================================================== -->
 
 <section id="formulaire-client">
 
 <h2>
-
 Informations du client
 
 <button
@@ -87,11 +70,13 @@ Replier / Déplier
 
 <div id="contenu-client">
 
+<!-- DOSSIER -->
+
 <label>***Numéro de dossier automatique***
 <input type="text" id="numeroDossier" readonly>
 </label>
 
-<!-- ===================== NOM ===================== -->
+<!-- NOM -->
 
 <label>1) Nom du locataire
 
@@ -106,7 +91,7 @@ Replier / Déplier
 
 </label>
 
-<!-- ===================== TELEPHONE ===================== -->
+<!-- TELEPHONE -->
 
 <label>2) Téléphone
 
@@ -121,26 +106,24 @@ Replier / Déplier
 
 </label>
 
-<!-- ===================== APPARTEMENT ===================== -->
+<!-- APPARTEMENT -->
 
 <label>3) Numéro d’appartement</label>
 
 <div style="display:flex; gap:10px;">
 
 <input 
-  type="text" 
-  id="numeroAppartement" 
-  placeholder="Ex: 301"
-  style="flex:2;"
->
+type="text" 
+id="numeroAppartement" 
+placeholder="Ex: 301"
+style="flex:2;">
 
 <input 
-  type="text" 
-  id="suffixeAppartement" 
-  placeholder="Ex: A"
-  maxlength="1"
-  style="flex:1; text-transform:uppercase;"
->
+type="text" 
+id="suffixeAppartement" 
+placeholder="Ex: A"
+maxlength="1"
+style="flex:1; text-transform:uppercase;">
 
 </div>
 
@@ -151,17 +134,19 @@ Replier / Déplier
 <span class="texte-etape">Numéro valide requis</span>
 </span>
 
-<!-- ===================== ADRESSE ===================== -->
+<!-- ADRESSE -->
 
 <label>4) Adresse
 <input type="text" id="adresse">
 </label>
 
-<!-- ===================== VILLE ===================== -->
+<!-- VILLE -->
 
 <label>5) Ville (Québec)
 
-<input list="villes-quebec" id="ville-quebec" name="ville-quebec" placeholder="Sélectionner ou taper une ville">
+<input list="villes-quebec"
+id="ville-quebec"
+placeholder="Sélectionner ou taper une ville">
 
 <datalist id="villes-quebec">
 
@@ -206,13 +191,13 @@ Replier / Déplier
 
 </label>
 
-<!-- ===================== CODE POSTAL ===================== -->
+<!-- CODE POSTAL -->
 
 <label>6) Code postal
 <input type="text" id="codePostal" placeholder="A1A 1A1">
 </label>
 
-<!-- ===================== PROVINCE ===================== -->
+<!-- PROVINCE -->
 
 <label>7) Province
 
@@ -238,7 +223,7 @@ Replier / Déplier
 
 </label>
 
-<!-- ===================== PAYS ===================== -->
+<!-- PAYS -->
 
 <label>8) Pays
 
@@ -246,14 +231,12 @@ Replier / Déplier
 
 <option value="">Sélectionner</option>
 <option value="CA">Canada</option>
-<option value="US">États-Unis</option>
-
 
 </select>
 
 </label>
 
-<!-- ===================== VERIFICATEUR ===================== -->
+<!-- VERIFICATEUR -->
 
 <label>9) Vérificateur
 
@@ -261,42 +244,24 @@ Replier / Déplier
 
 <option value="">Sélectionner</option>
 
-<option>Jean-Louis Raymond</option>
-<option>Manon Leclerc</option>
-<option>consultant par défaut</option>
+<option>Vérificateur 1</option>
+<option>Vérificateur 2</option>
+<option>Vérificateur 3</option>
+<option>Vérificateur 4</option>
 
 </select>
 
 </label>
 
-<!-- ===================== DATE ===================== -->
+<!-- DATE AUTO -->
 
 <label>10) Date de vérification
-<input type="date" id="verification-date">
-</label>
 
-<!-- ===================== FACTURATION ===================== -->
-
-<label>
-Entreprise responsable de la facturation
-
-<input type="text" id="entreprise-facturation">
+<input type="date" id="verification-date" readonly>
 
 <span class="etat-champ">
-<span id="etat-entreprise-facturation" class="indicateur-etape etape-ko"></span>
-<span class="texte-etape">Champ à compléter</span>
-</span>
-
-</label>
-
-<label>
-Courriel responsable facturation
-
-<input type="email" id="email-facturation">
-
-<span class="etat-champ">
-<span id="etat-email-facturation" class="indicateur-etape etape-ko"></span>
-<span class="texte-etape">Champ à compléter</span>
+<span id="etat-verification-date" class="indicateur-etape etape-ok"></span>
+<span class="texte-etape">Date automatique</span>
 </span>
 
 </label>
@@ -304,7 +269,8 @@ Courriel responsable facturation
 </div>
 
 </section>
-</section>
+
+
 
 <!-- ======================================================
 MODULE 5
@@ -313,7 +279,7 @@ TYPE DE VÉRIFICATION
 
 <section>
 
-<label>11) Choisissez un type de vérification</label>
+<label>12) Choisissez votre type de vérification</label>
 
 <div id="choix-verification">
 
@@ -341,9 +307,10 @@ class="type-btn exterieur">
 
 </section>
 
+
+
 <!-- ======================================================
-MODULE 6
-SÉLECTION DES PIÈCES
+MODULE 6 - SÉLECTION DES PIÈCES
 ====================================================== -->
 
 <section>
@@ -396,16 +363,15 @@ SÉLECTION DES PIÈCES
 </select>
 
 <button type="button" onclick="ajouterPiece()" class="no-print">
-
-13) Cliquez ici pour ouvrir Pièces ou éléments
-
+13) Cliquez ici pour ouvrir
 </button>
 
 </section>
 
+
+
 <!-- ======================================================
-MODULE 7
-PIÈCES EN VÉRIFICATION
+MODULE 7 - PIÈCES EN VÉRIFICATION
 ====================================================== -->
 
 <section id="section-pieces-verification" style="display:none;">
@@ -417,8 +383,7 @@ PIÈCES EN VÉRIFICATION
 </section>
 
 <!-- ======================================================
-MODULE 8
-SIGNATURES REPLIABLES
+MODULE 8 - SIGNATURES REPLIABLES
 ====================================================== -->
 
 <section id="section-signatures">
@@ -461,9 +426,10 @@ Effacer signature consultant
 
 </section>
 
+
 <!-- ======================================================
 MODULE 10
-PANNEAU ADMIN MINUTEUR AVEC DOUBLE SORTIE + DASHBOARD
+PANNEAU ADMIN COMPLET (CLIENT PRO)
 ====================================================== -->
 
 <section id="admin-minuteur" class="no-print">
@@ -484,11 +450,21 @@ Accéder au mode admin
 
 <div id="admin-controles" style="display:none; margin-top:10px;">
 
+<!-- MINUTEUR -->
+
 <button type="button" onclick="basculerMinuteur()">
 Afficher / Cacher le minuteur
 </button>
 
+<!-- FACTURATION -->
+
+<button type="button" onclick="basculerFacturationAdmin()">
+Afficher / Cacher Facturation
+</button>
+
 <hr>
+
+<!-- IMPRESSION -->
 
 <button type="button" onclick="imprimerClient()">
 📄 Rapport CLIENT (sans facturation)
@@ -500,9 +476,7 @@ Afficher / Cacher le minuteur
 
 <hr>
 
-<!-- ======================================================
-DASHBOARD STATS (AJOUT)
-====================================================== -->
+<!-- STATS -->
 
 <h3>Statistiques du jour</h3>
 
@@ -522,6 +496,8 @@ DASHBOARD STATS (AJOUT)
 
 <hr>
 
+<!-- SORTIE -->
+
 <button type="button" onclick="desactiverModeAdmin()">
 Quitter mode admin
 </button>
@@ -529,10 +505,9 @@ Quitter mode admin
 </div>
 
 </section>
-</section>
+
 <!-- ======================================================
-MODULE 11
-MINUTEUR DE VÉRIFICATION
+MODULE 11 - MINUTEUR DE VÉRIFICATION
 ====================================================== -->
 
 <section id="section-minuteur" class="no-print">
@@ -554,8 +529,7 @@ Montant : <span id="montant-affiche">0.00 $</span>
 </section>
 
 <!-- ======================================================
-MODULE 12
-FIN DE VÉRIFICATION
+MODULE 12 - FIN DE VÉRIFICATION
 ====================================================== -->
 
 <section class="no-print">
@@ -569,8 +543,7 @@ VÉRIFICATION COMPLÈTE TERMINÉE
 </section>
 
 <!-- ======================================================
-MODULE 13
-IMPRESSION DU RAPPORT
+MODULE 13 - IMPRESSION DU RAPPORT
 ====================================================== -->
 
 <footer class="no-print">
@@ -581,10 +554,9 @@ Imprimer le rapport
 
 <script>
 
-/* ======================================================
-MODULE 13.1
-IMPRESSION RAPPORT STABLE
-====================================================== */
+<!-- ======================================================
+MODULE 13.1 - IMPRESSION RAPPORT STABLE
+======================================================-->
 
 function imprimerRapport(){
 
@@ -599,8 +571,6 @@ remplirInformationsRapport();
 if(typeof injecterFacturationRapport === "function"){
 injecterFacturationRapport();
 }
-
-
 
 const rapport = document.getElementById("rapport-impression");
 
@@ -626,8 +596,7 @@ rapport.style.display = "none";
 </footer>
 
 <!-- ======================================================
-MODULE 14
-RAPPORT D’IMPRESSION
+MODULE 14 - RAPPORT D’IMPRESSION
 ====================================================== -->
 
 <div id="rapport-impression">
@@ -636,17 +605,8 @@ RAPPORT D’IMPRESSION
 
 <img src="logo_jlr.png" alt="Logo JLR" style="max-height:80px;">
 
-<h1>Vérification Préventive Immobilière</h1>
 
-<h2>Jean-Louis Raymond</h2>
-
-<p>Consultant en vérification préventive</p>
-
-<p>📧 jlouisraymond@hotmail.com | 📞 438-220-6511</p>
-
-<p>NEQ : 2268876952</p>
-
-<p>TPS : 771362471 RT 0001 | TVQ : 1227894560 TQ 0001</p>
+<h1>Vérification Préventive Immobilière VPIJLR 2026</h1>
 
 </header>
 <div class="page-break"></div>
@@ -682,13 +642,12 @@ RAPPORT D’IMPRESSION
 
 </section>
 
-
-<!--======================================================
-MODULE 15
-FACTURATION RAPPORT DYNAMIQUE
-====================================================== <!--
+<!-- ======================================================
+MODULE 15 - FACTURATION RAPPORT DYNAMIQUE
+====================================================== -->
 <div class="page-break"></div>
-<section class="facturation">
+
+<section id="section-facturation">
 
 <h2>Facturation</h2>
 
@@ -706,10 +665,9 @@ FACTURATION RAPPORT DYNAMIQUE
 
 </section>
 
-
 <!-- ======================================================
 MODULE SIGNATURES RAPPORT
-====================================================== <!--
+====================================================== -->
 <div class="page-break"></div>
 <section id="rapport-signatures">
 
@@ -725,15 +683,13 @@ MODULE SIGNATURES RAPPORT
 
 </section>
 <!-- ======================================================
-MODULE 15.1
-SAUT DE PAGE
+MODULE 15.1 - SAUT DE PAGE
 ====================================================== -->
 
 <div class="page-break"></div>
 
 <!-- ======================================================
-MODULE 15.2
-ATTESTATION DE CONFORMITÉ
+MODULE 15.2 - ATTESTATION DE CONFORMITÉ
 ====================================================== -->
 
 <section id="sceau-conformite">
@@ -743,10 +699,11 @@ ATTESTATION DE CONFORMITÉ
 <img src="sceau certification VPIJLR.png" alt="Sceau de conformité" class="sceau-image">
 
 <p>
-Je soussigné, Jean-Louis Raymond, consultant en vérification préventive immobilière,
+Je soussigné, Jean-Louis Raymond PDG et consultant de l'entreprise 
+en vérification préventive immobilière VPIJLR 2026,
 atteste que la présente vérification visuelle a été réalisée conformément aux règles
 de l’art et selon les pratiques généralement reconnues dans le domaine de la
-vérification préventive immobilière.
+vérification préventive immobilière par la personne qui utilise ce logiciel.
 </p>
 
 <p>
@@ -754,20 +711,19 @@ Les observations consignées dans ce rapport reflètent l’état apparent des �
 visibles au moment de la vérification.
 </p>
 
-<p><strong>Jean-Louis Raymond</strong></p>
+<p><strong>Jean-Louis Raymond PDG de VPIJLR 2026</strong></p>
+<p><strong>VPIJLR 2026</strong></p>
 
 </section>
 
 <!-- ======================================================
-MODULE 15.3
-SAUT DE PAGE
+MODULE 15.3 - SAUT DE PAGE
 ====================================================== -->
 
 <div class="page-break"></div>
 
 <!-- ======================================================
-MODULE 15.4
-AVIS LÉGAL RAPPORT
+MODULE 15.4 - AVIS LÉGAL RAPPORT
 ====================================================== -->
 
 <section id="avis-legal-rapport">
@@ -809,32 +765,16 @@ de ce rapport sans l’autorisation écrite du consultant est interdite.
 
 <p>
 Rapport généré électroniquement par le système de
-Vérification Préventive Immobilière.
+Vérification Préventive Immobilière VPIJLR 2026.
 </p>
 
 <p>
-<strong>Jean-Louis Raymond</strong><br>
+<strong>Jean-Louis Raymond PDG de PVIJLR 2026</strong><br>
 Consultant en vérification préventive immobilière
 </p>
 
 </section>
 
-</div>
-
-<!-- ======================================================
-MODULE 16
-LÉGENDE INDICATEURS
-====================================================== -->
-
-<div id="legende-indicateurs">
-
-<span class="indicateur-etape etape-ko"></span>
-Champ à compléter
-
-&nbsp;&nbsp;
-
-<span class="indicateur-etape etape-ok"></span>
-Champ complété
 
 </div>
 
